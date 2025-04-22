@@ -1,2 +1,3 @@
-source: new
-destination: ./_site 
+theme: jekyll-theme-cayman
+baseurl: ""
+url: "" 
