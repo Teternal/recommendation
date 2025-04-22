@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>应用管理 - 智能推荐SaaS平台</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <style>
+    :root {
+      --sidebar-width: 240px;
+      --header-height: 60px;
+      --primary-color: #3f51b5;
+      --primary-light: #e8eaf6;
+      --success-color: #4caf50;
+      --warning-color: #ff9800;
+      --danger-color: #f44336;
+      --muted-color: #9e9e9e;
+      --card-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    }
+    
+    body {
+      font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+      background-color: #f8f9fa;
+      color: #333;
+      margin: 0;
+      min-height: 100vh;
+    }
+    
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: var(--sidebar-width);
+      height: 100vh;
+      background-color: #fff;
+      border-right: 1px solid #eee;
+      z-index: 1000;
+      padding-top: 1rem;
+      overflow-y: auto;
+    }
+    
+    .sidebar .brand {
+      padding: 0.5rem 1.5rem 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      border-bottom: 1px solid #f0f0f0;
+      margin-bottom: 1rem;
+    }
+    
+    .sidebar .brand-name {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--primary-color);
+    }
+    
+    .sidebar-menu {
+      list-style: none;
+      padding: 0;
+    }
+    
+    .sidebar-menu-item {
+      padding: 0.6rem 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      color: #555;
+      text-decoration: none;
+      transition: all 0.2s;
+      border-left: 3px solid transparent;
+    }
+    
+    .sidebar-menu-item:hover {
+      background-color: #f8f9fa;
+      color: var(--primary-color);
+    }
+    
+    .sidebar-menu-item.active {
+      background-color: var(--primary-light);
+      color: var(--primary-color);
+      border-left-color: var(--primary-color);
+      font-weight: 500;
+    }
+    
+    .main-content {
+      margin-left: var(--sidebar-width);
+      min-height: 100vh;
+    }
+    
+    .header {
+      height: var(--header-height);
+      background-color: #fff;
+      border-bottom: 1px solid #eee;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2rem;
+      position: sticky;
+      top: 0;
+      z-index: 900;
+    }
+    
+    .page-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #333;
+    }
+    
+    .user-menu {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    
+    .content {
+      padding: 2rem;
+    }
+    
+    .card {
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: var(--card-shadow);
+      margin-bottom: 1.5rem;
+      border: none;
+    }
+    
+    .card-header {
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid #f0f0f0;
+      background-color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    
+    .card-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #333;
+      margin: 0;
+    }
+    
+    .app-card {
+      height: 100%;
+      transition: transform 0.2s, box-shadow 0.2s;
+      cursor: pointer;
+    }
+    
+    .app-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    }
+    
+    .app-status {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      display: inline-block;
+      margin-right: 6px;
+    }
+    
+    .app-status.running {
+      background-color: var(--success-color);
+    }
+    
+    .app-status.paused {
+      background-color: var(--warning-color);
+    }
+    
+    .app-status.stopped {
+      background-color: var(--danger-color);
+    }
+    
+    .app-status.developing {
+      background-color: var(--muted-color);
+    }
+    
+    .badge {
+      font-weight: 500;
+      padding: 0.35em 0.65em;
+    }
+    
+    .btn-outline-primary {
+      color: var(--primary-color);
+      border-color: var(--primary-color);
+    }
+    
+    .btn-outline-primary:hover {
+      background-color: var(--primary-color);
+      color: #fff;
+    }
+    
+    .btn-primary {
+      background-color: var(--primary-color);
+      border-color: var(--primary-color);
+    }
+    
+    .btn-primary:hover {
+      background-color: #303f9f;
+      border-color: #303f9f;
+    }
+    
+    .stats-card {
+      border-left: 4px solid var(--primary-color);
+      background-color: #fff;
+      padding: 1.25rem;
+      height: 100%;
+    }
+    
+    .stats-title {
+      font-size: 0.875rem;
+      color: #666;
+      margin-bottom: 0.5rem;
+    }
+    
+    .stats-value {
+      font-size: 1.75rem;
+      font-weight: 600;
+      color: #333;
+    }
+    
+    .progress {
+      height: 6px;
+      margin-top: 0.5rem;
+    }
+    
+    .text-primary {
+      color: var(--primary-color) !important;
+    }
+    
+    .text-success {
+      color: var(--success-color) !important;
+    }
+    
+    .text-warning {
+      color: var(--warning-color) !important;
+    }
+    
+    .text-danger {
+      color: var(--danger-color) !important;
+    }
+  </style>
+</head>
+<body>
+  <!-- 侧边栏 -->
+  <div class="sidebar">
+    <div class="brand">
+      <i class="bi bi-box-seam text-primary" style="font-size: 1.5rem;"></i>
+      <div class="brand-name">智能推荐平台</div>
+    </div>
+    <div class="sidebar-menu">
+      <a href="dashboard.html" class="sidebar-menu-item">
+        <i class="bi bi-speedometer2"></i>
+        <span>仪表盘</span>
+      </a>
+      <a href="applications.html" class="sidebar-menu-item active">
+        <i class="bi bi-grid"></i>
+        <span>应用管理</span>
+      </a>
+      <a href="data-management.html" class="sidebar-menu-item">
+        <i class="bi bi-database"></i>
+        <span>数据管理</span>
+      </a>
+      <a href="strategy.html" class="sidebar-menu-item">
+        <i class="bi bi-diagram-3"></i>
+        <span>策略配置</span>
+      </a>
+      <a href="model-management.html" class="sidebar-menu-item">
+        <i class="bi bi-cpu"></i>
+        <span>模型管理</span>
+      </a>
+      <a href="reports.html" class="sidebar-menu-item">
+        <i class="bi bi-bar-chart"></i>
+        <span>分析报表</span>
+      </a>
+      <a href="scenario.html" class="sidebar-menu-item">
+        <i class="bi bi-layers"></i>
+        <span>场景管理</span>
+      </a>
+      <a href="#" class="sidebar-menu-item">
+        <i class="bi bi-bell"></i>
+        <span>告警监控</span>
+      </a>
+      <a href="#" class="sidebar-menu-item">
+        <i class="bi bi-people"></i>
+        <span>用户管理</span>
+      </a>
+      <a href="#" class="sidebar-menu-item">
+        <i class="bi bi-gear"></i>
+        <span>系统设置</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- 主内容区 -->
+  <div class="main-content">
+    <div class="header">
+      <div class="page-title">应用管理</div>
+      <div class="user-menu">
+        <div class="dropdown">
+          <a class="dropdown-toggle text-decoration-none text-muted" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-person-circle"></i>
+            <span class="ms-1">管理员</span>
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li><a class="dropdown-item" href="#"><i class="bi bi-person me-2"></i>个人资料</a></li>
+            <li><a class="dropdown-item" href="#"><i class="bi bi-gear me-2"></i>设置</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="#"><i class="bi bi-box-arrow-right me-2"></i>退出登录</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="content">
+      <!-- 应用统计数据 -->
+      <div class="row mb-4">
+        <div class="col-md-3">
+          <div class="stats-card" style="border-left-color: #3f51b5;">
+            <div class="stats-title">应用总数</div>
+            <div class="stats-value">12</div>
+            <div class="text-muted small">较上月 <span class="text-success">+2 (20%)</span></div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="stats-card" style="border-left-color: #4caf50;">
+            <div class="stats-title">运行中应用</div>
+            <div class="stats-value">8</div>
+            <div class="text-muted small">占比 <span class="text-primary">66.7%</span></div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="stats-card" style="border-left-color: #ff9800;">
+            <div class="stats-title">总服务调用量</div>
+            <div class="stats-value">2.3M</div>
+            <div class="text-muted small">较昨日 <span class="text-success">+5.2%</span></div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="stats-card" style="border-left-color: #f44336;">
+            <div class="stats-title">平均响应时间</div>
+            <div class="stats-value">42ms</div>
+            <div class="text-muted small">较昨日 <span class="text-success">-3ms</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 应用列表和创建应用按钮 -->
+      <div class="card">
+        <div class="card-header">
+          <h5 class="card-title">应用列表</h5>
+          <a href="create-app.html" class="btn btn-primary">
+            <i class="bi bi-plus"></i> 创建应用
+          </a>
+        </div>
+        <div class="card-body p-0">
+          <div class="table-responsive">
+            <table class="table table-hover mb-0">
+              <thead class="table-light">
+                <tr>
+                  <th scope="col">应用名称</th>
+                  <th scope="col">应用类型</th>
+                  <th scope="col">场景数</th>
+                  <th scope="col">状态</th>
+                  <th scope="col">创建时间</th>
+                  <th scope="col">调用量</th>
+                  <th scope="col">平均耗时</th>
+                  <th scope="col">操作</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <div class="d-flex align-items-center">
+                      <i class="bi bi-app text-primary me-2"></i>
+                      <span>首页推荐</span>
+                    </div>
+                  </td>
+                  <td>商品推荐</td>
+                  <td>3</td>
+                  <td>
+                    <span class="app-status running"></span>
+                    <span>运行中</span>
+                  </td>
+                  <td>2023-11-05</td>
+                  <td>1.2M/日</td>
+                  <td>38ms</td>
+                  <td>
+                    <div class="btn-group">
+                      <button class="btn btn-sm btn-outline-primary">管理</button>
+                      <button class="btn btn-sm btn-outline-secondary">日志</button>
+                      <button class="btn btn-sm btn-outline-danger">暂停</button>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="d-flex align-items-center">
+                      <i class="bi bi-app text-primary me-2"></i>
+                      <span>个性化Banner</span>
+                    </div>
+                  </td>
+                  <td>内容推荐</td>
+                  <td>2</td>
+                  <td>
+                    <span class="app-status running"></span>
+                    <span>运行中</span>
+                  </td>
+                  <td>2023-10-28</td>
+                  <td>800K/日</td>
+                  <td>45ms</td>
+                  <td>
+                    <div class="btn-group">
+                      <button class="btn btn-sm btn-outline-primary">管理</button>
+                      <button class="btn btn-sm btn-outline-secondary">日志</button>
+                      <button class="btn btn-sm btn-outline-danger">暂停</button>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+    <div class="tab-nav">
+      <div class="tab-btn active">所有应用</div>
+      <div class="tab-btn">运行中</div>
+      <div class="tab-btn">已停止</div>
+      <div class="tab-btn">配置中</div>
+    </div>
+
+    <!-- 应用管理主内容 -->
+    <div class="row">
+      <div class="col-8">
+        <!-- 应用列表 -->
+        <div class="card">
+          <div class="card-header">
+            <h2 style="font-size: 18px; font-weight: 600; margin: 0;">我的应用</h2>
+            <button class="btn-primary"><i data-feather="plus" style="width: 16px; height: 16px; margin-right: 4px;"></i> 创建应用</button>
+          </div>
+          <div class="card-body">
+            <!-- 应用卡片 -->
+            <div class="app-card">
+              <div style="display: flex; justify-content: space-between; margin-bottom: 16px;">
+                <div style="display: flex; align-items: center;">
+                  <div class="app-icon" style="background-color: var(--primary-light);">
+                    <i data-feather="shopping-bag" style="width: 24px; height: 24px; color: var(--primary);"></i>
+                  </div>
+                  <div>
+                    <div style="font-weight: 600; font-size: 18px;">电商推荐</div>
+                    <div style="font-size: 12px; color: var(--text-light);">app-78924ef1 • 商品推荐</div>
+                  </div>
+                </div>
+                <span class="badge badge-success">运行中</span>
+              </div>
+              <div style="display: flex; margin-bottom: 16px;">
+                <div style="flex: 1;">
+                  <div style="font-size: 13px; color: var(--text-light); margin-bottom: 4px;">今日请求量</div>
+                  <div style="font-weight: 600; font-size: 18px;">42,568</div>
+                </div>
+                <div style="flex: 1;">
+                  <div style="font-size: 13px; color: var(--text-light); margin-bottom: 4px;">点击率 (CTR)</div>
+                  <div style="font-weight: 600; font-size: 18px;">5.8%</div>
+                </div>
+                <div style="flex: 1;">
+                  <div style="font-size: 13px; color: var(--text-light); margin-bottom: 4px;">转化率</div>
+                  <div style="font-weight: 600; font-size: 18px;">2.3%</div>
+                </div>
+                <div style="flex: 1;">
+                  <div style="font-size: 13px; color: var(--text-light); margin-bottom: 4px;">平均响应时间</div>
+                  <div style="font-weight: 600; font-size: 18px;">42ms</div>
+                </div>
+              </div>
+              <div style="display: flex; justify-content: flex-end;">
+                <button class="btn-secondary" style="margin-right: 8px;"><i data-feather="edit-2" style="width: 16px; height: 16px; margin-right: 4px;"></i> 编辑</button>
+                <button class="btn-secondary" style="margin-right: 8px;"><i data-feather="sliders" style="width: 16px; height: 16px; margin-right: 4px;"></i> 策略配置</button>
+                <button class="btn-primary"><i data-feather="eye" style="width: 16px; height: 16px; margin-right: 4px;"></i> 查看详情</button>
+              </div>
+            </div>
+
+            <div class="app-card">
+              <div style="display: flex; justify-content: space-between; margin-bottom: 16px;">
+                <div style="display: flex; align-items: center;">
+                  <div class="app-icon" style="background-color: var(--warning-light);">
+                    <i data-feather="film" style="width: 24px; height: 24px; color: var(--warning);"></i>
+                  </div>
+                  <div>
+                    <div style="font-weight: 600; font-size: 18px;">视频内容推荐</div>
+                    <div style="font-size: 12px; color: var(--text-light);">app-65842ac3 • 内容推荐</div>
+                  </div>
+                </div>
+                <span class="badge badge-success">运行中</span>
+              </div>
+              <div style="display: flex; margin-bottom: 16px;">
+                <div style="flex: 1;">
+                  <div style="font-size: 13px; color: var(--text-light); margin-bottom: 4px;">今日请求量</div>
+                  <div style="font-weight: 600; font-size: 18px;">38,921</div>
+                </div>
+                <div style="flex: 1;">
+                  <div style="font-size: 13px; color: var(--text-light); margin-bottom: 4px;">点击率 (CTR)</div>
+                  <div style="font-weight: 600; font-size: 18px;">7.2%</div>
+                </div>
+                <div style="flex: 1;">
+                  <div style="font-size: 13px; color: var(--text-light); margin-bottom: 4px;">观看完成率</div>
+                  <div style="font-weight: 600; font-size: 18px;">42%</div>
+                </div>
+                <div style="flex: 1;">
+                  <div style="font-size: 13px; color: var(--text-light); margin-bottom: 4px;">平均响应时间</div>
+                  <div style="font-weight: 600; font-size: 18px;">38ms</div>
+                </div>
+              </div>
+              <div style="display: flex; justify-content: flex-end;">
+                <button class="btn-secondary" style="margin-right: 8px;"><i data-feather="edit-2" style="width: 16px; height: 16px; margin-right: 4px;"></i> 编辑</button>
+                <button class="btn-secondary" style="margin-right: 8px;"><i data-feather="sliders" style="width: 16px; height: 16px; margin-right: 4px;"></i> 策略配置</button>
+                <button class="btn-primary"><i data-feather="eye" style="width: 16px; height: 16px; margin-right: 4px;"></i> 查看详情</button>
+              </div>
+            </div>
+
+            <div class="app-card">
+              <div style="display: flex; justify-content: space-between; margin-bottom: 16px;">
+                <div style="display: flex; align-items: center;">
+                  <div class="app-icon" style="background-color: var(--danger-light);">
+                    <i data-feather="mail" style="width: 24px; height: 24px; color: var(--danger);"></i>
+                  </div>
+                  <div>
+                    <div style="font-weight: 600; font-size: 18px;">邮件营销推荐</div>
+                    <div style="font-size: 12px; color: var(--text-light);">app-32491bd7 • 营销推荐</div>
+                  </div>
+                </div>
+                <span class="badge badge-warning">维护中</span>
+              </div>
+              <div style="display: flex; margin-bottom: 16px;">
+                <div style="flex: 1;">
+                  <div style="font-size: 13px; color: var(--text-light); margin-bottom: 4px;">今日请求量</div>
+                  <div style="font-weight: 600; font-size: 18px;">8,232</div>
+                </div>
+                <div style="flex: 1;">
+                  <div style="font-size: 13px; color: var(--text-light); margin-bottom: 4px;">打开率</div>
+                  <div style="font-weight: 600; font-size: 18px;">18.5%</div>
+                </div>
+                <div style="flex: 1;">
+                  <div style="font-size: 13px; color: var(--text-light); margin-bottom: 4px;">点击率</div>
+                  <div style="font-weight: 600; font-size: 18px;">3.4%</div>
+                </div>
+                <div style="flex: 1;">
+                  <div style="font-size: 13px; color: var(--text-light); margin-bottom: 4px;">平均响应时间</div>
+                  <div style="font-weight: 600; font-size: 18px;">55ms</div>
+                </div>
+              </div>
+              <div style="display: flex; justify-content: flex-end;">
+                <button class="btn-secondary" style="margin-right: 8px;"><i data-feather="edit-2" style="width: 16px; height: 16px; margin-right: 4px;"></i> 编辑</button>
+                <button class="btn-secondary" style="margin-right: 8px;"><i data-feather="sliders" style="width: 16px; height: 16px; margin-right: 4px;"></i> 策略配置</button>
+                <button class="btn-primary"><i data-feather="eye" style="width: 16px; height: 16px; margin-right: 4px;"></i> 查看详情</button>
+              </div>
+            </div>
+
+            <div class="app-card" style="margin-bottom: 0;">
+              <div style="display: flex; justify-content: space-between; margin-bottom: 16px;">
+                <div style="display: flex; align-items: center;">
+                  <div class="app-icon" style="background-color: var(--success-light);">
+                    <i data-feather="clipboard" style="width: 24px; height: 24px; color: var(--success);"></i>
+                  </div>
+                  <div>
+                    <div style="font-weight: 600; font-size: 18px;">活动推荐</div>
+                    <div style="font-size: 12px; color: var(--text-light);">app-98765bc2 • 活动推荐</div>
+                  </div>
+                </div>
+                <span class="badge badge-danger">已停止</span>
+              </div>
+              <div style="display: flex; margin-bottom: 16px;">
+                <div style="flex: 1;">
+                  <div style="font-size: 13px; color: var(--text-light); margin-bottom: 4px;">今日请求量</div>
+                  <div style="font-weight: 600; font-size: 18px;">0</div>
+                </div>
+                <div style="flex: 1;">
+                  <div style="font-size: 13px; color: var(--text-light); margin-bottom: 4px;">点击率</div>
+                  <div style="font-weight: 600; font-size: 18px;">-</div>
+                </div>
+                <div style="flex: 1;">
+                  <div style="font-size: 13px; color: var(--text-light); margin-bottom: 4px;">参与率</div>
+                  <div style="font-weight: 600; font-size: 18px;">-</div>
+                </div>
+                <div style="flex: 1;">
+                  <div style="font-size: 13px; color: var(--text-light); margin-bottom: 4px;">平均响应时间</div>
+                  <div style="font-weight: 600; font-size: 18px;">-</div>
+                </div>
+              </div>
+              <div style="display: flex; justify-content: flex-end;">
+                <button class="btn-secondary" style="margin-right: 8px;"><i data-feather="edit-2" style="width: 16px; height: 16px; margin-right: 4px;"></i> 编辑</button>
+                <button class="btn-danger" style="margin-right: 8px;"><i data-feather="play" style="width: 16px; height: 16px; margin-right: 4px;"></i> 启动</button>
+                <button class="btn-primary"><i data-feather="eye" style="width: 16px; height: 16px; margin-right: 4px;"></i> 查看详情</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 应用操作记录 -->
+        <div class="card">
+          <div class="card-header">
+            <h2 style="font-size: 18px; font-weight: 600; margin: 0;">最近操作记录</h2>
+          </div>
+          <div style="padding: 0;">
+            <table class="table" style="margin: 0;">
+              <thead>
+                <tr>
+                  <th>应用</th>
+                  <th>操作</th>
+                  <th>操作人</th>
+                  <th>时间</th>
+                  <th>状态</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>视频内容推荐</td>
+                  <td>更新推荐策略</td>
+                  <td>张三</td>
+                  <td>2023-10-15 14:25</td>
+                  <td><span class="badge badge-success">成功</span></td>
+                </tr>
+                <tr>
+                  <td>电商推荐</td>
+                  <td>模型更新</td>
+                  <td>李四</td>
+                  <td>2023-10-15 11:18</td>
+                  <td><span class="badge badge-success">成功</span></td>
+                </tr>
+                <tr>
+                  <td>邮件营销推荐</td>
+                  <td>修改配置</td>
+                  <td>王五</td>
+                  <td>2023-10-14 16:35</td>
+                  <td><span class="badge badge-warning">部分完成</span></td>
+                </tr>
+                <tr>
+                  <td>活动推荐</td>
+                  <td>停止服务</td>
+                  <td>张三</td>
+                  <td>2023-10-14 09:22</td>
+                  <td><span class="badge badge-success">成功</span></td>
+                </tr>
+                <tr>
+                  <td>电商推荐</td>
+                  <td>A/B测试启动</td>
+                  <td>张三</td>
+                  <td>2023-10-13 15:40</td>
+                  <td><span class="badge badge-success">成功</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-4">
+        <!-- 快速创建应用 -->
+        <div class="card" style="margin-bottom: 24px;">
+          <div class="card-header">
+            <h2 style="font-size: 18px; font-weight: 600; margin: 0;">快速创建应用</h2>
+          </div>
+          <div class="card-body">
+            <p style="color: var(--text-light); margin-bottom: 16px;">选择应用模板，快速创建推荐应用</p>
+            
+            <div style="margin-bottom: 16px; border: 1px solid var(--gray-200); border-radius: var(--border-radius); padding: 16px; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.borderColor='var(--primary)'" onmouseout="this.style.borderColor='var(--gray-200)'">
+              <div style="display: flex; align-items: center; margin-bottom: 12px;">
+                <div style="width: 36px; height: 36px; background-color: var(--primary-light); border-radius: var(--border-radius); display: flex; align-items: center; justify-content: center; margin-right: 12px;">
+                  <i data-feather="shopping-bag" style="width: 18px; height: 18px; color: var(--primary);"></i>
+                </div>
+                <div style="font-weight: 600;">商品推荐</div>
+              </div>
+              <p style="font-size: 13px; color: var(--text-light); margin: 0;">适用于电商、零售场景，提升转化率和客单价</p>
+            </div>
+            
+            <div style="margin-bottom: 16px; border: 1px solid var(--gray-200); border-radius: var(--border-radius); padding: 16px; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.borderColor='var(--primary)'" onmouseout="this.style.borderColor='var(--gray-200)'">
+              <div style="display: flex; align-items: center; margin-bottom: 12px;">
+                <div style="width: 36px; height: 36px; background-color: var(--warning-light); border-radius: var(--border-radius); display: flex; align-items: center; justify-content: center; margin-right: 12px;">
+                  <i data-feather="film" style="width: 18px; height: 18px; color: var(--warning);"></i>
+                </div>
+                <div style="font-weight: 600;">内容推荐</div>
+              </div>
+              <p style="font-size: 13px; color: var(--text-light); margin: 0;">适用于视频、文章等内容平台，提升用户停留时间</p>
+            </div>
+            
+            <div style="margin-bottom: 16px; border: 1px solid var(--gray-200); border-radius: var(--border-radius); padding: 16px; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.borderColor='var(--primary)'" onmouseout="this.style.borderColor='var(--gray-200)'">
+              <div style="display: flex; align-items: center; margin-bottom: 12px;">
+                <div style="width: 36px; height: 36px; background-color: var(--danger-light); border-radius: var(--border-radius); display: flex; align-items: center; justify-content: center; margin-right: 12px;">
+                  <i data-feather="mail" style="width: 18px; height: 18px; color: var(--danger);"></i>
+                </div>
+                <div style="font-weight: 600;">营销推荐</div>
+              </div>
+              <p style="font-size: 13px; color: var(--text-light); margin: 0;">适用于邮件、短信、推送等营销场景，提升转化率</p>
+            </div>
+            
+            <div style="border: 1px solid var(--gray-200); border-radius: var(--border-radius); padding: 16px; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.borderColor='var(--primary)'" onmouseout="this.style.borderColor='var(--gray-200)'">
+              <div style="display: flex; align-items: center; margin-bottom: 12px;">
+                <div style="width: 36px; height: 36px; background-color: var(--success-light); border-radius: var(--border-radius); display: flex; align-items: center; justify-content: center; margin-right: 12px;">
+                  <i data-feather="layers" style="width: 18px; height: 18px; color: var(--success);"></i>
+                </div>
+                <div style="font-weight: 600;">自定义应用</div>
+              </div>
+              <p style="font-size: 13px; color: var(--text-light); margin: 0;">从零开始构建自定义推荐应用</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 应用使用统计 -->
+        <div class="card">
+          <div class="card-header">
+            <h2 style="font-size: 18px; font-weight: 600; margin: 0;">使用统计</h2>
+          </div>
+          <div class="card-body">
+            <div style="margin-bottom: 20px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <div style="font-weight: 500;">推荐API调用量</div>
+                <div style="font-weight: 600; color: var(--primary);">1.2M / 5M</div>
+              </div>
+              <div class="progress" style="height: 6px; margin-bottom: 4px;">
+                <div class="progress-bar" style="width: 24%; background-color: var(--primary);"></div>
+              </div>
+              <div style="font-size: 12px; color: var(--text-light); text-align: right;">本月已使用 24%</div>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <div style="font-weight: 500;">活跃应用</div>
+                <div style="font-weight: 600; color: var(--primary);">3 / 10</div>
+              </div>
+              <div class="progress" style="height: 6px; margin-bottom: 4px;">
+                <div class="progress-bar" style="width: 30%; background-color: var(--primary);"></div>
+              </div>
+              <div style="font-size: 12px; color: var(--text-light); text-align: right;">套餐允许 10 个</div>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <div style="font-weight: 500;">训练任务时长</div>
+                <div style="font-weight: 600; color: var(--primary);">18h / 100h</div>
+              </div>
+              <div class="progress" style="height: 6px; margin-bottom: 4px;">
+                <div class="progress-bar" style="width: 18%; background-color: var(--primary);"></div>
+              </div>
+              <div style="font-size: 12px; color: var(--text-light); text-align: right;">本月已使用 18%</div>
+            </div>
+
+            <div>
+              <div style="font-size: 16px; font-weight: 600; margin-bottom: 12px; margin-top: 16px;">套餐信息</div>
+              <div style="background-color: var(--primary-light); padding: 12px; border-radius: var(--border-radius); display: flex; align-items: center; justify-content: space-between;">
+                <div>
+                  <div style="font-weight: 600; color: var(--primary);">企业版</div>
+                  <div style="font-size: 12px; color: var(--text);">有效期至 2024-10-15</div>
+                </div>
+                <button class="btn-outline-primary" style="font-size: 12px; padding: 4px 8px;">升级套餐</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    feather.replace();
+  </script>
+  <script src="../recsys_platform_prototype/js/app.js"></script>
+</body>
+</html> 

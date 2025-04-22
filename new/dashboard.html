@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>管理后台 - 智能推荐SAAS平台</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="../recsys_platform_prototype/css/styles.css">
+  <script src="https://unpkg.com/feather-icons"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    .sidebar {
+      width: 240px;
+      background-color: var(--dark);
+      color: white;
+      height: 100vh;
+      position: fixed;
+      left: 0;
+      top: 0;
+      overflow-y: auto;
+    }
+    .sidebar-header {
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .sidebar-menu {
+      padding: 16px 0;
+    }
+    .sidebar-menu-item {
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      color: rgba(255, 255, 255, 0.7);
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .sidebar-menu-item:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+      color: white;
+    }
+    .sidebar-menu-item.active {
+      background-color: var(--primary);
+      color: white;
+    }
+    .sidebar-menu-item i {
+      margin-right: 12px;
+    }
+    .main-content {
+      margin-left: 240px;
+      padding: 24px;
+    }
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+    .user-menu {
+      display: flex;
+      align-items: center;
+    }
+    .stats-card {
+      background-color: white;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow-sm);
+      padding: 20px;
+      margin-bottom: 24px;
+    }
+    .stats-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+    .stats-value {
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .stats-label {
+      color: var(--text-light);
+      font-size: 14px;
+    }
+    .stats-change {
+      display: flex;
+      align-items: center;
+      font-size: 14px;
+      margin-top: 8px;
+    }
+    .stats-change.positive {
+      color: var(--success);
+    }
+    .stats-change.negative {
+      color: var(--danger);
+    }
+    .chart-container {
+      height: 200px;
+      margin-top: 16px;
+      position: relative;
+    }
+    .chart-placeholder {
+      border: 1px dashed var(--gray-300);
+      border-radius: var(--border-radius);
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: var(--gray-100);
+      color: var(--text-light);
+    }
+    .table-container {
+      background-color: white;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 24px;
+    }
+    .table-header {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--gray-200);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .badge {
+      font-size: 12px;
+      padding: 4px 8px;
+      border-radius: 20px;
+      font-weight: 500;
+    }
+    .badge-success {
+      background-color: rgba(16, 185, 129, 0.1);
+      color: var(--success);
+    }
+    .badge-warning {
+      background-color: rgba(245, 158, 11, 0.1);
+      color: var(--warning);
+    }
+    .badge-danger {
+      background-color: rgba(239, 68, 68, 0.1);
+      color: var(--danger);
+    }
+    /* AI助手样式 */
+    .ai-suggestion-card {
+      background-color: white;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 24px;
+      border-left: 4px solid var(--primary);
+    }
+    .ai-suggestion-header {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--gray-200);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .ai-suggestion-content {
+      padding: 16px 20px;
+    }
+    .ai-suggestion-item {
+      display: flex;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--gray-100);
+    }
+    .ai-suggestion-item:last-child {
+      border-bottom: none;
+    }
+    .ai-suggestion-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background-color: var(--primary-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 12px;
+      flex-shrink: 0;
+    }
+    .ai-assistant-btn {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background-color: var(--primary);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+      border: none;
+      cursor: pointer;
+      z-index: 1000;
+      transition: all 0.3s;
+    }
+    .ai-assistant-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 16px rgba(79, 70, 229, 0.4);
+    }
+    .ai-assistant-panel {
+      position: fixed;
+      top: 0;
+      right: -400px;
+      width: 380px;
+      height: 100vh;
+      background-color: white;
+      z-index: 1001;
+      box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+      transition: right 0.3s ease;
+    }
+    .ai-assistant-panel.open {
+      right: 0;
+    }
+    .ai-assistant-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px;
+      border-bottom: 1px solid var(--gray-200);
+    }
+    .ai-assistant-body {
+      height: calc(100vh - 140px);
+      overflow-y: auto;
+      padding: 16px;
+    }
+    .ai-assistant-footer {
+      border-top: 1px solid var(--gray-200);
+      padding: 16px;
+      display: flex;
+    }
+    .ai-message {
+      margin-bottom: 16px;
+      max-width: 80%;
+    }
+    .ai-message-ai {
+      background-color: var(--primary-light);
+      color: var(--text);
+      padding: 12px 16px;
+      border-radius: 12px 12px 12px 0;
+      margin-right: auto;
+    }
+    .ai-message-user {
+      background-color: var(--gray-100);
+      color: var(--text);
+      padding: 12px 16px;
+      border-radius: 12px 12px 0 12px;
+      margin-left: auto;
+    }
+    .typing-indicator {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 8px;
+    }
+    .typing-dot {
+      width: 8px;
+      height: 8px;
+      background-color: var(--primary);
+      border-radius: 50%;
+      animation: typing-animation 1.4s infinite ease-in-out both;
+    }
+    .typing-dot:nth-child(1) {
+      animation-delay: -0.32s;
+    }
+    .typing-dot:nth-child(2) {
+      animation-delay: -0.16s;
+    }
+    @keyframes typing-animation {
+      0%, 80%, 100% { transform: scale(0); }
+      40% { transform: scale(1); }
+    }
+  </style>
+</head>
+<body>
+  <!-- 侧边栏 -->
+  <div class="sidebar">
+    <div class="sidebar-header">
+      <img src="../recsys_platform_prototype/img/logo-placeholder.svg" alt="Logo" style="width: 32px; height: 32px; margin-right: 12px;">
+      <span style="font-weight: 600; font-size: 18px;">智能推荐平台</span>
+    </div>
+    <div class="sidebar-menu">
+      <a href="dashboard.html" class="sidebar-menu-item active">
+        <i data-feather="grid"></i>
+        <span>仪表盘</span>
+      </a>
+      <a href="applications.html" class="sidebar-menu-item">
+        <i data-feather="box"></i>
+        <span>应用管理</span>
+      </a>
+      <a href="data-sources.html" class="sidebar-menu-item">
+        <i data-feather="database"></i>
+        <span>数据源</span>
+      </a>
+      <a href="scenes-management.html" class="sidebar-menu-item">
+        <i data-feather="layout"></i>
+        <span>场景管理</span>
+      </a>
+      <a href="strategy.html" class="sidebar-menu-item">
+        <i data-feather="sliders"></i>
+        <span>策略配置</span>
+      </a>
+      <a href="model-management.html" class="sidebar-menu-item">
+        <i data-feather="layers"></i>
+        <span>模型管理</span>
+      </a>
+      <a href="reports.html" class="sidebar-menu-item">
+        <i data-feather="bar-chart-2"></i>
+        <span>分析报表</span>
+      </a>
+      <a href="ab-testing.html" class="sidebar-menu-item">
+        <i data-feather="flag"></i>
+        <span>A/B测试</span>
+      </a>
+      <a href="#" class="sidebar-menu-item">
+        <i data-feather="bell"></i>
+        <span>告警监控</span>
+      </a>
+      <a href="#" class="sidebar-menu-item">
+        <i data-feather="users"></i>
+        <span>用户管理</span>
+      </a>
+      <a href="#" class="sidebar-menu-item">
+        <i data-feather="settings"></i>
+        <span>系统设置</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- 主内容区 -->
+  <div class="main-content">
+    <div class="header">
+      <h1 style="font-size: 24px; font-weight: 700; margin: 0;">管理控制台</h1>
+      <div class="user-menu">
+        <div style="margin-right: 16px; position: relative;">
+          <i data-feather="bell" style="width: 20px; height: 20px; color: var(--text-light);"></i>
+          <span style="position: absolute; top: -5px; right: -5px; width: 16px; height: 16px; background-color: var(--danger); border-radius: 50%; font-size: 10px; display: flex; align-items: center; justify-content: center; color: white;">3</span>
+        </div>
+        <div style="display: flex; align-items: center;">
+          <div style="width: 36px; height: 36px; background-color: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 8px; color: white; font-weight: 600;">JD</div>
+          <div>
+            <div style="font-weight: 600; font-size: 14px;">张三</div>
+            <div style="font-size: 12px; color: var(--text-light);">管理员</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 智能建议卡片 -->
+    <div class="ai-suggestion-card">
+      <div class="ai-suggestion-header">
+        <div style="display: flex; align-items: center;">
+          <i data-feather="cpu" style="width: 20px; height: 20px; color: var(--primary); margin-right: 8px;"></i>
+          <h2 style="font-size: 18px; font-weight: 600; margin: 0;">智能调整建议</h2>
+        </div>
+        <button class="btn-secondary btn-sm">查看全部建议</button>
+      </div>
+      <div class="ai-suggestion-content">
+        <div class="ai-suggestion-item">
+          <div class="ai-suggestion-icon">
+            <i data-feather="trending-up" style="width: 20px; height: 20px; color: var(--primary);"></i>
+          </div>
+          <div>
+            <div style="font-weight: 500; margin-bottom: 4px;">优化"视频内容推荐"应用的点击率</div>
+            <div style="font-size: 14px; color: var(--text); margin-bottom: 8px;">
+              分析显示点击率较上周下降3.2%。建议调整多样性参数，提高新内容比例从15%到25%，有望提升CTR约8.4%。
+            </div>
+            <div style="display: flex; gap: 8px;">
+              <button class="btn-primary btn-sm">应用建议</button>
+              <button class="btn-secondary btn-sm">查看详情</button>
+            </div>
+          </div>
+        </div>
+        <div class="ai-suggestion-item">
+          <div class="ai-suggestion-icon">
+            <i data-feather="alert-triangle" style="width: 20px; height: 20px; color: var(--warning);"></i>
+          </div>
+          <div>
+            <div style="font-weight: 500; margin-bottom: 4px;">模型服务负载问题</div>
+            <div style="font-size: 14px; color: var(--text); margin-bottom: 8px;">
+              模型服务负载已持续高于70%超过48小时，可能影响推荐响应时间。建议增加2个算力节点或优化当前批处理策略。
+            </div>
+            <div style="display: flex; gap: 8px;">
+              <button class="btn-primary btn-sm">扩容服务</button>
+              <button class="btn-secondary btn-sm">优化策略</button>
+            </div>
+          </div>
+        </div>
+        <div class="ai-suggestion-item">
+          <div class="ai-suggestion-icon">
+            <i data-feather="dollar-sign" style="width: 20px; height: 20px; color: var(--success);"></i>
+          </div>
+          <div>
+            <div style="font-weight: 500; margin-bottom: 4px;">提升电商应用转化率</div>
+            <div style="font-size: 14px; color: var(--text); margin-bottom: 8px;">
+              基于近期A/B测试结果，"价格敏感度测试"实验效果显著。建议在主流量中将高性价比商品权重提升15%，预计可提高GMV 5.7%。
+            </div>
+            <div style="display: flex; gap: 8px;">
+              <button class="btn-primary btn-sm">接受调整</button>
+              <button class="btn-secondary btn-sm">查看分析</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 统计卡片行 -->
+    <div class="row">
+      <div class="col-3">
+        <div class="stats-card">
+          <div class="stats-card-header">
+            <span style="color: var(--text-light); font-size: 14px;">推荐请求量</span>
+            <i data-feather="bar-chart-2" style="width: 20px; height: 20px; color: var(--primary);"></i>
+          </div>
+          <div class="stats-value">89,721</div>
+          <div class="stats-label">今日总请求</div>
+          <div class="stats-change positive">
+            <i data-feather="arrow-up" style="width: 16px; height: 16px; margin-right: 4px;"></i>
+            <span>12.8% 较昨日</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="stats-card">
+          <div class="stats-card-header">
+            <span style="color: var(--text-light); font-size: 14px;">平均点击率</span>
+            <i data-feather="target" style="width: 20px; height: 20px; color: var(--success);"></i>
+          </div>
+          <div class="stats-value">6.2%</div>
+          <div class="stats-label">过去7天</div>
+          <div class="stats-change positive">
+            <i data-feather="arrow-up" style="width: 16px; height: 16px; margin-right: 4px;"></i>
+            <span>0.8% 较上周</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="stats-card">
+          <div class="stats-card-header">
+            <span style="color: var(--text-light); font-size: 14px;">转化率</span>
+            <i data-feather="shopping-cart" style="width: 20px; height: 20px; color: var(--warning);"></i>
+          </div>
+          <div class="stats-value">3.8%</div>
+          <div class="stats-label">过去7天</div>
+          <div class="stats-change positive">
+            <i data-feather="arrow-up" style="width: 16px; height: 16px; margin-right: 4px;"></i>
+            <span>0.5% 较上周</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="stats-card">
+          <div class="stats-card-header">
+            <span style="color: var(--text-light); font-size: 14px;">API平均响应时间</span>
+            <i data-feather="clock" style="width: 20px; height: 20px; color: var(--primary);"></i>
+          </div>
+          <div class="stats-value">42ms</div>
+          <div class="stats-label">今日平均</div>
+          <div class="stats-change negative">
+            <i data-feather="arrow-up" style="width: 16px; height: 16px; margin-right: 4px;"></i>
+            <span>3ms 较昨日</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 应用概览 -->
+    <div class="row">
+      <div class="col-8">
+        <div class="table-container">
+          <div class="table-header">
+            <h2 style="font-size: 18px; font-weight: 600; margin: 0;">应用概览</h2>
+            <button class="btn-primary"><i data-feather="plus" style="width: 16px; height: 16px; margin-right: 4px;"></i> 创建应用</button>
+          </div>
+          <table class="table" style="margin: 0;">
+            <thead>
+              <tr>
+                <th>应用名称</th>
+                <th>类型</th>
+                <th>状态</th>
+                <th>今日请求量</th>
+                <th>今日CTR</th>
+                <th>操作</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <div style="display: flex; align-items: center;">
+                    <div style="width: 36px; height: 36px; background-color: var(--primary-light); border-radius: var(--border-radius); display: flex; align-items: center; justify-content: center; margin-right: 12px;">
+                      <i data-feather="shopping-bag" style="width: 18px; height: 18px; color: var(--primary);"></i>
+                    </div>
+                    <div>
+                      <div style="font-weight: 500;">我的电商推荐</div>
+                      <div style="font-size: 12px; color: var(--text-light);">app-78924ef1</div>
+                    </div>
+                  </div>
+                </td>
+                <td>商品推荐</td>
+                <td><span class="badge badge-success">运行中</span></td>
+                <td>42,568</td>
+                <td>5.8%</td>
+                <td>
+                  <div style="display: flex;">
+                    <button class="btn-icon" style="margin-right: 8px;"><i data-feather="settings" style="width: 16px; height: 16px;"></i></button>
+                    <button class="btn-icon"><i data-feather="bar-chart-2" style="width: 16px; height: 16px;"></i></button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div style="display: flex; align-items: center;">
+                    <div style="width: 36px; height: 36px; background-color: var(--warning-light); border-radius: var(--border-radius); display: flex; align-items: center; justify-content: center; margin-right: 12px;">
+                      <i data-feather="film" style="width: 18px; height: 18px; color: var(--warning);"></i>
+                    </div>
+                    <div>
+                      <div style="font-weight: 500;">视频内容推荐</div>
+                      <div style="font-size: 12px; color: var(--text-light);">app-65842ac3</div>
+                    </div>
+                  </div>
+                </td>
+                <td>内容推荐</td>
+                <td><span class="badge badge-success">运行中</span></td>
+                <td>38,921</td>
+                <td>7.2%</td>
+                <td>
+                  <div style="display: flex;">
+                    <button class="btn-icon" style="margin-right: 8px;"><i data-feather="settings" style="width: 16px; height: 16px;"></i></button>
+                    <button class="btn-icon"><i data-feather="bar-chart-2" style="width: 16px; height: 16px;"></i></button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div style="display: flex; align-items: center;">
+                    <div style="width: 36px; height: 36px; background-color: var(--danger-light); border-radius: var(--border-radius); display: flex; align-items: center; justify-content: center; margin-right: 12px;">
+                      <i data-feather="mail" style="width: 18px; height: 18px; color: var(--danger);"></i>
+                    </div>
+                    <div>
+                      <div style="font-weight: 500;">邮件营销推荐</div>
+                      <div style="font-size: 12px; color: var(--text-light);">app-32491bd7</div>
+                    </div>
+                  </div>
+                </td>
+                <td>营销推荐</td>
+                <td><span class="badge badge-warning">维护中</span></td>
+                <td>8,232</td>
+                <td>3.4%</td>
+                <td>
+                  <div style="display: flex;">
+                    <button class="btn-icon" style="margin-right: 8px;"><i data-feather="settings" style="width: 16px; height: 16px;"></i></button>
+                    <button class="btn-icon"><i data-feather="bar-chart-2" style="width: 16px; height: 16px;"></i></button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div style="display: flex; align-items: center;">
+                    <div style="width: 36px; height: 36px; background-color: var(--success-light); border-radius: var(--border-radius); display: flex; align-items: center; justify-content: center; margin-right: 12px;">
+                      <i data-feather="clipboard" style="width: 18px; height: 18px; color: var(--success);"></i>
+                    </div>
+                    <div>
+                      <div style="font-weight: 500;">活动推荐</div>
+                      <div style="font-size: 12px; color: var(--text-light);">app-98765bc2</div>
+                    </div>
+                  </div>
+                </td>
+                <td>活动推荐</td>
+                <td><span class="badge badge-danger">已停止</span></td>
+                <td>0</td>
+                <td>-</td>
+                <td>
+                  <div style="display: flex;">
+                    <button class="btn-icon" style="margin-right: 8px;"><i data-feather="settings" style="width: 16px; height: 16px;"></i></button>
+                    <button class="btn-icon"><i data-feather="bar-chart-2" style="width: 16px; height: 16px;"></i></button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- 趋势图表 -->
+        <div class="table-container">
+          <div class="table-header">
+            <h2 style="font-size: 18px; font-weight: 600; margin: 0;">推荐效果趋势</h2>
+            <div>
+              <select class="form-control" style="margin-right: 8px;">
+                <option>最近7天</option>
+                <option>最近30天</option>
+                <option>最近90天</option>
+              </select>
+            </div>
+          </div>
+          <div style="padding: 20px;">
+            <div class="chart-container">
+              <canvas id="trend-chart"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-4">
+        <!-- 系统状态 -->
+        <div class="table-container" style="margin-bottom: 24px;">
+          <div class="table-header">
+            <h2 style="font-size: 18px; font-weight: 600; margin: 0;">系统状态</h2>
+          </div>
+          <div style="padding: 20px;">
+            <div style="display: flex; align-items: center; margin-bottom: 16px;">
+              <div style="width: 36px; height: 36px; background-color: var(--success-light); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 12px;">
+                <i data-feather="server" style="width: 18px; height: 18px; color: var(--success);"></i>
+              </div>
+              <div style="flex-grow: 1;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                  <span style="font-weight: 500;">API服务</span>
+                  <span class="badge badge-success">正常</span>
+                </div>
+                <div class="progress" style="height: 4px;">
+                  <div class="progress-bar" style="width: 20%; background-color: var(--success);"></div>
+                </div>
+              </div>
+            </div>
+            <div style="display: flex; align-items: center; margin-bottom: 16px;">
+              <div style="width: 36px; height: 36px; background-color: var(--success-light); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 12px;">
+                <i data-feather="database" style="width: 18px; height: 18px; color: var(--success);"></i>
+              </div>
+              <div style="flex-grow: 1;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                  <span style="font-weight: 500;">数据服务</span>
+                  <span class="badge badge-success">正常</span>
+                </div>
+                <div class="progress" style="height: 4px;">
+                  <div class="progress-bar" style="width: 35%; background-color: var(--success);"></div>
+                </div>
+              </div>
+            </div>
+            <div style="display: flex; align-items: center; margin-bottom: 16px;">
+              <div style="width: 36px; height: 36px; background-color: var(--warning-light); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 12px;">
+                <i data-feather="cpu" style="width: 18px; height: 18px; color: var(--warning);"></i>
+              </div>
+              <div style="flex-grow: 1;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                  <span style="font-weight: 500;">模型服务</span>
+                  <span class="badge badge-warning">负载较高</span>
+                </div>
+                <div class="progress" style="height: 4px;">
+                  <div class="progress-bar" style="width: 75%; background-color: var(--warning);"></div>
+                </div>
+              </div>
+            </div>
+            <div style="display: flex; align-items: center;">
+              <div style="width: 36px; height: 36px; background-color: var(--success-light); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 12px;">
+                <i data-feather="hard-drive" style="width: 18px; height: 18px; color: var(--success);"></i>
+              </div>
+              <div style="flex-grow: 1;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                  <span style="font-weight: 500;">存储服务</span>
+                  <span class="badge badge-success">正常</span>
+                </div>
+                <div class="progress" style="height: 4px;">
+                  <div class="progress-bar" style="width: 45%; background-color: var(--success);"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 最近活动 -->
+        <div class="table-container">
+          <div class="table-header">
+            <h2 style="font-size: 18px; font-weight: 600; margin: 0;">最近活动</h2>
+          </div>
+          <div style="padding: 0;">
+            <div style="border-bottom: 1px solid var(--gray-200); padding: 16px;">
+              <div style="display: flex; margin-bottom: 8px;">
+                <div style="width: 36px; height: 36px; background-color: var(--primary-light); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 12px; flex-shrink: 0;">
+                  <i data-feather="settings" style="width: 18px; height: 18px; color: var(--primary);"></i>
+                </div>
+                <div>
+                  <div style="font-weight: 500;">策略更新</div>
+                  <div style="font-size: 14px; color: var(--text);">视频内容推荐应用的策略已更新</div>
+                  <div style="font-size: 12px; color: var(--text-light); margin-top: 4px;">2023-10-15 14:25</div>
+                </div>
+              </div>
+            </div>
+            <div style="border-bottom: 1px solid var(--gray-200); padding: 16px;">
+              <div style="display: flex; margin-bottom: 8px;">
+                <div style="width: 36px; height: 36px; background-color: var(--success-light); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 12px; flex-shrink: 0;">
+                  <i data-feather="trending-up" style="width: 18px; height: 18px; color: var(--success);"></i>
+                </div>
+                <div>
+                  <div style="font-weight: 500;">模型升级</div>
+                  <div style="font-size: 14px; color: var(--text);">电商推荐应用模型已升级到v2.3版本</div>
+                  <div style="font-size: 12px; color: var(--text-light); margin-top: 4px;">2023-10-15 11:18</div>
+                </div>
+              </div>
+            </div>
+            <div style="border-bottom: 1px solid var(--gray-200); padding: 16px;">
+              <div style="display: flex; margin-bottom: 8px;">
+                <div style="width: 36px; height: 36px; background-color: var(--warning-light); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 12px; flex-shrink: 0;">
+                  <i data-feather="alert-triangle" style="width: 18px; height: 18px; color: var(--warning);"></i>
+                </div>
+                <div>
+                  <div style="font-weight: 500;">性能警告</div>
+                  <div style="font-size: 14px; color: var(--text);">模型服务负载较高，已自动扩容</div>
+                  <div style="font-size: 12px; color: var(--text-light); margin-top: 4px;">2023-10-15 09:42</div>
+                </div>
+              </div>
+            </div>
+            <div style="padding: 16px;">
+              <div style="display: flex; margin-bottom: 8px;">
+                <div style="width: 36px; height: 36px; background-color: var(--danger-light); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 12px; flex-shrink: 0;">
+                  <i data-feather="user-plus" style="width: 18px; height: 18px; color: var(--danger);"></i>
+                </div>
+                <div>
+                  <div style="font-weight: 500;">新用户添加</div>
+                  <div style="font-size: 14px; color: var(--text);">添加了新用户"李四"，角色为"运营"</div>
+                  <div style="font-size: 12px; color: var(--text-light); margin-top: 4px;">2023-10-14 16:35</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 全局AI助理按钮 -->
+  <button class="ai-assistant-btn" id="ai-assistant-btn">
+    <i data-feather="message-circle" style="width: 28px; height: 28px;"></i>
+  </button>
+  
+  <!-- AI助理面板 -->
+  <div class="ai-assistant-panel" id="ai-assistant-panel">
+    <div class="ai-assistant-header">
+      <div style="display: flex; align-items: center;">
+        <div style="width: 36px; height: 36px; background-color: var(--primary-light); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 12px;">
+          <i data-feather="cpu" style="width: 20px; height: 20px; color: var(--primary);"></i>
+        </div>
+        <h3 style="margin: 0; font-weight: 600; font-size: 16px;">AI智能助理</h3>
+      </div>
+      <button style="background: none; border: none; cursor: pointer;" id="close-assistant-btn">
+        <i data-feather="x" style="width: 20px; height: 20px; color: var(--text-light);"></i>
+      </button>
+    </div>
+    <div class="ai-assistant-body" id="ai-assistant-body">
+      <div class="ai-message ai-message-ai">
+        您好！我是您的智能推荐助手。我可以帮助您分析数据、优化策略、解决问题。有什么可以帮您的吗？
+      </div>
+      <div class="ai-message ai-message-user">
+        我最近的推荐点击率有些下降，有什么建议吗？
+      </div>
+      <div class="ai-message ai-message-ai">
+        我注意到视频内容推荐应用的点击率较上周下降了3.2%。这可能是由于内容多样性不足导致的用户疲劳。
+        <br><br>
+        建议您：
+        <br>
+        1. 增加推荐结果的多样性，将新内容比例从15%提高到25%
+        <br>
+        2. 调整长尾内容权重，可以提升用户发现新内容的概率
+        <br>
+        3. 启动一个小流量A/B测试验证效果
+        <br><br>
+        您希望我为您创建一个调整计划吗？
+      </div>
+      <div class="ai-message ai-message-user">
+        好的，帮我创建调整计划
+      </div>
+      <div class="typing-indicator">
+        <div class="typing-dot"></div>
+        <div class="typing-dot"></div>
+        <div class="typing-dot"></div>
+      </div>
+    </div>
+    <div class="ai-assistant-footer">
+      <input type="text" class="form-control" placeholder="输入您的问题..." style="flex-grow: 1; margin-right: 8px;">
+      <button class="btn-primary">
+        <i data-feather="send" style="width: 16px; height: 16px;"></i>
+      </button>
+    </div>
+  </div>
+
+  <script>
+    feather.replace();
+    
+    // 推荐效果趋势图表
+    const ctx = document.getElementById('trend-chart').getContext('2d');
+    
+    // 模拟数据
+    const dates = ['10-15', '10-16', '10-17', '10-18', '10-19', '10-20', '10-21'];
+    
+    // 创建图表
+    const trendChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: dates,
+        datasets: [
+          {
+            label: '点击率 (%)',
+            data: [5.2, 5.4, 5.8, 6.3, 6.1, 6.4, 6.2],
+            borderColor: '#4F46E5',
+            backgroundColor: 'rgba(79, 70, 229, 0.1)',
+            borderWidth: 2,
+            tension: 0.3,
+            fill: true,
+            yAxisID: 'y'
+          },
+          {
+            label: '转化率 (%)',
+            data: [2.1, 2.3, 2.5, 2.8, 3.1, 3.6, 3.8],
+            borderColor: '#10B981',
+            backgroundColor: 'rgba(16, 185, 129, 0.1)',
+            borderWidth: 2,
+            tension: 0.3,
+            fill: true,
+            yAxisID: 'y'
+          },
+          {
+            label: '每日请求量 (千)',
+            data: [65.3, 68.7, 72.5, 70.8, 78.2, 83.6, 89.7],
+            borderColor: '#F59E0B',
+            backgroundColor: 'rgba(245, 158, 11, 0.1)',
+            borderWidth: 2,
+            tension: 0.3,
+            fill: true,
+            yAxisID: 'y1'
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        interaction: {
+          mode: 'index',
+          intersect: false,
+        },
+        plugins: {
+          legend: {
+            position: 'top',
+            labels: {
+              usePointStyle: true,
+              boxWidth: 6
+            }
+          },
+          tooltip: {
+            usePointStyle: true
+          }
+        },
+        scales: {
+          x: {
+            grid: {
+              display: false
+            }
+          },
+          y: {
+            type: 'linear',
+            display: true,
+            position: 'left',
+            title: {
+              display: true,
+              text: '百分比 (%)'
+            },
+            min: 0,
+            max: 10,
+            ticks: {
+              stepSize: 2
+            }
+          },
+          y1: {
+            type: 'linear',
+            display: true,
+            position: 'right',
+            title: {
+              display: true,
+              text: '请求量 (千)'
+            },
+            min: 0,
+            grid: {
+              drawOnChartArea: false,
+            },
+          }
+        },
+      }
+    });
+    
+    // AI助理面板交互
+    document.getElementById('ai-assistant-btn').addEventListener('click', function() {
+      document.getElementById('ai-assistant-panel').classList.add('open');
+    });
+    
+    document.getElementById('close-assistant-btn').addEventListener('click', function() {
+      document.getElementById('ai-assistant-panel').classList.remove('open');
+    });
+  </script>
+  <script src="../recsys_platform_prototype/js/app.js"></script>
+</body>
+</html> 

@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>数据处理 - 智能推荐SAAS平台</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="../recsys_platform_prototype/css/styles.css">
+  <script src="https://unpkg.com/feather-icons"></script>
+</head>
+<body>
+  <!-- 导航栏 -->
+  <nav class="navbar">
+    <div class="navbar-logo">
+      <img src="../recsys_platform_prototype/img/logo-placeholder.svg" alt="智推Logo">
+      <span>智能推荐平台</span>
+    </div>
+    <div class="navbar-nav">
+      <a href="#" class="nav-link">产品</a>
+      <a href="#" class="nav-link">文档</a>
+      <a href="#" class="nav-link">价格</a>
+      <a href="#" class="nav-link">联系我们</a>
+      <button class="btn-primary">登录</button>
+    </div>
+  </nav>
+
+  <!-- 主内容区 -->
+  <div class="container" style="padding: 40px 0 80px;">
+    <!-- 步骤指示器 -->
+    <div class="steps" style="margin-bottom: 40px;">
+      <div class="step completed">
+        <div class="step-circle">
+          <i data-feather="check" style="width: 20px; height: 20px;"></i>
+        </div>
+        <div class="step-text">创建应用</div>
+      </div>
+      <div class="step completed">
+        <div class="step-circle">
+          <i data-feather="check" style="width: 20px; height: 20px;"></i>
+        </div>
+        <div class="step-text">连接数据</div>
+      </div>
+      <div class="step active">
+        <div class="step-circle">3</div>
+        <div class="step-text">一键部署</div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-header">
+            <h2 class="card-title">数据智能处理</h2>
+            <span style="color: var(--text-light); font-size: 14px;">第3步，共3步</span>
+          </div>
+          <div class="card-body">
+            <!-- 处理进度 -->
+            <div style="max-width: 800px; margin: 0 auto;">
+              <!-- 进度指示 -->
+              <div style="display: flex; justify-content: space-between; margin-bottom: 40px;">
+                <div style="text-align: center; flex: 1;">
+                  <div style="width: 56px; height: 56px; background-color: var(--success); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px;">
+                    <i data-feather="check" style="width: 28px; height: 28px; color: white;"></i>
+                  </div>
+                  <p style="font-weight: 500; margin-bottom: 4px; color: var(--dark);">Schema映射</p>
+                  <p style="font-size: 14px; color: var(--text-light); margin: 0;">完成</p>
+                </div>
+                <div style="text-align: center; flex: 1;">
+                  <div style="width: 56px; height: 56px; background-color: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <circle cx="12" cy="12" r="10" stroke-dasharray="40" stroke-dashoffset="0">
+                        <animateTransform
+                          attributeName="transform"
+                          type="rotate"
+                          from="0 12 12"
+                          to="360 12 12"
+                          dur="1s"
+                          repeatCount="indefinite"
+                        />
+                      </circle>
+                      <path d="M12 6v6l4 2" stroke-dasharray="20" stroke-dashoffset="0">
+                      </path>
+                    </svg>
+                  </div>
+                  <p style="font-weight: 500; margin-bottom: 4px; color: var(--dark);">数据质量检测</p>
+                  <p style="font-size: 14px; color: var(--text-light); margin: 0;">处理中 (68%)</p>
+                </div>
+                <div style="text-align: center; flex: 1;">
+                  <div style="width: 56px; height: 56px; background-color: var(--gray-200); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px;">
+                    <i data-feather="sliders" style="width: 28px; height: 28px; color: var(--text-light);"></i>
+                  </div>
+                  <p style="font-weight: 500; margin-bottom: 4px; color: var(--text-light);">数据优化</p>
+                  <p style="font-size: 14px; color: var(--text-light); margin: 0;">待处理</p>
+                </div>
+                <div style="text-align: center; flex: 1;">
+                  <div style="width: 56px; height: 56px; background-color: var(--gray-200); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px;">
+                    <i data-feather="check-circle" style="width: 28px; height: 28px; color: var(--text-light);"></i>
+                  </div>
+                  <p style="font-weight: 500; margin-bottom: 4px; color: var(--text-light);">完成部署</p>
+                  <p style="font-size: 14px; color: var(--text-light); margin: 0;">待处理</p>
+                </div>
+              </div>
+
+              <!-- 总进度条 -->
+              <div style="margin-bottom: 40px;">
+                <p style="font-weight: 500; margin-bottom: 8px; color: var(--dark);">总体进度: 42%</p>
+                <div class="progress" style="height: 10px;">
+                  <div class="progress-bar" style="width: 42%;"></div>
+                </div>
+                <p style="font-size: 14px; color: var(--text-light); margin-top: 8px;">预计剩余时间: 约5分钟</p>
+              </div>
+
+              <!-- Schema映射结果 -->
+              <div style="margin-bottom: 40px;">
+                <div style="display: flex; align-items: center; margin-bottom: 16px;">
+                  <i data-feather="check-circle" style="width: 20px; height: 20px; color: var(--success); margin-right: 8px;"></i>
+                  <h3 style="margin: 0; font-size: 18px; font-weight: 600; color: var(--dark);">Schema映射完成</h3>
+                </div>
+                
+                <div class="card" style="margin-bottom: 24px;">
+                  <div class="card-header" style="padding: 12px 16px;">
+                    <div style="display: flex; align-items: center;">
+                      <i data-feather="users" style="width: 16px; height: 16px; color: var(--primary); margin-right: 8px;"></i>
+                      <h4 style="margin: 0; font-size: 16px; font-weight: 600;">用户数据表映射</h4>
+                    </div>
+                  </div>
+                  <div style="padding: 0;">
+                    <table class="table" style="margin: 0;">
+                      <thead>
+                        <tr>
+                          <th style="width: 30%;">源字段</th>
+                          <th style="width: 30%;">映射字段</th>
+                          <th style="width: 20%;">数据类型</th>
+                          <th style="width: 20%;">状态</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>user_id</td>
+                          <td>userId</td>
+                          <td>string</td>
+                          <td><span style="color: var(--success); font-size: 14px; display: flex; align-items: center;"><i data-feather="check" style="width: 14px; height: 14px; margin-right: 4px;"></i> 正确</span></td>
+                        </tr>
+                        <tr>
+                          <td>registration_time</td>
+                          <td>registerTime</td>
+                          <td>timestamp</td>
+                          <td><span style="color: var(--success); font-size: 14px; display: flex; align-items: center;"><i data-feather="check" style="width: 14px; height: 14px; margin-right: 4px;"></i> 正确</span></td>
+                        </tr>
+                        <tr>
+                          <td>gender</td>
+                          <td>gender</td>
+                          <td>category</td>
+                          <td><span style="color: var(--success); font-size: 14px; display: flex; align-items: center;"><i data-feather="check" style="width: 14px; height: 14px; margin-right: 4px;"></i> 正确</span></td>
+                        </tr>
+                        <tr>
+                          <td>age</td>
+                          <td>age</td>
+                          <td>integer</td>
+                          <td><span style="color: var(--success); font-size: 14px; display: flex; align-items: center;"><i data-feather="check" style="width: 14px; height: 14px; margin-right: 4px;"></i> 正确</span></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+                <div class="card" style="margin-bottom: 24px;">
+                  <div class="card-header" style="padding: 12px 16px;">
+                    <div style="display: flex; align-items: center;">
+                      <i data-feather="box" style="width: 16px; height: 16px; color: var(--primary); margin-right: 8px;"></i>
+                      <h4 style="margin: 0; font-size: 16px; font-weight: 600;">物品数据表映射</h4>
+                    </div>
+                  </div>
+                  <div style="padding: 0;">
+                    <table class="table" style="margin: 0;">
+                      <thead>
+                        <tr>
+                          <th style="width: 30%;">源字段</th>
+                          <th style="width: 30%;">映射字段</th>
+                          <th style="width: 20%;">数据类型</th>
+                          <th style="width: 20%;">状态</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>item_id</td>
+                          <td>itemId</td>
+                          <td>string</td>
+                          <td><span style="color: var(--success); font-size: 14px; display: flex; align-items: center;"><i data-feather="check" style="width: 14px; height: 14px; margin-right: 4px;"></i> 正确</span></td>
+                        </tr>
+                        <tr>
+                          <td>item_name</td>
+                          <td>itemName</td>
+                          <td>string</td>
+                          <td><span style="color: var(--success); font-size: 14px; display: flex; align-items: center;"><i data-feather="check" style="width: 14px; height: 14px; margin-right: 4px;"></i> 正确</span></td>
+                        </tr>
+                        <tr>
+                          <td>category_id</td>
+                          <td>categoryId</td>
+                          <td>string</td>
+                          <td><span style="color: var(--success); font-size: 14px; display: flex; align-items: center;"><i data-feather="check" style="width: 14px; height: 14px; margin-right: 4px;"></i> 正确</span></td>
+                        </tr>
+                        <tr>
+                          <td>brand</td>
+                          <td>brand</td>
+                          <td>string</td>
+                          <td><span style="color: var(--success); font-size: 14px; display: flex; align-items: center;"><i data-feather="check" style="width: 14px; height: 14px; margin-right: 4px;"></i> 正确</span></td>
+                        </tr>
+                        <tr>
+                          <td>price</td>
+                          <td>price</td>
+                          <td>float</td>
+                          <td><span style="color: var(--success); font-size: 14px; display: flex; align-items: center;"><i data-feather="check" style="width: 14px; height: 14px; margin-right: 4px;"></i> 正确</span></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+                <div class="card">
+                  <div class="card-header" style="padding: 12px 16px;">
+                    <div style="display: flex; align-items: center;">
+                      <i data-feather="activity" style="width: 16px; height: 16px; color: var(--primary); margin-right: 8px;"></i>
+                      <h4 style="margin: 0; font-size: 16px; font-weight: 600;">行为数据表映射</h4>
+                    </div>
+                  </div>
+                  <div style="padding: 0;">
+                    <table class="table" style="margin: 0;">
+                      <thead>
+                        <tr>
+                          <th style="width: 30%;">源字段</th>
+                          <th style="width: 30%;">映射字段</th>
+                          <th style="width: 20%;">数据类型</th>
+                          <th style="width: 20%;">状态</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>user_id</td>
+                          <td>userId</td>
+                          <td>string</td>
+                          <td><span style="color: var(--success); font-size: 14px; display: flex; align-items: center;"><i data-feather="check" style="width: 14px; height: 14px; margin-right: 4px;"></i> 正确</span></td>
+                        </tr>
+                        <tr>
+                          <td>item_id</td>
+                          <td>itemId</td>
+                          <td>string</td>
+                          <td><span style="color: var(--success); font-size: 14px; display: flex; align-items: center;"><i data-feather="check" style="width: 14px; height: 14px; margin-right: 4px;"></i> 正确</span></td>
+                        </tr>
+                        <tr>
+                          <td>behavior_type</td>
+                          <td>behaviorType</td>
+                          <td>category</td>
+                          <td><span style="color: var(--success); font-size: 14px; display: flex; align-items: center;"><i data-feather="check" style="width: 14px; height: 14px; margin-right: 4px;"></i> 正确</span></td>
+                        </tr>
+                        <tr>
+                          <td>timestamp</td>
+                          <td>timestamp</td>
+                          <td>timestamp</td>
+                          <td><span style="color: var(--success); font-size: 14px; display: flex; align-items: center;"><i data-feather="check" style="width: 14px; height: 14px; margin-right: 4px;"></i> 正确</span></td>
+                        </tr>
+                        <tr>
+                          <td>client_type</td>
+                          <td>clientType</td>
+                          <td>category</td>
+                          <td><span style="color: var(--success); font-size: 14px; display: flex; align-items: center;"><i data-feather="check" style="width: 14px; height: 14px; margin-right: 4px;"></i> 正确</span></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 数据质量检测 -->
+              <div style="margin-bottom: 40px;">
+                <div style="display: flex; align-items: center; margin-bottom: 16px;">
+                  <i data-feather="loading" style="width: 20px; height: 20px; color: var(--primary); margin-right: 8px;"></i>
+                  <h3 style="margin: 0; font-size: 18px; font-weight: 600; color: var(--dark);">数据质量检测进行中</h3>
+                </div>
+                
+                <div class="card" style="margin-bottom: 24px; background-color: rgba(79, 70, 229, 0.02);">
+                  <div class="card-body" style="padding: 16px;">
+                    <p style="margin-bottom: 16px; color: var(--text);">SchemaAgent正在分析您的数据质量和分布特征，同时检测潜在的数据问题...</p>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 12px;">
+                      <span style="font-size: 14px; color: var(--text-light);">分析用户数据表</span>
+                      <span style="font-size: 14px; color: var(--success);">完成</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 12px;">
+                      <span style="font-size: 14px; color: var(--text-light);">分析物品数据表</span>
+                      <span style="font-size: 14px; color: var(--success);">完成</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 12px;">
+                      <span style="font-size: 14px; color: var(--text-light);">分析行为数据表</span>
+                      <span style="font-size: 14px; color: var(--primary);">68%</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                      <span style="font-size: 14px; color: var(--text-light);">生成质量报告</span>
+                      <span style="font-size: 14px; color: var(--text-light);">等待中</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 已发现的数据问题 -->
+                <div style="border-left: 3px solid var(--warning); padding-left: 16px; margin-bottom: 24px;">
+                  <h4 style="font-size: 16px; font-weight: 600; color: var(--dark); margin-bottom: 12px;">已发现的潜在数据问题</h4>
+                  <div style="margin-bottom: 12px;">
+                    <p style="font-weight: 500; margin-bottom: 4px; color: var(--dark); display: flex; align-items: center;">
+                      <i data-feather="alert-triangle" style="width: 16px; height: 16px; color: var(--warning); margin-right: 8px;"></i>
+                      用户表中缺失值检测
+                    </p>
+                    <p style="font-size: 14px; color: var(--text); margin-left: 24px;">发现用户年龄字段有约3.2%的缺失值，可能影响推荐效果</p>
+                  </div>
+                  <div>
+                    <p style="font-weight: 500; margin-bottom: 4px; color: var(--dark); display: flex; align-items: center;">
+                      <i data-feather="alert-triangle" style="width: 16px; height: 16px; color: var(--warning); margin-right: 8px;"></i>
+                      行为数据异常值检测
+                    </p>
+                    <p style="font-size: 14px; color: var(--text); margin-left: 24px;">行为时间戳中发现少量未来日期（可能是由于时区设置错误）</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 底部按钮 -->
+              <div style="display: flex; justify-content: space-between; margin-top: 40px;">
+                <button class="btn btn-outline">上一步</button>
+                <a href="reports.html" class="btn btn-primary">下一步</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 智能助手 -->
+  <div class="floating-assistant" onclick="toggleAssistant()">
+    <i data-feather="message-circle"></i>
+  </div>
+  <div id="assistant-dialog" style="display: none;">
+    <div class="assistant-header">
+      <h3>智能助手</h3>
+      <button onclick="toggleAssistant()"><i data-feather="x"></i></button>
+    </div>
+    <div class="assistant-body">
+      <div class="assistant-message">
+        <div class="assistant-avatar">AI</div>
+        <div class="message">您好！我是您的智能推荐平台助手。数据处理已完成42%，预计还需约5分钟完成全部流程。需要任何帮助请随时告诉我。</div>
+      </div>
+    </div>
+    <div class="assistant-input">
+      <input type="text" placeholder="输入您的问题...">
+      <button><i data-feather="send"></i></button>
+    </div>
+  </div>
+
+  <script>
+    // 初始化Feather图标
+    feather.replace();
+    
+    // 模拟进度更新
+    let progress = 42;
+    const progressBar = document.querySelector('.progress-bar');
+    const progressText = document.querySelector('p:contains("总体进度")');
+    const timeRemaining = document.querySelector('p:contains("预计剩余时间")');
+    
+    const interval = setInterval(() => {
+      progress += 1;
+      if (progress > 100) {
+        clearInterval(interval);
+        window.location.href = 'deployment-complete.html';
+        return;
+      }
+      
+      progressBar.style.width = `${progress}%`;
+      progressText.textContent = `总体进度: ${progress}%`;
+      
+      // 更新剩余时间
+      const remaining = Math.floor(10 * (100 - progress) / 100);
+      timeRemaining.textContent = `预计剩余时间: 约${remaining}分钟`;
+      
+      // 更新阶段状态
+      if (progress >= 70) {
+        document.querySelector('p:contains("数据质量检测")').nextElementSibling.textContent = "完成";
+        document.querySelector('p:contains("数据质量检测")').previousElementSibling.innerHTML = '<i data-feather="check" style="width: 28px; height: 28px; color: white;"></i>';
+        document.querySelector('p:contains("数据质量检测")').previousElementSibling.style.backgroundColor = 'var(--success)';
+        
+        document.querySelector('p:contains("数据优化")').nextElementSibling.textContent = "处理中 (60%)";
+        document.querySelector('p:contains("数据优化")').style.color = 'var(--dark)';
+        document.querySelector('p:contains("数据优化")').previousElementSibling.style.backgroundColor = 'var(--primary)';
+        document.querySelector('p:contains("数据优化")').previousElementSibling.innerHTML = `
+          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10" stroke-dasharray="40" stroke-dashoffset="0">
+              <animateTransform
+                attributeName="transform"
+                type="rotate"
+                from="0 12 12"
+                to="360 12 12"
+                dur="1s"
+                repeatCount="indefinite"
+              />
+            </circle>
+            <path d="M12 6v6l4 2" stroke-dasharray="20" stroke-dashoffset="0">
+            </path>
+          </svg>
+        `;
+        feather.replace();
+      }
+    }, 2000);
+    
+    // 智能助手对话框切换
+    function toggleAssistant() {
+      const dialog = document.getElementById('assistant-dialog');
+      dialog.style.display = dialog.style.display === 'none' ? 'block' : 'none';
+    }
+  </script>
+  <script src="../recsys_platform_prototype/js/app.js"></script>
+</body>
+</html> 
