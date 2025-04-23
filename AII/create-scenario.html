@@ -99,13 +99,13 @@
                 <div class="row">
                   <div class="col-6">
                     <div style="display: flex; align-items: center; margin-bottom: 12px;">
-                      <input type="radio" id="goal-ctr" name="scenario-goal" checked style="margin-right: 8px;">
+                      <input type="checkbox" id="goal-ctr" name="scenario-goal" checked style="margin-right: 8px;">
                       <label for="goal-ctr" style="margin: 0;">提升点击率</label>
                     </div>
                   </div>
                   <div class="col-6">
                     <div style="display: flex; align-items: center; margin-bottom: 12px;">
-                      <input type="radio" id="goal-cvr" name="scenario-goal" style="margin-right: 8px;">
+                      <input type="checkbox" id="goal-cvr" name="scenario-goal" style="margin-right: 8px;">
                       <label for="goal-cvr" style="margin: 0;">提升转化率</label>
                     </div>
                   </div>
@@ -113,19 +113,19 @@
                 <div class="row">
                   <div class="col-6">
                     <div style="display: flex; align-items: center; margin-bottom: 12px;">
-                      <input type="radio" id="goal-retention" name="scenario-goal" style="margin-right: 8px;">
+                      <input type="checkbox" id="goal-retention" name="scenario-goal" style="margin-right: 8px;">
                       <label for="goal-retention" style="margin: 0;">提升用户留存</label>
                     </div>
                   </div>
                   <div class="col-6">
                     <div style="display: flex; align-items: center; margin-bottom: 12px;">
-                      <input type="radio" id="goal-revenue" name="scenario-goal" style="margin-right: 8px;">
+                      <input type="checkbox" id="goal-revenue" name="scenario-goal" style="margin-right: 8px;">
                       <label for="goal-revenue" style="margin: 0;">提升销售额</label>
                     </div>
                   </div>
                 </div>
               </div>
-              <small class="form-text">选择主要优化目标，系统将自动优化该指标</small>
+              <small class="form-text">可选择多个优化目标，系统将自动优化该指标</small>
             </div>
 
             <!-- 推荐位数据源 -->
@@ -360,6 +360,6 @@ Authorization: Bearer YOUR_API_KEY
       console.log('Selected data connection type:', type);
     }
   </script>
-  <script src="../recsys_platform_prototype/js/app.js"></script>
+  <script src="js/app.js"></script>
 </body>
 </html> 
