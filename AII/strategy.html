@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>策略配置 - 智能推荐SAAS平台</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="../recsys_platform_prototype/css/styles.css">
+  <script src="https://unpkg.com/feather-icons"></script>
+  <style>
+    .sidebar {
+      width: 240px;
+      background-color: var(--dark);
+      color: white;
+      height: 100vh;
+      position: fixed;
+      left: 0;
+      top: 0;
+      overflow-y: auto;
+    }
+    .sidebar-header {
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .sidebar-menu {
+      padding: 16px 0;
+    }
+    .sidebar-menu-item {
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      color: rgba(255, 255, 255, 0.7);
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .sidebar-menu-item:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+      color: white;
+    }
+    .sidebar-menu-item.active {
+      background-color: var(--primary);
+      color: white;
+    }
+    .sidebar-menu-item i {
+      margin-right: 12px;
+    }
+    .main-content {
+      margin-left: 240px;
+      padding: 24px;
+    }
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+    .user-menu {
+      display: flex;
+      align-items: center;
+    }
+    .canvas-area {
+      background-color: white;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow-sm);
+      height: 500px;
+      display: flex;
+      border: 1px solid var(--gray-200);
+      margin-bottom: 24px;
+    }
+    .node-panel {
+      width: 240px;
+      border-right: 1px solid var(--gray-200);
+      padding: 16px;
+      height: 100%;
+      overflow-y: auto;
+    }
+    .canvas {
+      flex: 1;
+      position: relative;
+      background-image: 
+        linear-gradient(var(--gray-100) 1px, transparent 1px),
+        linear-gradient(90deg, var(--gray-100) 1px, transparent 1px);
+      background-size: 20px 20px;
+      overflow: auto;
+      padding: 20px;
+    }
+    .node-group {
+      margin-bottom: 16px;
+    }
+    .node-group-title {
+      font-weight: 600;
+      font-size: 14px;
+      margin-bottom: 8px;
+      color: var(--text-dark);
+      display: flex;
+      align-items: center;
+    }
+    .node-group-title i {
+      width: 16px;
+      height: 16px;
+      margin-right: 8px;
+    }
+    .node-item {
+      padding: 8px;
+      background-color: var(--gray-50);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--border-radius);
+      margin-bottom: 8px;
+      font-size: 13px;
+      cursor: grab;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+    }
+    .node-item:hover {
+      border-color: var(--primary);
+      background-color: var(--primary-light);
+    }
+    .node-item i {
+      width: 16px;
+      height: 16px;
+      margin-right: 8px;
+      color: var(--text-light);
+    }
+    .canvas-node {
+      position: absolute;
+      width: 200px;
+      background-color: white;
+      border: 1px solid var(--gray-200);
+      border-radius: var(--border-radius);
+      padding: 12px;
+      box-shadow: var(--shadow-sm);
+      cursor: move;
+    }
+    .canvas-node-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+    .canvas-node-title {
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--text-dark);
+      display: flex;
+      align-items: center;
+    }
+    .canvas-node-title i {
+      width: 16px;
+      height: 16px;
+      margin-right: 8px;
+    }
+    .canvas-node-actions {
+      display: flex;
+    }
+    .canvas-node-actions i {
+      width: 16px;
+      height: 16px;
+      color: var(--text-light);
+      cursor: pointer;
+      margin-left: 8px;
+    }
+    .canvas-node-actions i:hover {
+      color: var(--text-dark);
+    }
+    .canvas-node-content {
+      font-size: 12px;
+      color: var(--text-light);
+    }
+    .canvas-node-footer {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 12px;
+      font-size: 12px;
+    }
+    .canvas-connector {
+      position: absolute;
+      background-color: #94a3b8;
+      height: 2px;
+    }
+    .strategy-list {
+      margin-bottom: 24px;
+    }
+    .strategy-card {
+      background-color: white;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow-sm);
+      padding: 16px;
+      margin-bottom: 16px;
+      border: 1px solid var(--gray-200);
+      transition: all 0.2s;
+    }
+    .strategy-card:hover {
+      border-color: var(--primary);
+      box-shadow: var(--shadow-md);
+    }
+    .strategy-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 12px;
+    }
+    .strategy-title {
+      font-weight: 600;
+      font-size: 16px;
+      color: var(--text-dark);
+    }
+    .strategy-meta {
+      font-size: 12px;
+      color: var(--text-light);
+      margin-top: 4px;
+    }
+    .strategy-stats {
+      display: flex;
+      margin-bottom: 12px;
+    }
+    .strategy-stat {
+      flex: 1;
+      text-align: center;
+      padding: 8px;
+      border-right: 1px solid var(--gray-200);
+    }
+    .strategy-stat:last-child {
+      border-right: none;
+    }
+    .strategy-stat-value {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--text-dark);
+    }
+    .strategy-stat-label {
+      font-size: 12px;
+      color: var(--text-light);
+    }
+    .strategy-actions {
+      display: flex;
+      justify-content: flex-end;
+    }
+    .tab-nav {
+      display: flex;
+      border-bottom: 1px solid var(--gray-200);
+      margin-bottom: 16px;
+    }
+    .tab-btn {
+      padding: 12px 16px;
+      font-weight: 500;
+      color: var(--text-light);
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+    }
+    .tab-btn.active {
+      color: var(--primary);
+      border-bottom-color: var(--primary);
+    }
+    .config-section {
+      margin-bottom: 24px;
+    }
+    .config-title {
+      font-weight: 600;
+      font-size: 16px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+    }
+    .config-title i {
+      margin-right: 8px;
+    }
+  </style>
+</head>
+<body>
+  <!-- 侧边栏 -->
+  <div class="sidebar">
+    <div class="sidebar-header">
+      <img src="../recsys_platform_prototype/img/logo-placeholder.svg" alt="Logo" style="width: 32px; height: 32px; margin-right: 12px;">
+      <span style="font-weight: 600; font-size: 18px;">智能推荐平台</span>
+    </div>
+    <div class="sidebar-menu">
+      <a href="dashboard.html" class="sidebar-menu-item">
+        <i data-feather="grid"></i>
+        <span>仪表盘</span>
+      </a>
+      <a href="applications.html" class="sidebar-menu-item">
+        <i data-feather="box"></i>
+        <span>应用管理</span>
+      </a>
+      <a href="data-sources.html" class="sidebar-menu-item">
+        <i data-feather="database"></i>
+        <span>数据源</span>
+      </a>
+      <a href="scenes-management.html" class="sidebar-menu-item">
+        <i data-feather="layout"></i>
+        <span>场景管理</span>
+      </a>
+      <a href="strategy.html" class="sidebar-menu-item active">
+        <i data-feather="sliders"></i>
+        <span>策略配置</span>
+      </a>
+      <a href="model-management.html" class="sidebar-menu-item">
+        <i data-feather="layers"></i>
+        <span>模型管理</span>
+      </a>
+      <a href="reports.html" class="sidebar-menu-item">
+        <i data-feather="bar-chart-2"></i>
+        <span>分析报表</span>
+      </a>
+      <a href="ab-testing.html" class="sidebar-menu-item">
+        <i data-feather="flag"></i>
+        <span>A/B测试</span>
+      </a>
+      <a href="#" class="sidebar-menu-item">
+        <i data-feather="bell"></i>
+        <span>告警监控</span>
+      </a>
+      <a href="#" class="sidebar-menu-item">
+        <i data-feather="users"></i>
+        <span>用户管理</span>
+      </a>
+      <a href="#" class="sidebar-menu-item">
+        <i data-feather="settings"></i>
+        <span>系统设置</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- 主内容区 -->
+  <div class="main-content">
+    <div class="header">
+      <h1 style="font-size: 24px; font-weight: 700; margin: 0;">策略配置</h1>
+      <div class="user-menu">
+        <div style="margin-right: 16px; position: relative;">
+          <i data-feather="bell" style="width: 20px; height: 20px; color: var(--text-light);"></i>
+          <span style="position: absolute; top: -5px; right: -5px; width: 16px; height: 16px; background-color: var(--danger); border-radius: 50%; font-size: 10px; display: flex; align-items: center; justify-content: center; color: white;">3</span>
+        </div>
+        <div style="display: flex; align-items: center;">
+          <div style="width: 36px; height: 36px; background-color: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 8px; color: white; font-weight: 600;">JD</div>
+          <div>
+            <div style="font-weight: 600; font-size: 14px;">张三</div>
+            <div style="font-size: 12px; color: var(--text-light);">管理员</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 策略配置选项卡 -->
+    <div class="tab-nav">
+      <div class="tab-btn active">策略画布</div>
+      <div class="tab-btn">规则引擎</div>
+      <div class="tab-btn">策略分组</div>
+      <div class="tab-btn">排序策略</div>
+      <div class="tab-btn">效果预览</div>
+    </div>
+
+    <!-- 策略画布选项卡内容 -->
+    <div class="tab-content active">
+      <div style="display: flex; justify-content: space-between; margin-bottom: 16px;">
+        <div style="display: flex; align-items: center;">
+          <div style="font-weight: 600; margin-right: 12px;">当前策略：</div>
+          <select class="select" style="width: 240px;">
+            <option>商品推荐策略 v1.0</option>
+            <option>新用户冷启动策略</option>
+            <option>购买转化策略</option>
+            <option>相似商品策略</option>
+          </select>
+        </div>
+        <div style="display: flex;">
+          <button class="btn-secondary" style="margin-right: 8px;">
+            <i data-feather="upload" style="width: 16px; height: 16px; margin-right: 4px;"></i>
+            导入
+          </button>
+          <button class="btn-secondary" style="margin-right: 8px;">
+            <i data-feather="download" style="width: 16px; height: 16px; margin-right: 4px;"></i>
+            导出
+          </button>
+          <button class="btn-primary">
+            <i data-feather="save" style="width: 16px; height: 16px; margin-right: 4px;"></i>
+            保存
+          </button>
+        </div>
+      </div>
+
+      <!-- 策略画布区域 -->
+      <div class="canvas-area">
+        <!-- 左侧节点面板 -->
+        <div class="node-panel">
+          <div class="node-group">
+            <div class="node-group-title">
+              <i data-feather="filter" style="color: var(--primary);"></i>
+              <span>数据过滤</span>
+            </div>
+            <div class="node-item">
+              <i data-feather="users"></i>
+              <span>用户筛选</span>
+            </div>
+            <div class="node-item">
+              <i data-feather="tag"></i>
+              <span>商品筛选</span>
+            </div>
+            <div class="node-item">
+              <i data-feather="calendar"></i>
+              <span>时间筛选</span>
+            </div>
+          </div>
+
+          <div class="node-group">
+            <div class="node-group-title">
+              <i data-feather="layers" style="color: var(--success);"></i>
+              <span>特征处理</span>
+            </div>
+            <div class="node-item">
+              <i data-feather="user"></i>
+              <span>用户特征</span>
+            </div>
+            <div class="node-item">
+              <i data-feather="shopping-bag"></i>
+              <span>商品特征</span>
+            </div>
+            <div class="node-item">
+              <i data-feather="activity"></i>
+              <span>行为特征</span>
+            </div>
+          </div>
+
+          <div class="node-group">
+            <div class="node-group-title">
+              <i data-feather="cpu" style="color: var(--warning);"></i>
+              <span>模型</span>
+            </div>
+            <div class="node-item">
+              <i data-feather="thumbs-up"></i>
+              <span>协同过滤</span>
+            </div>
+            <div class="node-item">
+              <i data-feather="trending-up"></i>
+              <span>排序模型</span>
+            </div>
+            <div class="node-item">
+              <i data-feather="target"></i>
+              <span>相似度计算</span>
+            </div>
+          </div>
+
+          <div class="node-group">
+            <div class="node-group-title">
+              <i data-feather="sliders" style="color: var(--danger);"></i>
+              <span>策略规则</span>
+            </div>
+            <div class="node-item">
+              <i data-feather="refresh-cw"></i>
+              <span>多策略融合</span>
+            </div>
+            <div class="node-item">
+              <i data-feather="shuffle"></i>
+              <span>打散规则</span>
+            </div>
+            <div class="node-item">
+              <i data-feather="eye"></i>
+              <span>曝光控制</span>
+            </div>
+          </div>
+
+          <div class="node-group">
+            <div class="node-group-title">
+              <i data-feather="box" style="color: #3b82f6;"></i>
+              <span>输出</span>
+            </div>
+            <div class="node-item">
+              <i data-feather="list"></i>
+              <span>推荐列表</span>
+            </div>
+            <div class="node-item">
+              <i data-feather="grid"></i>
+              <span>矩阵输出</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 中央画布 -->
+        <div class="canvas">
+          <!-- 示例节点 -->
+          <div class="canvas-node" style="top: 50px; left: 100px;">
+            <div class="canvas-node-header">
+              <div class="canvas-node-title">
+                <i data-feather="users" style="color: var(--primary);"></i>
+                <span>用户筛选</span>
+              </div>
+              <div class="canvas-node-actions">
+                <i data-feather="edit-2"></i>
+                <i data-feather="x"></i>
+              </div>
+            </div>
+            <div class="canvas-node-content">
+              条件: 7天内活跃 & 有购买行为
+            </div>
+            <div class="canvas-node-footer">
+              <span>输出: 30% 用户</span>
+              <span>ID: node-1</span>
+            </div>
+          </div>
+
+          <div class="canvas-node" style="top: 50px; left: 380px;">
+            <div class="canvas-node-header">
+              <div class="canvas-node-title">
+                <i data-feather="tag" style="color: var(--primary);"></i>
+                <span>商品筛选</span>
+              </div>
+              <div class="canvas-node-actions">
+                <i data-feather="edit-2"></i>
+                <i data-feather="x"></i>
+              </div>
+            </div>
+            <div class="canvas-node-content">
+              条件: 上架时间 < 30天 & 库存 > 10
+            </div>
+            <div class="canvas-node-footer">
+              <span>输出: 2500+ 商品</span>
+              <span>ID: node-2</span>
+            </div>
+          </div>
+
+          <div class="canvas-node" style="top: 180px; left: 240px;">
+            <div class="canvas-node-header">
+              <div class="canvas-node-title">
+                <i data-feather="thumbs-up" style="color: var(--warning);"></i>
+                <span>协同过滤</span>
+              </div>
+              <div class="canvas-node-actions">
+                <i data-feather="edit-2"></i>
+                <i data-feather="x"></i>
+              </div>
+            </div>
+            <div class="canvas-node-content">
+              模型: item-cf-v2
+              参数: k=50, alpha=0.7
+            </div>
+            <div class="canvas-node-footer">
+              <span>输出: 推荐集</span>
+              <span>ID: node-3</span>
+            </div>
+          </div>
+
+          <div class="canvas-node" style="top: 310px; left: 240px;">
+            <div class="canvas-node-header">
+              <div class="canvas-node-title">
+                <i data-feather="shuffle" style="color: var(--danger);"></i>
+                <span>打散规则</span>
+              </div>
+              <div class="canvas-node-actions">
+                <i data-feather="edit-2"></i>
+                <i data-feather="x"></i>
+              </div>
+            </div>
+            <div class="canvas-node-content">
+              规则: 同类目最多2个连续
+              同品牌最多3个连续
+            </div>
+            <div class="canvas-node-footer">
+              <span>输出: 处理后推荐集</span>
+              <span>ID: node-4</span>
+            </div>
+          </div>
+
+          <div class="canvas-node" style="top: 430px; left: 240px;">
+            <div class="canvas-node-header">
+              <div class="canvas-node-title">
+                <i data-feather="list" style="color: #3b82f6;"></i>
+                <span>推荐列表</span>
+              </div>
+              <div class="canvas-node-actions">
+                <i data-feather="edit-2"></i>
+                <i data-feather="x"></i>
+              </div>
+            </div>
+            <div class="canvas-node-content">
+              输出数量: 20
+              缓存策略: TTL=1小时
+            </div>
+            <div class="canvas-node-footer">
+              <span>最终输出</span>
+              <span>ID: node-5</span>
+            </div>
+          </div>
+
+          <!-- 连接线 -->
+          <div class="canvas-connector" style="width: 80px; top: 90px; left: 300px; transform: rotate(0deg);"></div>
+          <div class="canvas-connector" style="width: 80px; top: 150px; left: 270px; transform: rotate(90deg);"></div>
+          <div class="canvas-connector" style="width: 80px; top: 245px; left: 270px; transform: rotate(90deg);"></div>
+          <div class="canvas-connector" style="width: 80px; top: 370px; left: 270px; transform: rotate(90deg);"></div>
+        </div>
+      </div>
+
+      <!-- 策略列表 -->
+      <div class="row">
+        <div class="col-8">
+          <h2 style="font-size: 18px; font-weight: 600; margin-bottom: 16px;">策略列表</h2>
+          <div class="strategy-list">
+            <div class="strategy-card">
+              <div class="strategy-card-header">
+                <div>
+                  <div class="strategy-title">商品推荐策略 v1.0</div>
+                  <div class="strategy-meta">创建于 2023-09-15 | 最后更新 2023-10-12</div>
+                </div>
+                <span class="badge badge-success">生产中</span>
+              </div>
+              <div class="strategy-stats">
+                <div class="strategy-stat">
+                  <div class="strategy-stat-value">24.6%</div>
+                  <div class="strategy-stat-label">点击率</div>
+                </div>
+                <div class="strategy-stat">
+                  <div class="strategy-stat-value">3.8%</div>
+                  <div class="strategy-stat-label">转化率</div>
+                </div>
+                <div class="strategy-stat">
+                  <div class="strategy-stat-value">78.5</div>
+                  <div class="strategy-stat-label">曝光量(万/日)</div>
+                </div>
+                <div class="strategy-stat">
+                  <div class="strategy-stat-value">100%</div>
+                  <div class="strategy-stat-label">流量占比</div>
+                </div>
+              </div>
+              <div class="strategy-actions">
+                <button class="btn-secondary" style="margin-right: 8px;">
+                  <i data-feather="edit-2" style="width: 16px; height: 16px; margin-right: 4px;"></i>
+                  编辑
+                </button>
+                <button class="btn-secondary">
+                  <i data-feather="copy" style="width: 16px; height: 16px; margin-right: 4px;"></i>
+                  复制
+                </button>
+              </div>
+            </div>
+
+            <div class="strategy-card">
+              <div class="strategy-card-header">
+                <div>
+                  <div class="strategy-title">新用户冷启动策略</div>
+                  <div class="strategy-meta">创建于 2023-08-22 | 最后更新 2023-10-05</div>
+                </div>
+                <span class="badge badge-info">测试中</span>
+              </div>
+              <div class="strategy-stats">
+                <div class="strategy-stat">
+                  <div class="strategy-stat-value">18.2%</div>
+                  <div class="strategy-stat-label">点击率</div>
+                </div>
+                <div class="strategy-stat">
+                  <div class="strategy-stat-value">2.5%</div>
+                  <div class="strategy-stat-label">转化率</div>
+                </div>
+                <div class="strategy-stat">
+                  <div class="strategy-stat-value">12.8</div>
+                  <div class="strategy-stat-label">曝光量(万/日)</div>
+                </div>
+                <div class="strategy-stat">
+                  <div class="strategy-stat-value">0%</div>
+                  <div class="strategy-stat-label">流量占比</div>
+                </div>
+              </div>
+              <div class="strategy-actions">
+                <button class="btn-secondary" style="margin-right: 8px;">
+                  <i data-feather="edit-2" style="width: 16px; height: 16px; margin-right: 4px;"></i>
+                  编辑
+                </button>
+                <button class="btn-secondary">
+                  <i data-feather="copy" style="width: 16px; height: 16px; margin-right: 4px;"></i>
+                  复制
+                </button>
+              </div>
+            </div>
+
+            <div class="strategy-card">
+              <div class="strategy-card-header">
+                <div>
+                  <div class="strategy-title">购买转化策略</div>
+                  <div class="strategy-meta">创建于 2023-07-08 | 最后更新 2023-09-30</div>
+                </div>
+                <span class="badge badge-warning">调优中</span>
+              </div>
+              <div class="strategy-stats">
+                <div class="strategy-stat">
+                  <div class="strategy-stat-value">22.1%</div>
+                  <div class="strategy-stat-label">点击率</div>
+                </div>
+                <div class="strategy-stat">
+                  <div class="strategy-stat-value">4.2%</div>
+                  <div class="strategy-stat-label">转化率</div>
+                </div>
+                <div class="strategy-stat">
+                  <div class="strategy-stat-value">35.6</div>
+                  <div class="strategy-stat-label">曝光量(万/日)</div>
+                </div>
+                <div class="strategy-stat">
+                  <div class="strategy-stat-value">0%</div>
+                  <div class="strategy-stat-label">流量占比</div>
+                </div>
+              </div>
+              <div class="strategy-actions">
+                <button class="btn-secondary" style="margin-right: 8px;">
+                  <i data-feather="edit-2" style="width: 16px; height: 16px; margin-right: 4px;"></i>
+                  编辑
+                </button>
+                <button class="btn-secondary">
+                  <i data-feather="copy" style="width: 16px; height: 16px; margin-right: 4px;"></i>
+                  复制
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-4">
+          <!-- 策略模板 -->
+          <div class="card" style="margin-bottom: 24px;">
+            <div class="card-header">
+              <h2 style="font-size: 18px; font-weight: 600; margin: 0;">策略模板</h2>
+            </div>
+            <div class="card-body">
+              <p style="color: var(--text-light); margin-bottom: 16px;">使用预设模板快速创建策略</p>
+
+              <div style="margin-bottom: 12px; border: 1px solid var(--gray-200); border-radius: var(--border-radius); padding: 12px; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.borderColor='var(--primary)'" onmouseout="this.style.borderColor='var(--gray-200)'">
+                <div style="font-weight: 600; margin-bottom: 4px;">基础商品推荐</div>
+                <div style="font-size: 12px; color: var(--text-light);">针对电商场景的基础推荐策略模板</div>
+              </div>
+
+              <div style="margin-bottom: 12px; border: 1px solid var(--gray-200); border-radius: var(--border-radius); padding: 12px; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.borderColor='var(--primary)'" onmouseout="this.style.borderColor='var(--gray-200)'">
+                <div style="font-weight: 600; margin-bottom: 4px;">内容推荐</div>
+                <div style="font-size: 12px; color: var(--text-light);">针对资讯、视频等内容的推荐策略模板</div>
+              </div>
+
+              <div style="margin-bottom: 12px; border: 1px solid var(--gray-200); border-radius: var(--border-radius); padding: 12px; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.borderColor='var(--primary)'" onmouseout="this.style.borderColor='var(--gray-200)'">
+                <div style="font-weight: 600; margin-bottom: 4px;">新用户冷启动</div>
+                <div style="font-size: 12px; color: var(--text-light);">面向新用户的推荐策略，解决冷启动问题</div>
+              </div>
+
+              <div style="border: 1px solid var(--gray-200); border-radius: var(--border-radius); padding: 12px; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.borderColor='var(--primary)'" onmouseout="this.style.borderColor='var(--gray-200)'">
+                <div style="font-weight: 600; margin-bottom: 4px;">相似商品推荐</div>
+                <div style="font-size: 12px; color: var(--text-light);">计算商品相似度并推荐类似商品的策略</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 策略参数配置 -->
+          <div class="card">
+            <div class="card-header">
+              <h2 style="font-size: 18px; font-weight: 600; margin: 0;">全局参数配置</h2>
+            </div>
+            <div class="card-body">
+              <div style="margin-bottom: 16px;">
+                <label style="display: block; font-weight: 500; margin-bottom: 8px;">缓存策略</label>
+                <select class="select" style="width: 100%;">
+                  <option>固定时间窗口 (1小时)</option>
+                  <option>固定时间窗口 (4小时)</option>
+                  <option>固定时间窗口 (24小时)</option>
+                  <option>动态失效</option>
+                </select>
+              </div>
+
+              <div style="margin-bottom: 16px;">
+                <label style="display: block; font-weight: 500; margin-bottom: 8px;">推荐数量</label>
+                <input type="number" class="input" value="20" style="width: 100%;">
+              </div>
+
+              <div style="margin-bottom: 16px;">
+                <label style="display: block; font-weight: 500; margin-bottom: 8px;">最低置信度</label>
+                <div style="display: flex; align-items: center;">
+                  <input type="range" min="0" max="100" value="75" style="flex: 1; margin-right: 8px;">
+                  <span style="font-weight: 500;">75%</span>
+                </div>
+              </div>
+
+              <div style="margin-bottom: 16px;">
+                <label style="display: block; font-weight: 500; margin-bottom: 8px;">实时计算</label>
+                <div style="display: flex; align-items: center;">
+                  <div style="margin-right: 16px;">
+                    <input type="radio" id="realtime-yes" name="realtime" checked>
+                    <label for="realtime-yes">开启</label>
+                  </div>
+                  <div>
+                    <input type="radio" id="realtime-no" name="realtime">
+                    <label for="realtime-no">关闭</label>
+                  </div>
+                </div>
+              </div>
+
+              <div style="margin-bottom: 16px;">
+                <label style="display: block; font-weight: 500; margin-bottom: 8px;">降级策略</label>
+                <select class="select" style="width: 100%;">
+                  <option>热门商品兜底</option>
+                  <option>同类目热门兜底</option>
+                  <option>历史推荐兜底</option>
+                  <option>不启用降级</option>
+                </select>
+              </div>
+
+              <button class="btn-primary" style="width: 100%;">应用全局设置</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    feather.replace();
+  </script>
+  <script src="../recsys_platform_prototype/js/app.js"></script>
+</body>
+</html> 

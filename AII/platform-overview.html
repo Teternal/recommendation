@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>平台流程概览 - 智能推荐SAAS平台</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="https://unpkg.com/feather-icons"></script>
+</head>
+<body>
+  <!-- 导航栏 -->
+  <nav class="navbar">
+    <div class="navbar-logo">
+      <img src="img/logo-placeholder.svg" alt="智推Logo">
+      <span>智能推荐平台</span>
+    </div>
+    <div class="navbar-nav">
+      <a href="#" class="nav-link">产品</a>
+      <a href="#" class="nav-link">文档</a>
+      <a href="#" class="nav-link">价格</a>
+      <a href="#" class="nav-link">联系我们</a>
+      <button class="btn-primary">登录</button>
+    </div>
+  </nav>
+
+  <!-- 主内容区 -->
+  <div class="container" style="padding: 40px 0 80px;">
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-header">
+            <h2 class="card-title">智能推荐平台工作流程</h2>
+            <p style="color: var(--primary); font-weight: 500;">快速上手指南</p>
+          </div>
+          <div class="card-body">
+            <!-- 流程图 -->
+            <div style="text-align: center; margin-bottom: 40px;">
+              <img src="img/workflow.png" alt="推荐平台工作流程" style="max-width: 100%; height: auto;">
+            </div>
+
+            <!-- 流程步骤解释 -->
+            <div style="max-width: 900px; margin: 0 auto;">
+              <div class="row" style="margin-bottom: 32px;">
+                <div class="col-6">
+                  <div class="card" style="height: 100%;">
+                    <div class="card-body" style="padding: 24px;">
+                      <div style="display: flex; align-items: center; margin-bottom: 16px;">
+                        <div style="width: 40px; height: 40px; background-color: var(--primary); border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-right: 16px;">
+                          <span style="color: white; font-weight: 600; font-size: 20px;">1</span>
+                        </div>
+                        <h3 style="margin: 0; font-size: 18px; font-weight: 600;">应用创建</h3>
+                      </div>
+                      <p style="color: var(--text); margin-bottom: 16px;">
+                        设置应用基础信息，包括应用名称、行业类型、业务目标等。这些信息将帮助系统初始化推荐算法和策略。
+                      </p>
+                      <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px;">
+                        <span style="display: inline-block; background-color: var(--gray-100); color: var(--text-light); font-size: 12px; padding: 4px 8px; border-radius: 4px;">基础信息</span>
+                        <span style="display: inline-block; background-color: var(--gray-100); color: var(--text-light); font-size: 12px; padding: 4px 8px; border-radius: 4px;">场景创建</span>
+                        <span style="display: inline-block; background-color: var(--gray-100); color: var(--text-light); font-size: 12px; padding: 4px 8px; border-radius: 4px;">行为定义</span>
+                        <span style="display: inline-block; background-color: var(--gray-100); color: var(--text-light); font-size: 12px; padding: 4px 8px; border-radius: 4px;">业务目标</span>
+                      </div>
+                      <a href="create-app.html" class="btn btn-sm btn-primary">开始创建应用</a>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="card" style="height: 100%;">
+                    <div class="card-body" style="padding: 24px;">
+                      <div style="display: flex; align-items: center; margin-bottom: 16px;">
+                        <div style="width: 40px; height: 40px; background-color: var(--primary); border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-right: 16px;">
+                          <span style="color: white; font-weight: 600; font-size: 20px;">2</span>
+                        </div>
+                        <h3 style="margin: 0; font-size: 18px; font-weight: 600;">数据导入</h3>
+                      </div>
+                      <p style="color: var(--text); margin-bottom: 16px;">
+                        导入和处理用户、物品和行为数据。系统会自动进行数据映射、预处理和质量检验，确保数据质量。
+                      </p>
+                      <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px;">
+                        <span style="display: inline-block; background-color: var(--gray-100); color: var(--text-light); font-size: 12px; padding: 4px 8px; border-radius: 4px;">Schema定义</span>
+                        <span style="display: inline-block; background-color: var(--gray-100); color: var(--text-light); font-size: 12px; padding: 4px 8px; border-radius: 4px;">数据预处理</span>
+                        <span style="display: inline-block; background-color: var(--gray-100); color: var(--text-light); font-size: 12px; padding: 4px 8px; border-radius: 4px;">数据合格性检验</span>
+                        <span style="display: inline-block; background-color: var(--gray-100); color: var(--text-light); font-size: 12px; padding: 4px 8px; border-radius: 4px;">智能修复</span>
+                      </div>
+                      <a href="data-processing.html" class="btn btn-sm btn-primary">处理数据</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row" style="margin-bottom: 32px;">
+                <div class="col-6">
+                  <div class="card" style="height: 100%;">
+                    <div class="card-body" style="padding: 24px;">
+                      <div style="display: flex; align-items: center; margin-bottom: 16px;">
+                        <div style="width: 40px; height: 40px; background-color: var(--primary); border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-right: 16px;">
+                          <span style="color: white; font-weight: 600; font-size: 20px;">3</span>
+                        </div>
+                        <h3 style="margin: 0; font-size: 18px; font-weight: 600;">模型训练</h3>
+                      </div>
+                      <p style="color: var(--text); margin-bottom: 16px;">
+                        基于处理后的数据训练推荐模型。简易模式下，系统会自动选择适合您业务的算法并进行训练。
+                      </p>
+                      <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px;">
+                        <span style="display: inline-block; background-color: var(--gray-100); color: var(--text-light); font-size: 12px; padding: 4px 8px; border-radius: 4px;">AutoML</span>
+                        <span style="display: inline-block; background-color: var(--gray-100); color: var(--text-light); font-size: 12px; padding: 4px 8px; border-radius: 4px;">模型管理</span>
+                        <span style="display: inline-block; background-color: var(--gray-100); color: var(--text-light); font-size: 12px; padding: 4px 8px; border-radius: 4px;">特征工程</span>
+                        <span style="display: inline-block; background-color: var(--gray-100); color: var(--text-light); font-size: 12px; padding: 4px 8px; border-radius: 4px;">模型评估</span>
+                      </div>
+                      <a href="model-training.html" class="btn btn-sm btn-primary">训练模型</a>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="card" style="height: 100%;">
+                    <div class="card-body" style="padding: 24px;">
+                      <div style="display: flex; align-items: center; margin-bottom: 16px;">
+                        <div style="width: 40px; height: 40px; background-color: var(--primary); border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-right: 16px;">
+                          <span style="color: white; font-weight: 600; font-size: 20px;">4</span>
+                        </div>
+                        <h3 style="margin: 0; font-size: 18px; font-weight: 600;">部署服务</h3>
+                      </div>
+                      <p style="color: var(--text); margin-bottom: 16px;">
+                        将训练好的模型部署为推荐服务。您可以进行推荐测试、设置AB实验，或通过API集成到您的系统中。
+                      </p>
+                      <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px;">
+                        <span style="display: inline-block; background-color: var(--gray-100); color: var(--text-light); font-size: 12px; padding: 4px 8px; border-radius: 4px;">推荐测试</span>
+                        <span style="display: inline-block; background-color: var(--gray-100); color: var(--text-light); font-size: 12px; padding: 4px 8px; border-radius: 4px;">AB实验</span>
+                        <span style="display: inline-block; background-color: var(--gray-100); color: var(--text-light); font-size: 12px; padding: 4px 8px; border-radius: 4px;">集成API</span>
+                        <span style="display: inline-block; background-color: var(--gray-100); color: var(--text-light); font-size: 12px; padding: 4px 8px; border-radius: 4px;">上线监控</span>
+                      </div>
+                      <a href="service-deployment.html" class="btn btn-sm btn-primary">部署服务</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-6">
+                  <div class="card" style="height: 100%;">
+                    <div class="card-body" style="padding: 24px;">
+                      <div style="display: flex; align-items: center; margin-bottom: 16px;">
+                        <div style="width: 40px; height: 40px; background-color: var(--primary); border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-right: 16px;">
+                          <span style="color: white; font-weight: 600; font-size: 20px;">5</span>
+                        </div>
+                        <h3 style="margin: 0; font-size: 18px; font-weight: 600;">效果分析</h3>
+                      </div>
+                      <p style="color: var(--text); margin-bottom: 16px;">
+                        通过看板查看推荐效果数据、监控数据和资源消耗数据，全面了解推荐系统的运行状况。
+                      </p>
+                      <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px;">
+                        <span style="display: inline-block; background-color: var(--gray-100); color: var(--text-light); font-size: 12px; padding: 4px 8px; border-radius: 4px;">效果数据</span>
+                        <span style="display: inline-block; background-color: var(--gray-100); color: var(--text-light); font-size: 12px; padding: 4px 8px; border-radius: 4px;">监控数据</span>
+                        <span style="display: inline-block; background-color: var(--gray-100); color: var(--text-light); font-size: 12px; padding: 4px 8px; border-radius: 4px;">消耗数据</span>
+                        <span style="display: inline-block; background-color: var(--gray-100); color: var(--text-light); font-size: 12px; padding: 4px 8px; border-radius: 4px;">数据可视化</span>
+                      </div>
+                      <a href="reports.html" class="btn btn-sm btn-primary">查看分析报告</a>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="card" style="height: 100%;">
+                    <div class="card-body" style="padding: 24px;">
+                      <div style="display: flex; align-items: center; margin-bottom: 16px;">
+                        <div style="width: 40px; height: 40px; background-color: var(--primary); border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-right: 16px;">
+                          <span style="color: white; font-weight: 600; font-size: 20px;">6</span>
+                        </div>
+                        <h3 style="margin: 0; font-size: 18px; font-weight: 600;">优化配置</h3>
+                      </div>
+                      <p style="color: var(--text); margin-bottom: 16px;">
+                        根据数据分析结果优化推荐策略，设置业务规则，调整召回策略，进一步提升推荐效果。
+                      </p>
+                      <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px;">
+                        <span style="display: inline-block; background-color: var(--gray-100); color: var(--text-light); font-size: 12px; padding: 4px 8px; border-radius: 4px;">业务规则</span>
+                        <span style="display: inline-block; background-color: var(--gray-100); color: var(--text-light); font-size: 12px; padding: 4px 8px; border-radius: 4px;">召回策略</span>
+                        <span style="display: inline-block; background-color: var(--gray-100); color: var(--text-light); font-size: 12px; padding: 4px 8px; border-radius: 4px;">排序优化</span>
+                        <span style="display: inline-block; background-color: var(--gray-100); color: var(--text-light); font-size: 12px; padding: 4px 8px; border-radius: 4px;">策略编排</span>
+                      </div>
+                      <a href="strategy-optimization.html" class="btn btn-sm btn-primary">优化策略</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 快速启动卡片 -->
+              <div style="margin-top: 48px; background-color: rgba(79, 70, 229, 0.05); border-radius: var(--border-radius); padding: 24px; text-align: center;">
+                <h3 style="font-size: 20px; font-weight: 600; margin-bottom: 16px; color: var(--dark);">准备好开始您的推荐之旅了吗？</h3>
+                <p style="color: var(--text); margin-bottom: 24px; max-width: 600px; margin-left: auto; margin-right: auto;">
+                  只需几分钟，即可创建您的第一个智能推荐应用，提升用户体验和业务增长。
+                </p>
+                <a href="create-app.html" class="btn btn-primary">立即创建应用</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 助手按钮 -->
+  <button class="assistant-button">
+    <i data-feather="message-circle"></i>
+  </button>
+
+  <script>
+    feather.replace();
+  </script>
+  <script src="js/app.js"></script>
+</body>
+</html> 

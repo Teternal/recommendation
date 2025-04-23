@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>效果分析报告 - 智能推荐SAAS平台</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="https://unpkg.com/feather-icons"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <!-- 导航栏 -->
+  <nav class="navbar">
+    <div class="navbar-logo">
+      <img src="img/logo-placeholder.svg" alt="智推Logo">
+      <span>智能推荐平台</span>
+    </div>
+    <div class="navbar-nav">
+      <a href="#" class="nav-link">产品</a>
+      <a href="#" class="nav-link">文档</a>
+      <a href="#" class="nav-link">价格</a>
+      <a href="#" class="nav-link">联系我们</a>
+      <button class="btn-primary">登录</button>
+    </div>
+  </nav>
+
+  <!-- 主内容区 -->
+  <div class="container" style="padding: 40px 0 80px;">
+    <!-- 步骤指示器 -->
+    <div class="steps" style="margin-bottom: 40px;">
+      <div class="step completed">
+        <div class="step-circle">1</div>
+        <div class="step-text">创建应用</div>
+      </div>
+      <div class="step completed">
+        <div class="step-circle">2</div>
+        <div class="step-text">连接数据</div>
+      </div>
+      <div class="step active">
+        <div class="step-circle">3</div>
+        <div class="step-text">一键部署</div>
+      </div>
+    </div>
+
+    <div class="row">
+      <!-- 主要内容 -->
+      <div class="col-12">
+        <div class="card">
+          <div class="card-header">
+            <h2 class="card-title">推荐效果分析报告</h2>
+            <p style="color: var(--primary); font-weight: 500;">简易模式</p>
+          </div>
+          <div class="card-body">
+            <!-- 报告总览 -->
+            <div style="margin-bottom: 32px;">
+              <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 16px;">报告总览</h3>
+              <div class="row">
+                <!-- KPI卡片 -->
+                <div class="col-3">
+                  <div class="card" style="background-color: rgba(79, 70, 229, 0.05); border: 1px solid rgba(79, 70, 229, 0.1);">
+                    <div class="card-body" style="padding: 16px;">
+                      <p style="font-size: 14px; color: var(--text-light); margin-bottom: 8px;">点击率 (CTR)</p>
+                      <div style="display: flex; justify-content: space-between; align-items: baseline;">
+                        <h4 style="font-size: 24px; font-weight: 700; margin: 0; color: var(--dark);">8.4%</h4>
+                        <span style="color: var(--success); font-size: 14px; display: flex; align-items: center;">
+                          <i data-feather="arrow-up" style="width: 16px; height: 16px; margin-right: 2px;"></i> +1.2%
+                        </span>
+                      </div>
+                      <div class="progress" style="height: 4px; background-color: rgba(79, 70, 229, 0.1); border-radius: 2px; margin-top: 16px;">
+                        <div class="progress-bar" style="height: 100%; width: 84%; background-color: var(--primary); border-radius: 2px;"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-3">
+                  <div class="card" style="background-color: rgba(16, 185, 129, 0.05); border: 1px solid rgba(16, 185, 129, 0.1);">
+                    <div class="card-body" style="padding: 16px;">
+                      <p style="font-size: 14px; color: var(--text-light); margin-bottom: 8px;">转化率 (CVR)</p>
+                      <div style="display: flex; justify-content: space-between; align-items: baseline;">
+                        <h4 style="font-size: 24px; font-weight: 700; margin: 0; color: var(--dark);">3.2%</h4>
+                        <span style="color: var(--success); font-size: 14px; display: flex; align-items: center;">
+                          <i data-feather="arrow-up" style="width: 16px; height: 16px; margin-right: 2px;"></i> +0.8%
+                        </span>
+                      </div>
+                      <div class="progress" style="height: 4px; background-color: rgba(16, 185, 129, 0.1); border-radius: 2px; margin-top: 16px;">
+                        <div class="progress-bar" style="height: 100%; width: 64%; background-color: var(--success); border-radius: 2px;"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-3">
+                  <div class="card" style="background-color: rgba(245, 158, 11, 0.05); border: 1px solid rgba(245, 158, 11, 0.1);">
+                    <div class="card-body" style="padding: 16px;">
+                      <p style="font-size: 14px; color: var(--text-light); margin-bottom: 8px;">客单价</p>
+                      <div style="display: flex; justify-content: space-between; align-items: baseline;">
+                        <h4 style="font-size: 24px; font-weight: 700; margin: 0; color: var(--dark);">¥128</h4>
+                        <span style="color: var(--success); font-size: 14px; display: flex; align-items: center;">
+                          <i data-feather="arrow-up" style="width: 16px; height: 16px; margin-right: 2px;"></i> +¥15
+                        </span>
+                      </div>
+                      <div class="progress" style="height: 4px; background-color: rgba(245, 158, 11, 0.1); border-radius: 2px; margin-top: 16px;">
+                        <div class="progress-bar" style="height: 100%; width: 75%; background-color: var(--warning); border-radius: 2px;"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-3">
+                  <div class="card" style="background-color: rgba(14, 165, 233, 0.05); border: 1px solid rgba(14, 165, 233, 0.1);">
+                    <div class="card-body" style="padding: 16px;">
+                      <p style="font-size: 14px; color: var(--text-light); margin-bottom: 8px;">每次推荐收益</p>
+                      <div style="display: flex; justify-content: space-between; align-items: baseline;">
+                        <h4 style="font-size: 24px; font-weight: 700; margin: 0; color: var(--dark);">¥4.10</h4>
+                        <span style="color: var(--success); font-size: 14px; display: flex; align-items: center;">
+                          <i data-feather="arrow-up" style="width: 16px; height: 16px; margin-right: 2px;"></i> +¥0.82
+                        </span>
+                      </div>
+                      <div class="progress" style="height: 4px; background-color: rgba(14, 165, 233, 0.1); border-radius: 2px; margin-top: 16px;">
+                        <div class="progress-bar" style="height: 100%; width: 70%; background-color: var(--info); border-radius: 2px;"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 趋势图表 -->
+            <div style="margin-bottom: 32px;">
+              <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 16px;">
+                KPI趋势变化
+                <span style="font-size: 14px; color: var(--text-light); font-weight: normal;">（最近14天）</span>
+              </h3>
+              <div class="card">
+                <div class="card-body">
+                  <canvas id="trendChart" style="width: 100%; height: 300px;"></canvas>
+                </div>
+              </div>
+            </div>
+
+            <!-- 模型解释性 -->
+            <div style="margin-bottom: 32px;">
+              <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 16px;">模型解释性分析</h3>
+              <div class="card">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-6">
+                      <h4 style="font-size: 16px; font-weight: 600; margin-bottom: 16px;">特征重要性</h4>
+                      <canvas id="featureChart" style="width: 100%; height: 200px;"></canvas>
+                    </div>
+                    <div class="col-6">
+                      <h4 style="font-size: 16px; font-weight: 600; margin-bottom: 16px;">推荐原因通俗解释</h4>
+                      <div style="background-color: rgba(79, 70, 229, 0.05); border-radius: var(--border-radius); padding: 16px;">
+                        <p style="font-weight: 500; margin-bottom: 12px; color: var(--dark);">主要推荐原因解释：</p>
+                        <ul style="margin: 0; padding-left: 20px; color: var(--text);">
+                          <li style="margin-bottom: 8px;">用户最近浏览了类似商品，表明对此类目有兴趣</li>
+                          <li style="margin-bottom: 8px;">购买行为历史显示用户对此品牌有较高忠诚度</li>
+                          <li style="margin-bottom: 8px;">用户所在城市的相似用户对此产品反馈良好</li>
+                          <li>商品价格区间符合用户历史购买习惯</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 用户行为分析 -->
+            <div style="margin-bottom: 32px;">
+              <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 16px;">用户行为分析</h3>
+              <div class="card">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-7">
+                      <h4 style="font-size: 16px; font-weight: 600; margin-bottom: 16px;">推荐接受度分布</h4>
+                      <canvas id="acceptanceChart" style="width: 100%; height: 250px;"></canvas>
+                    </div>
+                    <div class="col-5">
+                      <h4 style="font-size: 16px; font-weight: 600; margin-bottom: 16px;">未点击原因分析</h4>
+                      <div style="max-height: 250px; overflow-y: auto;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 12px;">
+                          <span>不符合当前需求</span>
+                          <div style="display: flex; align-items: center; width: 120px;">
+                            <div style="background-color: var(--primary); height: 8px; width: 85%; border-radius: 4px; margin-right: 8px;"></div>
+                            <span style="font-size: 14px;">42%</span>
+                          </div>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 12px;">
+                          <span>价格因素</span>
+                          <div style="display: flex; align-items: center; width: 120px;">
+                            <div style="background-color: var(--primary); height: 8px; width: 60%; border-radius: 4px; margin-right: 8px;"></div>
+                            <span style="font-size: 14px;">30%</span>
+                          </div>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 12px;">
+                          <span>已购买类似商品</span>
+                          <div style="display: flex; align-items: center; width: 120px;">
+                            <div style="background-color: var(--primary); height: 8px; width: 32%; border-radius: 4px; margin-right: 8px;"></div>
+                            <span style="font-size: 14px;">16%</span>
+                          </div>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 12px;">
+                          <span>品牌偏好不符</span>
+                          <div style="display: flex; align-items: center; width: 120px;">
+                            <div style="background-color: var(--primary); height: 8px; width: 16%; border-radius: 4px; margin-right: 8px;"></div>
+                            <span style="font-size: 14px;">8%</span>
+                          </div>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                          <span>其他原因</span>
+                          <div style="display: flex; align-items: center; width: 120px;">
+                            <div style="background-color: var(--primary); height: 8px; width: 8%; border-radius: 4px; margin-right: 8px;"></div>
+                            <span style="font-size: 14px;">4%</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- A/B测试结果 -->
+            <div style="margin-bottom: 32px;">
+              <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 16px;">
+                A/B测试结果比较
+                <span style="font-size: 14px; font-weight: normal; color: var(--primary); background-color: rgba(79, 70, 229, 0.1); padding: 4px 8px; border-radius: 12px; margin-left: 8px;">进行中</span>
+              </h3>
+              <div class="card">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-6">
+                      <div style="border-right: 1px solid var(--gray-200); padding-right: 16px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                          <h4 style="font-size: 16px; font-weight: 600; margin: 0;">A组: 当前推荐策略</h4>
+                          <span style="font-size: 14px; color: var(--text-light);">流量占比: 50%</span>
+                        </div>
+                        <div style="margin-bottom: 16px;">
+                          <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                            <span style="font-size: 14px; color: var(--text-light);">点击率 (CTR)</span>
+                            <span style="font-size: 14px; font-weight: 500;">8.4%</span>
+                          </div>
+                          <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                            <span style="font-size: 14px; color: var(--text-light);">转化率 (CVR)</span>
+                            <span style="font-size: 14px; font-weight: 500;">3.2%</span>
+                          </div>
+                          <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                            <span style="font-size: 14px; color: var(--text-light);">客单价</span>
+                            <span style="font-size: 14px; font-weight: 500;">¥128</span>
+                          </div>
+                          <div style="display: flex; justify-content: space-between;">
+                            <span style="font-size: 14px; color: var(--text-light);">每次推荐收益</span>
+                            <span style="font-size: 14px; font-weight: 500;">¥4.10</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-6">
+                      <div style="padding-left: 16px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                          <h4 style="font-size: 16px; font-weight: 600; margin: 0;">B组: 多样性增强策略</h4>
+                          <span style="font-size: 14px; color: var(--text-light);">流量占比: 50%</span>
+                        </div>
+                        <div style="margin-bottom: 16px;">
+                          <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                            <span style="font-size: 14px; color: var(--text-light);">点击率 (CTR)</span>
+                            <span style="font-size: 14px; font-weight: 500;">
+                              9.1% 
+                              <span style="color: var(--success); font-size: 12px;">(+0.7%)</span>
+                            </span>
+                          </div>
+                          <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                            <span style="font-size: 14px; color: var(--text-light);">转化率 (CVR)</span>
+                            <span style="font-size: 14px; font-weight: 500;">
+                              3.3% 
+                              <span style="color: var(--success); font-size: 12px;">(+0.1%)</span>
+                            </span>
+                          </div>
+                          <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                            <span style="font-size: 14px; color: var(--text-light);">客单价</span>
+                            <span style="font-size: 14px; font-weight: 500;">
+                              ¥132 
+                              <span style="color: var(--success); font-size: 12px;">(+¥4)</span>
+                            </span>
+                          </div>
+                          <div style="display: flex; justify-content: space-between;">
+                            <span style="font-size: 14px; color: var(--text-light);">每次推荐收益</span>
+                            <span style="font-size: 14px; font-weight: 500;">
+                              ¥4.36 
+                              <span style="color: var(--success); font-size: 12px;">(+¥0.26)</span>
+                            </span>
+                          </div>
+                        </div>
+                        <div style="background-color: rgba(16, 185, 129, 0.05); border-radius: var(--border-radius); padding: 8px 12px;">
+                          <div style="display: flex; align-items: center; margin-bottom: 4px;">
+                            <i data-feather="bar-chart-2" style="width: 16px; height: 16px; color: var(--success); margin-right: 8px;"></i>
+                            <span style="font-weight: 500; color: var(--success);">显著性分析</span>
+                          </div>
+                          <p style="font-size: 13px; margin: 0; padding-left: 24px; color: var(--text);">
+                            B组在CTR指标上的提升已达到统计显著性 (p-value < 0.05)，建议考虑采用多样性增强策略。
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 底部按钮 -->
+            <div style="display: flex; justify-content: space-between; margin-top: 40px;">
+              <button class="btn btn-outline" onclick="window.location.href='data-processing.html'">上一步</button>
+              <button class="btn btn-primary" onclick="window.location.href='dashboard.html'">完成并前往控制台</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 助手按钮 -->
+  <button class="assistant-button">
+    <i data-feather="message-circle"></i>
+  </button>
+
+  <script>
+    // 初始化Feather图标
+    feather.replace();
+    
+    // 初始化图表
+    document.addEventListener('DOMContentLoaded', function() {
+      // 趋势图表
+      const trendCtx = document.getElementById('trendChart').getContext('2d');
+      const trendChart = new Chart(trendCtx, {
+        type: 'line',
+        data: {
+          labels: ['6/1', '6/2', '6/3', '6/4', '6/5', '6/6', '6/7', '6/8', '6/9', '6/10', '6/11', '6/12', '6/13', '6/14'],
+          datasets: [{
+            label: '点击率 (CTR)',
+            data: [7.1, 7.2, 7.4, 7.6, 7.5, 7.8, 7.9, 8.0, 8.1, 8.0, 8.2, 8.3, 8.4, 8.4],
+            borderColor: '#4F46E5',
+            backgroundColor: 'rgba(79, 70, 229, 0.1)',
+            tension: 0.4,
+            fill: true
+          }, {
+            label: '转化率 (CVR)',
+            data: [2.5, 2.5, 2.6, 2.7, 2.6, 2.8, 2.8, 2.9, 3.0, 3.0, 3.1, 3.1, 3.2, 3.2],
+            borderColor: '#10B981',
+            backgroundColor: 'rgba(16, 185, 129, 0.1)',
+            tension: 0.4,
+            fill: true
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          interaction: {
+            intersect: false,
+            mode: 'index'
+          },
+          plugins: {
+            tooltip: {
+              callbacks: {
+                label: function(context) {
+                  return context.dataset.label + ': ' + context.raw + '%';
+                }
+              }
+            },
+            legend: {
+              position: 'top',
+              labels: {
+                usePointStyle: true,
+                boxWidth: 6
+              }
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: false,
+              ticks: {
+                callback: function(value) {
+                  return value + '%';
+                }
+              }
+            }
+          }
+        }
+      });
+      
+      // 特征重要性图表
+      const featureCtx = document.getElementById('featureChart').getContext('2d');
+      const featureChart = new Chart(featureCtx, {
+        type: 'bar',
+        data: {
+          labels: ['商品浏览历史', '购买历史', '用户人口统计', '地理位置', '时间特征', '价格敏感度'],
+          datasets: [{
+            label: '特征重要性',
+            data: [0.32, 0.28, 0.15, 0.12, 0.08, 0.05],
+            backgroundColor: [
+              'rgba(79, 70, 229, 0.8)',
+              'rgba(79, 70, 229, 0.7)',
+              'rgba(79, 70, 229, 0.6)',
+              'rgba(79, 70, 229, 0.5)',
+              'rgba(79, 70, 229, 0.4)',
+              'rgba(79, 70, 229, 0.3)'
+            ],
+            borderWidth: 0
+          }]
+        },
+        options: {
+          indexAxis: 'y',
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              display: false
+            }
+          },
+          scales: {
+            x: {
+              beginAtZero: true,
+              max: 0.4,
+              ticks: {
+                callback: function(value) {
+                  return (value * 100).toFixed(0) + '%';
+                }
+              }
+            }
+          }
+        }
+      });
+      
+      // 推荐接受度图表
+      const acceptanceCtx = document.getElementById('acceptanceChart').getContext('2d');
+      const acceptanceChart = new Chart(acceptanceCtx, {
+        type: 'doughnut',
+        data: {
+          labels: ['点击', '加入购物车', '购买', '收藏', '未交互'],
+          datasets: [{
+            data: [25, 8, 5, 4, 58],
+            backgroundColor: [
+              '#4F46E5',
+              '#10B981',
+              '#F59E0B',
+              '#0EA5E9',
+              '#E5E7EB'
+            ],
+            borderWidth: 0
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          cutout: '60%',
+          plugins: {
+            legend: {
+              position: 'right',
+              labels: {
+                usePointStyle: true,
+                boxWidth: 6
+              }
+            },
+            tooltip: {
+              callbacks: {
+                label: function(context) {
+                  return context.label + ': ' + context.raw + '%';
+                }
+              }
+            }
+          }
+        }
+      });
+    });
+  </script>
+  <script src="js/app.js"></script>
+</body>
+</html> 

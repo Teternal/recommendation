@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>创建推荐场景 - 智能推荐SAAS平台</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="https://unpkg.com/feather-icons"></script>
+</head>
+<body>
+  <!-- 导航栏 -->
+  <nav class="navbar">
+    <div class="navbar-logo">
+      <img src="img/logo-placeholder.svg" alt="智推Logo">
+      <span>智能推荐平台</span>
+    </div>
+    <div class="navbar-nav">
+      <a href="#" class="nav-link">产品</a>
+      <a href="#" class="nav-link">文档</a>
+      <a href="#" class="nav-link">价格</a>
+      <a href="#" class="nav-link">联系我们</a>
+      <button class="btn-primary">登录</button>
+    </div>
+  </nav>
+
+  <!-- 主内容区 -->
+  <div class="container" style="padding: 40px 0 80px;">
+    <!-- 步骤指示器 -->
+    <div class="steps" style="margin-bottom: 40px;">
+      <div class="step completed">
+        <div class="step-circle">
+          <i data-feather="check" style="width: 20px; height: 20px;"></i>
+        </div>
+        <div class="step-text">创建应用</div>
+      </div>
+      <div class="step active">
+        <div class="step-circle">2</div>
+        <div class="step-text">连接数据</div>
+      </div>
+      <div class="step">
+        <div class="step-circle">3</div>
+        <div class="step-text">一键部署</div>
+      </div>
+    </div>
+
+    <div class="row">
+      <!-- 左侧表单 -->
+      <div class="col-8">
+        <div class="card">
+          <div class="card-header">
+            <h2 class="card-title">创建推荐场景</h2>
+            <span style="color: var(--text-light); font-size: 14px;">第2步，共3步</span>
+          </div>
+          <div class="card-body">
+            <!-- 场景信息 -->
+            <div class="form-group">
+              <label for="scenario-name" class="form-label">场景名称</label>
+              <input type="text" id="scenario-name" class="form-control" placeholder="例如：首页商品推荐" value="个性化商品推荐">
+              <small class="form-text">给您的推荐场景起一个便于识别的名称</small>
+            </div>
+
+            <!-- 场景类型 -->
+            <div class="form-group">
+              <label class="form-label">场景类型</label>
+              <div class="row">
+                <!-- 猜你喜欢 -->
+                <div class="col-6">
+                  <div class="template-card selected" onclick="selectScenarioType(this, 'personalized')">
+                    <div style="padding: 24px; text-align: center;">
+                      <div style="width: 64px; height: 64px; background-color: rgba(79, 70, 229, 0.1); border-radius: 16px; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px;">
+                        <i data-feather="user" style="width: 32px; height: 32px; color: var(--primary);"></i>
+                      </div>
+                      <h3 class="template-card-title">猜你喜欢</h3>
+                      <p class="template-card-text">基于用户历史行为，推荐个性化内容</p>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 相关推荐 -->
+                <div class="col-6">
+                  <div class="template-card" onclick="selectScenarioType(this, 'related')">
+                    <div style="padding: 24px; text-align: center;">
+                      <div style="width: 64px; height: 64px; background-color: rgba(14, 165, 233, 0.1); border-radius: 16px; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px;">
+                        <i data-feather="link" style="width: 32px; height: 32px; color: var(--secondary);"></i>
+                      </div>
+                      <h3 class="template-card-title">相关推荐</h3>
+                      <p class="template-card-text">基于当前内容特征，推荐相似内容</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 推荐目标 -->
+            <div class="form-group">
+              <label class="form-label">场景目标</label>
+              <div style="margin-bottom: 8px;">
+                <div class="row">
+                  <div class="col-6">
+                    <div style="display: flex; align-items: center; margin-bottom: 12px;">
+                      <input type="radio" id="goal-ctr" name="scenario-goal" checked style="margin-right: 8px;">
+                      <label for="goal-ctr" style="margin: 0;">提升点击率</label>
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div style="display: flex; align-items: center; margin-bottom: 12px;">
+                      <input type="radio" id="goal-cvr" name="scenario-goal" style="margin-right: 8px;">
+                      <label for="goal-cvr" style="margin: 0;">提升转化率</label>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-6">
+                    <div style="display: flex; align-items: center; margin-bottom: 12px;">
+                      <input type="radio" id="goal-retention" name="scenario-goal" style="margin-right: 8px;">
+                      <label for="goal-retention" style="margin: 0;">提升用户留存</label>
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div style="display: flex; align-items: center; margin-bottom: 12px;">
+                      <input type="radio" id="goal-revenue" name="scenario-goal" style="margin-right: 8px;">
+                      <label for="goal-revenue" style="margin: 0;">提升销售额</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <small class="form-text">选择主要优化目标，系统将自动优化该指标</small>
+            </div>
+
+            <!-- 推荐位数据源 -->
+            <div class="form-group">
+              <label class="form-label">数据源配置</label>
+              <div style="padding: 24px; background-color: var(--gray-100); border-radius: var(--border-radius); margin-bottom: 16px;">
+                <div class="row">
+                  <!-- 用户数据表 -->
+                  <div class="col-4">
+                    <div style="background-color: white; padding: 16px; border-radius: var(--border-radius); height: 100%; border: 2px solid var(--primary);">
+                      <div style="display: flex; align-items: center; margin-bottom: 12px;">
+                        <div style="width: 32px; height: 32px; background-color: rgba(79, 70, 229, 0.1); border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-right: 12px;">
+                          <i data-feather="users" style="width: 16px; height: 16px; color: var(--primary);"></i>
+                        </div>
+                        <h4 style="margin: 0; font-size: 16px; font-weight: 600;">用户数据表</h4>
+                      </div>
+                      <p style="font-size: 14px; color: var(--text-light); margin-bottom: 12px;">包含用户特征的数据表</p>
+                      <button type="button" class="btn-primary" style="width: 100%; background-color: white; border: 1px dashed var(--primary); color: var(--primary);">选择数据表</button>
+                    </div>
+                  </div>
+                  
+                  <!-- 物品数据表 -->
+                  <div class="col-4">
+                    <div style="background-color: white; padding: 16px; border-radius: var(--border-radius); height: 100%; border: 2px solid var(--primary);">
+                      <div style="display: flex; align-items: center; margin-bottom: 12px;">
+                        <div style="width: 32px; height: 32px; background-color: rgba(79, 70, 229, 0.1); border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-right: 12px;">
+                          <i data-feather="box" style="width: 16px; height: 16px; color: var(--primary);"></i>
+                        </div>
+                        <h4 style="margin: 0; font-size: 16px; font-weight: 600;">物品数据表</h4>
+                      </div>
+                      <p style="font-size: 14px; color: var(--text-light); margin-bottom: 12px;">包含推荐物品特征的数据表</p>
+                      <button type="button" class="btn-primary" style="width: 100%; background-color: white; border: 1px dashed var(--primary); color: var(--primary);">选择数据表</button>
+                    </div>
+                  </div>
+                  
+                  <!-- 行为数据表 -->
+                  <div class="col-4">
+                    <div style="background-color: white; padding: 16px; border-radius: var(--border-radius); height: 100%; border: 2px solid var(--primary);">
+                      <div style="display: flex; align-items: center; margin-bottom: 12px;">
+                        <div style="width: 32px; height: 32px; background-color: rgba(79, 70, 229, 0.1); border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-right: 12px;">
+                          <i data-feather="activity" style="width: 16px; height: 16px; color: var(--primary);"></i>
+                        </div>
+                        <h4 style="margin: 0; font-size: 16px; font-weight: 600;">行为数据表</h4>
+                      </div>
+                      <p style="font-size: 14px; color: var(--text-light); margin-bottom: 12px;">包含用户行为记录的数据表</p>
+                      <button type="button" class="btn-primary" style="width: 100%; background-color: white; border: 1px dashed var(--primary); color: var(--primary);">选择数据表</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <small class="form-text">这些数据表将用于训练推荐模型和生成推荐结果</small>
+            </div>
+
+            <!-- 数据连接方式 -->
+            <div class="form-group">
+              <label class="form-label">数据连接方式</label>
+              <div class="row">
+                <!-- API连接 -->
+                <div class="col-6">
+                  <div class="template-card selected" onclick="selectDataConnection(this, 'api')">
+                    <div style="padding: 16px; text-align: center;">
+                      <div style="width: 48px; height: 48px; background-color: rgba(79, 70, 229, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px;">
+                        <i data-feather="code" style="width: 24px; height: 24px; color: var(--primary);"></i>
+                      </div>
+                      <h3 class="template-card-title" style="font-size: 16px;">API 连接</h3>
+                      <p class="template-card-text" style="font-size: 12px;">通过REST API实时传输数据</p>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 文件上传 -->
+                <div class="col-6">
+                  <div class="template-card" onclick="selectDataConnection(this, 'file')">
+                    <div style="padding: 16px; text-align: center;">
+                      <div style="width: 48px; height: 48px; background-color: rgba(14, 165, 233, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px;">
+                        <i data-feather="upload" style="width: 24px; height: 24px; color: var(--secondary);"></i>
+                      </div>
+                      <h3 class="template-card-title" style="font-size: 16px;">文件上传</h3>
+                      <p class="template-card-text" style="font-size: 12px;">上传CSV、JSON等格式文件</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 数据工程配置 -->
+            <div class="form-group">
+              <label class="form-label">数据工程选项</label>
+              <div style="border: 1px solid var(--gray-200); border-radius: var(--border-radius); margin-bottom: 8px;">
+                <div style="padding: 16px; border-bottom: 1px solid var(--gray-200); display: flex; align-items: center; justify-content: space-between;">
+                  <div>
+                    <p style="font-weight: 500; margin-bottom: 4px;">智能Schema映射</p>
+                    <p style="font-size: 14px; color: var(--text-light); margin: 0;">利用大模型自动识别和映射数据字段</p>
+                  </div>
+                  <label class="switch">
+                    <input type="checkbox" checked>
+                    <span class="slider"></span>
+                  </label>
+                </div>
+                <div style="padding: 16px; border-bottom: 1px solid var(--gray-200); display: flex; align-items: center; justify-content: space-between;">
+                  <div>
+                    <p style="font-weight: 500; margin-bottom: 4px;">数据质量检测</p>
+                    <p style="font-size: 14px; color: var(--text-light); margin: 0;">自动分析数据质量并生成报告</p>
+                  </div>
+                  <label class="switch">
+                    <input type="checkbox" checked>
+                    <span class="slider"></span>
+                  </label>
+                </div>
+                <div style="padding: 16px; display: flex; align-items: center; justify-content: space-between;">
+                  <div>
+                    <p style="font-weight: 500; margin-bottom: 4px;">异常数据处理</p>
+                    <p style="font-size: 14px; color: var(--text-light); margin: 0;">智能识别并处理异常数据</p>
+                  </div>
+                  <label class="switch">
+                    <input type="checkbox" checked>
+                    <span class="slider"></span>
+                  </label>
+                </div>
+              </div>
+              <small class="form-text">这些智能工具将帮助您提高数据质量和准确性</small>
+            </div>
+          </div>
+          <div class="card-footer">
+            <button type="button" class="btn-secondary" onclick="window.location.href='create-app.html'">上一步</button>
+            <button type="button" class="btn-primary" onclick="window.location.href='data-processing.html'">下一步：处理数据</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 右侧辅助信息 -->
+      <div class="col-4">
+        <!-- 智能助手卡片 -->
+        <div class="card" style="background-color: rgba(79, 70, 229, 0.05); border: 1px solid rgba(79, 70, 229, 0.1);">
+          <div class="card-body">
+            <div style="display: flex; align-items: center; margin-bottom: 16px;">
+              <div style="width: 40px; height: 40px; background-color: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 12px;">
+                <i data-feather="cpu" style="width: 20px; height: 20px; color: white;"></i>
+              </div>
+              <div>
+                <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 2px; color: var(--dark);">智能助手提示</h3>
+                <p style="font-size: 12px; color: var(--text-light); margin: 0;">帮助您完成场景配置</p>
+              </div>
+            </div>
+            <div style="padding: 12px; background-color: white; border-radius: var(--border-radius); margin-bottom: 16px;">
+              <p style="margin-bottom: 8px; font-weight: 500; color: var(--dark);">个性化商品推荐建议</p>
+              <p style="font-size: 14px; color: var(--text); margin-bottom: 12px;">基于您选择的电商行业和猜你喜欢场景类型，我们推荐以下配置：</p>
+              <ul style="font-size: 14px; color: var(--text); margin: 0; padding-left: 20px;">
+                <li style="margin-bottom: 8px;"><strong>用户数据表</strong>：包含用户ID、注册时间、性别、年龄等用户属性</li>
+                <li style="margin-bottom: 8px;"><strong>物品数据表</strong>：包含商品ID、类目、价格、描述等商品属性</li>
+                <li><strong>行为数据表</strong>：包含用户ID、商品ID、行为类型（点击、加购、购买等）、时间戳</li>
+              </ul>
+            </div>
+            <div class="alert alert-success" style="margin-bottom: 16px;">
+              <i data-feather="info" style="width: 16px; height: 16px; margin-right: 8px; vertical-align: text-bottom;"></i>
+              <span>您的账户已开启智能数据工程能力，可自动完成80%的数据准备工作</span>
+            </div>
+            <div style="border-top: 1px dashed var(--gray-300); padding-top: 16px;">
+              <div style="display: flex; align-items: center; color: var(--primary); font-size: 14px; font-weight: 500; cursor: pointer;">
+                <i data-feather="message-square" style="width: 16px; height: 16px; margin-right: 8px;"></i>
+                <span>向智能助手提问</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 数据连接说明 -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title" style="font-size: 16px;">API连接说明</h3>
+          </div>
+          <div class="card-body">
+            <p style="font-size: 14px; color: var(--text); margin-bottom: 16px;">通过API连接，您可以实时将数据传输到推荐平台，使推荐结果保持最新状态。</p>
+            <div style="background-color: var(--gray-100); padding: 12px; border-radius: var(--border-radius); font-family: monospace; font-size: 12px; margin-bottom: 16px; overflow-x: auto;">
+              <pre style="margin: 0;">POST https://api.recsys.example.com/v1/data/users
+Content-Type: application/json
+Authorization: Bearer YOUR_API_KEY
+
+{
+  "user_id": "u12345",
+  "attributes": {
+    "gender": "female",
+    "age": 28,
+    "region": "beijing"
+  }
+}</pre>
+            </div>
+            <p style="font-size: 14px; color: var(--text-light); margin-bottom: 0;">完成场景配置后，系统将生成详细的API文档和示例代码</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 助手按钮 -->
+  <button class="assistant-button">
+    <i data-feather="message-circle"></i>
+  </button>
+
+  <script>
+    feather.replace();
+    
+    function selectScenarioType(card, type) {
+      // 移除所有卡片的selected类
+      const cards = document.querySelectorAll('.template-card');
+      cards.forEach(c => {
+        if (c.getAttribute('onclick').includes('selectScenarioType')) {
+          c.classList.remove('selected');
+        }
+      });
+      
+      // 为当前卡片添加selected类
+      card.classList.add('selected');
+      
+      // 这里可以添加更多逻辑，例如显示场景类型相关的辅助信息
+      console.log('Selected scenario type:', type);
+    }
+    
+    function selectDataConnection(card, type) {
+      // 移除数据连接卡片的selected类
+      const cards = document.querySelectorAll('.template-card');
+      cards.forEach(c => {
+        if (c.getAttribute('onclick').includes('selectDataConnection')) {
+          c.classList.remove('selected');
+        }
+      });
+      
+      // 为当前卡片添加selected类
+      card.classList.add('selected');
+      
+      // 这里可以添加更多逻辑，例如显示与连接类型相关的表单
+      console.log('Selected data connection type:', type);
+    }
+  </script>
+  <script src="../recsys_platform_prototype/js/app.js"></script>
+</body>
+</html> 

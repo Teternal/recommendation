@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>智能推荐SAAS平台 - 智能化推荐解决方案</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="https://unpkg.com/feather-icons"></script>
+</head>
+<body>
+  <!-- 导航栏 -->
+  <nav class="navbar">
+    <div class="navbar-logo">
+      <img src="img/logo-placeholder.svg" alt="智推Logo">
+      <span>智能推荐平台</span>
+    </div>
+    <div class="navbar-nav">
+      <a href="#" class="nav-link">产品</a>
+      <a href="#" class="nav-link">文档</a>
+      <a href="#" class="nav-link">价格</a>
+      <a href="#" class="nav-link">联系我们</a>
+      <button class="btn-primary">登录</button>
+    </div>
+  </nav>
+
+  <!-- 主内容区 -->
+  <div class="container">
+    <!-- 欢迎区域 -->
+    <section class="hero">
+      <h1 class="hero-title">开始您的智能推荐之旅，只需3步即可上线</h1>
+      <p class="hero-subtitle">无需编码，让AI帮您打造高质量的个性化推荐系统，提升业务增长和用户体验</p>
+      <div class="hero-cta">
+        <button class="btn-primary" onclick="window.location.href='create-app.html'">开始创建</button>
+        <button class="btn-secondary" style="padding: 8px 16px; border: 1px solid var(--primary); color: var(--primary); background: white; border-radius: var(--border-radius); cursor: pointer;">查看演示</button>
+      </div>
+
+      <!-- 步骤指示器 -->
+      <div class="steps">
+        <div class="step active">
+          <div class="step-circle">1</div>
+          <div class="step-text">创建应用</div>
+        </div>
+        <div class="step">
+          <div class="step-circle">2</div>
+          <div class="step-text">连接数据</div>
+        </div>
+        <div class="step">
+          <div class="step-circle">3</div>
+          <div class="step-text">一键部署</div>
+        </div>
+      </div>
+
+      <!-- 视频演示 -->
+      <div class="card" style="max-width: 720px; margin: 0 auto;">
+        <div style="position: relative; padding-bottom: 56.25%; height: 0;">
+          <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: var(--gray-200); display: flex; align-items: center; justify-content: center; cursor: pointer;">
+            <div style="text-align: center;">
+              <div style="width: 80px; height: 80px; background-color: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px;">
+                <i data-feather="play" style="width: 32px; height: 32px; color: white;"></i>
+              </div>
+              <p style="font-weight: 600; color: var(--dark);">观看90秒演示视频</p>
+              <p style="color: var(--text-light); font-size: 14px;">了解如何快速创建推荐系统</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 行业案例 -->
+    <section style="padding: 80px 0;">
+      <h2 style="text-align: center; margin-bottom: 48px; font-size: 32px; font-weight: 700; color: var(--dark);">适用于各行各业的推荐解决方案</h2>
+      
+      <div class="row">
+        <!-- 电商行业 -->
+        <div class="col-4">
+          <div class="template-card">
+            <div class="template-card-image" style="background-image: url('../recsys_platform_prototype/img/ecommerce-placeholder.jpg');"></div>
+            <div class="template-card-body">
+              <h3 class="template-card-title">电商推荐</h3>
+              <p class="template-card-text">提升转化率和客单价，打造个性化购物体验</p>
+              <div style="margin-top: 12px;">
+                <span style="display: inline-block; background-color: var(--gray-100); color: var(--text-light); font-size: 12px; padding: 4px 8px; border-radius: 4px; margin-right: 4px;">商品推荐</span>
+                <span style="display: inline-block; background-color: var(--gray-100); color: var(--text-light); font-size: 12px; padding: 4px 8px; border-radius: 4px; margin-right: 4px;">相关商品</span>
+                <span style="display: inline-block; background-color: var(--gray-100); color: var(--text-light); font-size: 12px; padding: 4px 8px; border-radius: 4px;">购买了还买了</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 内容行业 -->
+        <div class="col-4">
+          <div class="template-card">
+            <div class="template-card-image" style="background-image: url('../recsys_platform_prototype/img/content-placeholder.jpg');"></div>
+            <div class="template-card-body">
+              <h3 class="template-card-title">内容推荐</h3>
+              <p class="template-card-text">提高用户参与度和内容消费量，延长停留时间</p>
+              <div style="margin-top: 12px;">
+                <span style="display: inline-block; background-color: var(--gray-100); color: var(--text-light); font-size: 12px; padding: 4px 8px; border-radius: 4px; margin-right: 4px;">猜你喜欢</span>
+                <span style="display: inline-block; background-color: var(--gray-100); color: var(--text-light); font-size: 12px; padding: 4px 8px; border-radius: 4px; margin-right: 4px;">相关内容</span>
+                <span style="display: inline-block; background-color: var(--gray-100); color: var(--text-light); font-size: 12px; padding: 4px 8px; border-radius: 4px;">热门推荐</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 金融行业 -->
+        <div class="col-4">
+          <div class="template-card">
+            <div class="template-card-image" style="background-image: url('../recsys_platform_prototype/img/finance-placeholder.jpg');"></div>
+            <div class="template-card-body">
+              <h3 class="template-card-title">金融推荐</h3>
+              <p class="template-card-text">精准推荐金融产品，提升转化率和客户价值</p>
+              <div style="margin-top: 12px;">
+                <span style="display: inline-block; background-color: var(--gray-100); color: var(--text-light); font-size: 12px; padding: 4px 8px; border-radius: 4px; margin-right: 4px;">产品推荐</span>
+                <span style="display: inline-block; background-color: var(--gray-100); color: var(--text-light); font-size: 12px; padding: 4px 8px; border-radius: 4px; margin-right: 4px;">交叉销售</span>
+                <span style="display: inline-block; background-color: var(--gray-100); color: var(--text-light); font-size: 12px; padding: 4px 8px; border-radius: 4px;">个性化营销</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 核心优势 -->
+    <section style="padding: 80px 0; background-color: var(--gray-100);">
+      <div class="container">
+        <h2 style="text-align: center; margin-bottom: 48px; font-size: 32px; font-weight: 700; color: var(--dark);">我们的核心优势</h2>
+        
+        <div class="row">
+          <!-- 极简上手 -->
+          <div class="col-3">
+            <div style="text-align: center; padding: 24px;">
+              <div style="width: 64px; height: 64px; background-color: rgba(79, 70, 229, 0.1); border-radius: 16px; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px;">
+                <i data-feather="zap" style="width: 32px; height: 32px; color: var(--primary);"></i>
+              </div>
+              <h3 style="font-size: 20px; font-weight: 600; margin-bottom: 8px; color: var(--dark);">极简上手</h3>
+              <p style="color: var(--text-light);">无需技术背景，3步完成推荐系统搭建，30分钟上线</p>
+            </div>
+          </div>
+
+          <!-- 智能辅助 -->
+          <div class="col-3">
+            <div style="text-align: center; padding: 24px;">
+              <div style="width: 64px; height: 64px; background-color: rgba(16, 185, 129, 0.1); border-radius: 16px; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px;">
+                <i data-feather="cpu" style="width: 32px; height: 32px; color: var(--success);"></i>
+              </div>
+              <h3 style="font-size: 20px; font-weight: 600; margin-bottom: 8px; color: var(--dark);">智能辅助</h3>
+              <p style="color: var(--text-light);">大模型驱动的全流程智能辅助，自动解决90%的技术难题</p>
+            </div>
+          </div>
+
+          <!-- 效果可控 -->
+          <div class="col-3">
+            <div style="text-align: center; padding: 24px;">
+              <div style="width: 64px; height: 64px; background-color: rgba(245, 158, 11, 0.1); border-radius: 16px; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px;">
+                <i data-feather="sliders" style="width: 32px; height: 32px; color: var(--warning);"></i>
+              </div>
+              <h3 style="font-size: 20px; font-weight: 600; margin-bottom: 8px; color: var(--dark);">效果可控</h3>
+              <p style="color: var(--text-light);">直观可视的效果评估和规则干预，确保推荐符合业务预期</p>
+            </div>
+          </div>
+
+          <!-- 业务导向 -->
+          <div class="col-3">
+            <div style="text-align: center; padding: 24px;">
+              <div style="width: 64px; height: 64px; background-color: rgba(14, 165, 233, 0.1); border-radius: 16px; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px;">
+                <i data-feather="trending-up" style="width: 32px; height: 32px; color: var(--secondary);"></i>
+              </div>
+              <h3 style="font-size: 20px; font-weight: 600; margin-bottom: 8px; color: var(--dark);">业务导向</h3>
+              <p style="color: var(--text-light);">围绕提升关键业务指标设计，平均提升转化率15%以上</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 客户案例 -->
+    <section style="padding: 80px 0;">
+      <h2 style="text-align: center; margin-bottom: 48px; font-size: 32px; font-weight: 700; color: var(--dark);">客户成功案例</h2>
+      
+      <div class="card" style="max-width: 800px; margin: 0 auto;">
+        <div class="card-body">
+          <div style="display: flex; align-items: center; margin-bottom: 24px;">
+            <div style="width: 64px; height: 64px; background-color: var(--gray-200); border-radius: 8px; margin-right: 16px;"></div>
+            <div>
+              <h3 style="font-size: 20px; font-weight: 600; margin-bottom: 4px; color: var(--dark);">某知名电商平台</h3>
+              <p style="color: var(--text-light);">电商行业 | 个性化商品推荐</p>
+            </div>
+          </div>
+          <p style="color: var(--text); margin-bottom: 24px;">"自从使用智能推荐平台后，我们的推荐效果显著提升，转化率增长了23%，客单价提高了15%。更重要的是，整个过程非常简单，我们的运营团队无需技术支持就能独立完成所有配置，大大提升了工作效率。"</p>
+          <div style="display: flex; align-items: center;">
+            <div style="margin-right: 24px;">
+              <p style="font-size: 32px; font-weight: 700; color: var(--primary); margin-bottom: 4px;">+23%</p>
+              <p style="color: var(--text-light); font-size: 14px;">转化率提升</p>
+            </div>
+            <div style="margin-right: 24px;">
+              <p style="font-size: 32px; font-weight: 700; color: var(--primary); margin-bottom: 4px;">+15%</p>
+              <p style="color: var(--text-light); font-size: 14px;">客单价提升</p>
+            </div>
+            <div>
+              <p style="font-size: 32px; font-weight: 700; color: var(--primary); margin-bottom: 4px;">-70%</p>
+              <p style="color: var(--text-light); font-size: 14px;">开发时间缩短</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA区域 -->
+    <section style="padding: 80px 0; background-color: var(--primary); color: white; text-align: center;">
+      <h2 style="font-size: 32px; font-weight: 700; margin-bottom: 16px;">准备好提升您的业务了吗？</h2>
+      <p style="font-size: 18px; margin-bottom: 32px; max-width: 600px; margin-left: auto; margin-right: auto;">只需3步，即可构建您自己的智能推荐系统，提升用户体验和业务增长</p>
+      <button class="btn-primary" style="background-color: white; color: var(--primary); font-size: 16px; padding: 12px 24px;" onclick="window.location.href='create-app.html'">立即开始</button>
+    </section>
+  </div>
+
+  <!-- 助手按钮 -->
+  <button class="assistant-button">
+    <i data-feather="message-circle"></i>
+  </button>
+
+  <!-- 页脚 -->
+  <footer style="background-color: var(--dark); color: white; padding: 48px 0;">
+    <div class="container">
+      <div class="row" style="margin-bottom: 32px;">
+        <div class="col-3">
+          <div class="navbar-logo" style="color: white; margin-bottom: 16px;">
+            <img src="../recsys_platform_prototype/img/logo-placeholder.svg" alt="智推Logo">
+            <span>智能推荐平台</span>
+          </div>
+          <p style="color: var(--gray-300); font-size: 14px;">让每个企业都能轻松搭建高质量的推荐系统</p>
+        </div>
+        <div class="col-3">
+          <h4 style="color: white; font-size: 16px; font-weight: 600; margin-bottom: 16px;">产品</h4>
+          <ul style="list-style: none; padding: 0;">
+            <li style="margin-bottom: 8px;"><a href="#" style="color: var(--gray-300); text-decoration: none; font-size: 14px;">功能介绍</a></li>
+            <li style="margin-bottom: 8px;"><a href="#" style="color: var(--gray-300); text-decoration: none; font-size: 14px;">行业解决方案</a></li>
+            <li style="margin-bottom: 8px;"><a href="#" style="color: var(--gray-300); text-decoration: none; font-size: 14px;">客户案例</a></li>
+            <li><a href="#" style="color: var(--gray-300); text-decoration: none; font-size: 14px;">产品更新</a></li>
+          </ul>
+        </div>
+        <div class="col-3">
+          <h4 style="color: white; font-size: 16px; font-weight: 600; margin-bottom: 16px;">资源</h4>
+          <ul style="list-style: none; padding: 0;">
+            <li style="margin-bottom: 8px;"><a href="#" style="color: var(--gray-300); text-decoration: none; font-size: 14px;">文档中心</a></li>
+            <li style="margin-bottom: 8px;"><a href="#" style="color: var(--gray-300); text-decoration: none; font-size: 14px;">API参考</a></li>
+            <li style="margin-bottom: 8px;"><a href="#" style="color: var(--gray-300); text-decoration: none; font-size: 14px;">开发者社区</a></li>
+            <li><a href="#" style="color: var(--gray-300); text-decoration: none; font-size: 14px;">学习资源</a></li>
+          </ul>
+        </div>
+        <div class="col-3">
+          <h4 style="color: white; font-size: 16px; font-weight: 600; margin-bottom: 16px;">公司</h4>
+          <ul style="list-style: none; padding: 0;">
+            <li style="margin-bottom: 8px;"><a href="#" style="color: var(--gray-300); text-decoration: none; font-size: 14px;">关于我们</a></li>
+            <li style="margin-bottom: 8px;"><a href="#" style="color: var(--gray-300); text-decoration: none; font-size: 14px;">联系我们</a></li>
+            <li style="margin-bottom: 8px;"><a href="#" style="color: var(--gray-300); text-decoration: none; font-size: 14px;">加入我们</a></li>
+            <li><a href="#" style="color: var(--gray-300); text-decoration: none; font-size: 14px;">合作伙伴</a></li>
+          </ul>
+        </div>
+      </div>
+      <div style="border-top: 1px solid var(--gray-300); padding-top: 24px; display: flex; justify-content: space-between; align-items: center;">
+        <p style="color: var(--gray-300); font-size: 14px;">© 2023 智能推荐平台. 保留所有权利。</p>
+        <div style="display: flex; gap: 16px;">
+          <a href="#" style="color: var(--gray-300);"><i data-feather="twitter" style="width: 20px; height: 20px;"></i></a>
+          <a href="#" style="color: var(--gray-300);"><i data-feather="linkedin" style="width: 20px; height: 20px;"></i></a>
+          <a href="#" style="color: var(--gray-300);"><i data-feather="github" style="width: 20px; height: 20px;"></i></a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    feather.replace();
+  </script>
+  <script src="../recsys_platform_prototype/js/app.js"></script>
+</body>
+</html> 

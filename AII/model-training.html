@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>模型训练 - 智能推荐SAAS平台</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="https://unpkg.com/feather-icons"></script>
+</head>
+<body>
+  <!-- 导航栏 -->
+  <nav class="navbar">
+    <div class="navbar-logo">
+      <img src="img/logo-placeholder.svg" alt="智推Logo">
+      <span>智能推荐平台</span>
+    </div>
+    <div class="navbar-nav">
+      <a href="#" class="nav-link">产品</a>
+      <a href="#" class="nav-link">文档</a>
+      <a href="#" class="nav-link">价格</a>
+      <a href="#" class="nav-link">联系我们</a>
+      <button class="btn-primary">登录</button>
+    </div>
+  </nav>
+
+  <!-- 主内容区 -->
+  <div class="container" style="padding: 40px 0 80px;">
+    <!-- 步骤指示器 -->
+    <div class="steps" style="margin-bottom: 40px;">
+      <div class="step completed">
+        <div class="step-circle">
+          <i data-feather="check" style="width: 20px; height: 20px;"></i>
+        </div>
+        <div class="step-text">创建应用</div>
+      </div>
+      <div class="step completed">
+        <div class="step-circle">
+          <i data-feather="check" style="width: 20px; height: 20px;"></i>
+        </div>
+        <div class="step-text">连接数据</div>
+      </div>
+      <div class="step active">
+        <div class="step-circle">3</div>
+        <div class="step-text">模型训练</div>
+      </div>
+      <div class="step">
+        <div class="step-circle">4</div>
+        <div class="step-text">部署服务</div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-header">
+            <h2 class="card-title">AutoML模型训练</h2>
+            <span style="color: var(--text-light); font-size: 14px;">简易模式</span>
+          </div>
+          <div class="card-body">
+            <!-- 训练进度 -->
+            <div style="max-width: 800px; margin: 0 auto;">
+              <!-- 模式选择 -->
+              <div style="margin-bottom: 32px;">
+                <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 16px;">训练模式</h3>
+                <div class="row">
+                  <div class="col-6">
+                    <div class="card selected" style="cursor: pointer; border: 2px solid var(--primary);">
+                      <div class="card-body" style="padding: 20px;">
+                        <div style="display: flex; align-items: center; margin-bottom: 12px;">
+                          <div style="width: 40px; height: 40px; background-color: var(--primary); border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-right: 12px;">
+                            <i data-feather="cpu" style="width: 20px; height: 20px; color: white;"></i>
+                          </div>
+                          <h4 style="margin: 0; font-size: 16px; font-weight: 600;">简易模式 (AutoML)</h4>
+                        </div>
+                        <p style="color: var(--text); font-size: 14px; margin-bottom: 0;">
+                          系统自动选择最佳算法并进行训练，无需手动配置参数，适合大多数场景。
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="card" style="cursor: pointer; opacity: 0.7;">
+                      <div class="card-body" style="padding: 20px;">
+                        <div style="display: flex; align-items: center; margin-bottom: 12px;">
+                          <div style="width: 40px; height: 40px; background-color: var(--gray-200); border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-right: 12px;">
+                            <i data-feather="sliders" style="width: 20px; height: 20px; color: var(--text-light);"></i>
+                          </div>
+                          <h4 style="margin: 0; font-size: 16px; font-weight: 600; color: var(--text-light);">专家模式</h4>
+                        </div>
+                        <p style="color: var(--text-light); font-size: 14px; margin-bottom: 0;">
+                          完全控制训练参数和模型结构，适合有专业知识的团队。
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 推荐场景 -->
+              <div style="margin-bottom: 32px;">
+                <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 16px;">推荐场景</h3>
+                <div style="background-color: rgba(79, 70, 229, 0.05); border-radius: var(--border-radius); padding: 16px; margin-bottom: 16px;">
+                  <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
+                    <div style="display: flex; align-items: center;">
+                      <i data-feather="shopping-bag" style="width: 20px; height: 20px; color: var(--primary); margin-right: 12px;"></i>
+                      <h4 style="margin: 0; font-size: 16px; font-weight: 600;">商品推荐 (首页)</h4>
+                    </div>
+                    <span style="color: var(--success); font-size: 14px; display: flex; align-items: center;">
+                      <i data-feather="check-circle" style="width: 16px; height: 16px; margin-right: 4px;"></i>
+                      数据就绪
+                    </span>
+                  </div>
+                  <p style="color: var(--text); font-size: 14px; margin-bottom: 12px;">
+                    根据用户历史行为和偏好，在首页推荐可能感兴趣的商品。
+                  </p>
+                  <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                    <span style="display: inline-block; background-color: white; color: var(--text-light); font-size: 12px; padding: 4px 8px; border-radius: 4px; border: 1px solid var(--gray-200);">点击率优化</span>
+                    <span style="display: inline-block; background-color: white; color: var(--text-light); font-size: 12px; padding: 4px 8px; border-radius: 4px; border: 1px solid var(--gray-200);">多样性平衡</span>
+                    <span style="display: inline-block; background-color: white; color: var(--text-light); font-size: 12px; padding: 4px 8px; border-radius: 4px; border: 1px solid var(--gray-200);">新品曝光</span>
+                  </div>
+                </div>
+
+                <div style="background-color: rgba(79, 70, 229, 0.05); border-radius: var(--border-radius); padding: 16px;">
+                  <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
+                    <div style="display: flex; align-items: center;">
+                      <i data-feather="tag" style="width: 20px; height: 20px; color: var(--primary); margin-right: 12px;"></i>
+                      <h4 style="margin: 0; font-size: 16px; font-weight: 600;">相关商品推荐</h4>
+                    </div>
+                    <span style="color: var(--success); font-size: 14px; display: flex; align-items: center;">
+                      <i data-feather="check-circle" style="width: 16px; height: 16px; margin-right: 4px;"></i>
+                      数据就绪
+                    </span>
+                  </div>
+                  <p style="color: var(--text); font-size: 14px; margin-bottom: 12px;">
+                    在商品详情页展示与当前商品相关的其他商品，提高交叉销售机会。
+                  </p>
+                  <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                    <span style="display: inline-block; background-color: white; color: var(--text-light); font-size: 12px; padding: 4px 8px; border-radius: 4px; border: 1px solid var(--gray-200);">相似度计算</span>
+                    <span style="display: inline-block; background-color: white; color: var(--text-light); font-size: 12px; padding: 4px 8px; border-radius: 4px; border: 1px solid var(--gray-200);">协同过滤</span>
+                    <span style="display: inline-block; background-color: white; color: var(--text-light); font-size: 12px; padding: 4px 8px; border-radius: 4px; border: 1px solid var(--gray-200);">转化率优化</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 模型选择 -->
+              <div style="margin-bottom: 32px;">
+                <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 16px;">推荐算法选择</h3>
+                <div style="padding: 24px; border-radius: var(--border-radius); background-color: white; border: 1px solid var(--gray-200);">
+                  <p style="color: var(--primary); font-weight: 500; display: flex; align-items: center; margin-bottom: 16px;">
+                    <i data-feather="zap" style="width: 16px; height: 16px; margin-right: 8px;"></i>
+                    AutoML将自动选择和优化最适合您业务场景的算法
+                  </p>
+                  
+                  <div style="margin-bottom: 20px;">
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+                      <div style="display: flex; align-items: center;">
+                        <input type="checkbox" id="model-dnn" checked style="margin-right: 8px;">
+                        <label for="model-dnn" style="margin: 0; font-weight: 500;">深度神经网络 (DNN)</label>
+                      </div>
+                      <span style="color: var(--success); font-size: 14px;">推荐</span>
+                    </div>
+                    <p style="color: var(--text-light); font-size: 14px; margin-left: 24px; margin-bottom: 0;">
+                      适用于捕捉复杂的用户-物品交互特征，在大规模数据集上表现优异
+                    </p>
+                  </div>
+                  
+                  <div style="margin-bottom: 20px;">
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+                      <div style="display: flex; align-items: center;">
+                        <input type="checkbox" id="model-fm" checked style="margin-right: 8px;">
+                        <label for="model-fm" style="margin: 0; font-weight: 500;">因子分解机 (FM)</label>
+                      </div>
+                      <span style="color: var(--success); font-size: 14px;">推荐</span>
+                    </div>
+                    <p style="color: var(--text-light); font-size: 14px; margin-left: 24px; margin-bottom: 0;">
+                      适用于处理稀疏特征与特征交叉，计算效率高
+                    </p>
+                  </div>
+                  
+                  <div style="margin-bottom: 20px;">
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+                      <div style="display: flex; align-items: center;">
+                        <input type="checkbox" id="model-xgboost" checked style="margin-right: 8px;">
+                        <label for="model-xgboost" style="margin: 0; font-weight: 500;">梯度提升树 (XGBoost)</label>
+                      </div>
+                      <span style="color: var(--warning); font-size: 14px;">可选</span>
+                    </div>
+                    <p style="color: var(--text-light); font-size: 14px; margin-left: 24px; margin-bottom: 0;">
+                      在结构化数据上表现优异，可解释性好
+                    </p>
+                  </div>
+                  
+                  <div>
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+                      <div style="display: flex; align-items: center;">
+                        <input type="checkbox" id="model-din" checked style="margin-right: 8px;">
+                        <label for="model-din" style="margin: 0; font-weight: 500;">深度兴趣网络 (DIN)</label>
+                      </div>
+                      <span style="color: var(--warning); font-size: 14px;">可选</span>
+                    </div>
+                    <p style="color: var(--text-light); font-size: 14px; margin-left: 24px; margin-bottom: 0;">
+                      特别适合捕捉用户兴趣变化，适用于多样化用户行为的场景
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 训练目标 -->
+              <div style="margin-bottom: 32px;">
+                <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 16px;">训练目标</h3>
+                <div class="card" style="margin-bottom: 16px;">
+                  <div class="card-body" style="padding: 16px;">
+                    <div style="display: flex; align-items: center; margin-bottom: 16px;">
+                      <div style="width: 32px; height: 32px; background-color: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 12px;">
+                        <i data-feather="target" style="width: 16px; height: 16px; color: white;"></i>
+                      </div>
+                      <div>
+                        <h4 style="font-size: 16px; font-weight: 600; margin-bottom: 2px; color: var(--dark);">主要优化目标</h4>
+                        <p style="font-size: 14px; color: var(--text-light); margin: 0;">根据您的业务目标自动确定</p>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-4">
+                        <div style="display: flex; align-items: center; margin-bottom: 12px;">
+                          <input type="radio" id="goal-ctr" name="goal" checked style="margin-right: 8px;">
+                          <label for="goal-ctr" style="margin: 0; font-weight: 500; display: flex; align-items: center;">
+                            <span>点击率 (CTR)</span>
+                            <span style="background-color: rgba(79, 70, 229, 0.1); color: var(--primary); font-size: 12px; padding: 2px 6px; border-radius: 4px; margin-left: 8px;">推荐</span>
+                          </label>
+                        </div>
+                      </div>
+                      <div class="col-4">
+                        <div style="display: flex; align-items: center; margin-bottom: 12px;">
+                          <input type="radio" id="goal-cvr" name="goal" style="margin-right: 8px;">
+                          <label for="goal-cvr" style="margin: 0;">转化率 (CVR)</label>
+                        </div>
+                      </div>
+                      <div class="col-4">
+                        <div style="display: flex; align-items: center; margin-bottom: 12px;">
+                          <input type="radio" id="goal-revenue" name="goal" style="margin-right: 8px;">
+                          <label for="goal-revenue" style="margin: 0;">收入 (GMV)</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="card">
+                  <div class="card-body" style="padding: 16px;">
+                    <div style="display: flex; align-items: center; margin-bottom: 16px;">
+                      <div style="width: 32px; height: 32px; background-color: var(--gray-200); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 12px;">
+                        <i data-feather="sliders" style="width: 16px; height: 16px; color: var(--text-light);"></i>
+                      </div>
+                      <div>
+                        <h4 style="font-size: 16px; font-weight: 600; margin-bottom: 2px; color: var(--dark);">平衡因子</h4>
+                        <p style="font-size: 14px; color: var(--text-light); margin: 0;">调整多目标平衡</p>
+                      </div>
+                    </div>
+                    <div style="margin-bottom: 16px;">
+                      <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                        <span style="font-size: 14px;">多样性</span>
+                        <span style="font-size: 14px;">中等 (5/10)</span>
+                      </div>
+                      <input type="range" min="1" max="10" value="5" class="form-range">
+                    </div>
+                    <div style="margin-bottom: 16px;">
+                      <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                        <span style="font-size: 14px;">新颖性</span>
+                        <span style="font-size: 14px;">适中 (4/10)</span>
+                      </div>
+                      <input type="range" min="1" max="10" value="4" class="form-range">
+                    </div>
+                    <div>
+                      <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                        <span style="font-size: 14px;">流行度偏好</span>
+                        <span style="font-size: 14px;">平衡 (5/10)</span>
+                      </div>
+                      <input type="range" min="1" max="10" value="5" class="form-range">
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 训练配置 -->
+              <div style="margin-bottom: 40px;">
+                <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 16px;">训练配置</h3>
+                <div class="row">
+                  <div class="col-6">
+                    <div class="form-group">
+                      <label for="train-validation" class="form-label">训练/验证集比例</label>
+                      <select id="train-validation" class="form-control">
+                        <option>80% / 20% (推荐)</option>
+                        <option>70% / 30%</option>
+                        <option>90% / 10%</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="form-group">
+                      <label for="early-stopping" class="form-label">早停机制</label>
+                      <select id="early-stopping" class="form-control">
+                        <option>启用 (推荐)</option>
+                        <option>禁用</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 智能助手提示 -->
+              <div style="margin-bottom: 32px; background-color: rgba(79, 70, 229, 0.05); border-radius: var(--border-radius); padding: 16px;">
+                <div style="display: flex; align-items: start; margin-bottom: 12px;">
+                  <div style="width: 32px; height: 32px; background-color: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 12px; flex-shrink: 0; margin-top: 2px;">
+                    <i data-feather="cpu" style="width: 16px; height: 16px; color: white;"></i>
+                  </div>
+                  <div>
+                    <h4 style="font-size: 16px; font-weight: 600; margin-bottom: 4px; color: var(--dark);">智能助手提示</h4>
+                    <p style="font-size: 14px; color: var(--text); margin-bottom: 0;">
+                      根据您的数据特征和业务目标，我们推荐使用深度神经网络(DNN)和因子分解机(FM)模型。这些模型在电商场景下表现优异，能够有效捕捉用户兴趣和商品关系。训练预计需要30-45分钟，您可以在训练完成后查看详细的模型评估报告。
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 底部按钮 -->
+              <div style="display: flex; justify-content: space-between; margin-top: 40px;">
+                <button class="btn btn-outline">上一步</button>
+                <a href="service-deployment.html" class="btn btn-primary">开始训练</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 助手按钮 -->
+  <button class="assistant-button">
+    <i data-feather="message-circle"></i>
+  </button>
+
+  <script>
+    feather.replace();
+  </script>
+  <script src="js/app.js"></script>
+</body>
+</html> 

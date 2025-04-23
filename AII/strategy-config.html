@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>策略配置 - 智能推荐SAAS平台</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="../recsys_platform_prototype/css/styles.css">
+  <script src="https://unpkg.com/feather-icons"></script>
+</head>
+<body>
+  <!-- 导航栏 -->
+  <nav class="navbar">
+    <div class="navbar-logo">
+      <img src="../recsys_platform_prototype/img/logo-placeholder.svg" alt="智推Logo">
+      <span>智能推荐平台</span>
+    </div>
+    <div class="navbar-nav">
+      <a href="#" class="nav-link">产品</a>
+      <a href="#" class="nav-link">文档</a>
+      <a href="#" class="nav-link">价格</a>
+      <a href="#" class="nav-link">联系我们</a>
+      <button class="btn-primary">登录</button>
+    </div>
+  </nav>
+
+  <!-- 主内容区 -->
+  <div class="container" style="padding: 40px 0 80px;">
+    <!-- 页面标题 -->
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+      <div>
+        <h1 style="font-size: 24px; font-weight: 700; margin-bottom: 8px; color: var(--dark);">我的电商推荐 - 策略配置</h1>
+        <p style="color: var(--text-light); margin: 0;">应用ID: app-78924ef1 | 当前版本: v1.3</p>
+      </div>
+      <div>
+        <button class="btn-secondary" style="margin-right: 8px;"><i data-feather="eye" style="width: 16px; height: 16px; margin-right: 4px;"></i> 预览效果</button>
+        <button class="btn-primary"><i data-feather="save" style="width: 16px; height: 16px; margin-right: 4px;"></i> 保存并部署</button>
+      </div>
+    </div>
+
+    <div class="row">
+      <!-- 左侧配置面板 -->
+      <div class="col-8">
+        <!-- 推荐策略配置卡片 -->
+        <div class="card" style="margin-bottom: 24px;">
+          <div class="card-header">
+            <h2 class="card-title">推荐策略配置</h2>
+          </div>
+          <div class="card-body">
+            <!-- 召回策略 -->
+            <div style="margin-bottom: 24px;">
+              <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 16px;">召回策略</h3>
+              <div style="margin-bottom: 16px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                  <div style="display: flex; align-items: center;">
+                    <input type="checkbox" id="recall-collaborative" checked style="margin-right: 8px;">
+                    <label for="recall-collaborative" style="margin: 0; font-weight: 500;">协同过滤</label>
+                  </div>
+                  <div style="display: flex; align-items: center;">
+                    <span style="margin-right: 8px; font-size: 14px; color: var(--text-light);">权重</span>
+                    <input type="range" min="1" max="10" value="8" style="margin-right: 8px;">
+                    <span style="width: 30px; text-align: center;">8</span>
+                  </div>
+                </div>
+                <p style="font-size: 14px; color: var(--text-light); margin-left: 24px; margin-bottom: 0;">基于用户行为相似性的推荐，适合挖掘长尾内容</p>
+              </div>
+              
+              <div style="margin-bottom: 16px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                  <div style="display: flex; align-items: center;">
+                    <input type="checkbox" id="recall-content" checked style="margin-right: 8px;">
+                    <label for="recall-content" style="margin: 0; font-weight: 500;">内容相似度</label>
+                  </div>
+                  <div style="display: flex; align-items: center;">
+                    <span style="margin-right: 8px; font-size: 14px; color: var(--text-light);">权重</span>
+                    <input type="range" min="1" max="10" value="6" style="margin-right: 8px;">
+                    <span style="width: 30px; text-align: center;">6</span>
+                  </div>
+                </div>
+                <p style="font-size: 14px; color: var(--text-light); margin-left: 24px; margin-bottom: 0;">基于内容特征的相似度推荐，适合新物品冷启动</p>
+              </div>
+              
+              <div style="margin-bottom: 16px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                  <div style="display: flex; align-items: center;">
+                    <input type="checkbox" id="recall-popular" checked style="margin-right: 8px;">
+                    <label for="recall-popular" style="margin: 0; font-weight: 500;">热门推荐</label>
+                  </div>
+                  <div style="display: flex; align-items: center;">
+                    <span style="margin-right: 8px; font-size: 14px; color: var(--text-light);">权重</span>
+                    <input type="range" min="1" max="10" value="4" style="margin-right: 8px;">
+                    <span style="width: 30px; text-align: center;">4</span>
+                  </div>
+                </div>
+                <p style="font-size: 14px; color: var(--text-light); margin-left: 24px; margin-bottom: 0;">基于全局热度的推荐，适合新用户冷启动</p>
+              </div>
+              
+              <div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                  <div style="display: flex; align-items: center;">
+                    <input type="checkbox" id="recall-custom" style="margin-right: 8px;">
+                    <label for="recall-custom" style="margin: 0; font-weight: 500;">自定义物品集</label>
+                  </div>
+                  <div style="display: flex; align-items: center;">
+                    <span style="margin-right: 8px; font-size: 14px; color: var(--text-light);">权重</span>
+                    <input type="range" min="1" max="10" value="5" style="margin-right: 8px;" disabled>
+                    <span style="width: 30px; text-align: center;">5</span>
+                  </div>
+                </div>
+                <p style="font-size: 14px; color: var(--text-light); margin-left: 24px; margin-bottom: 0;">手动指定推荐集合，适合运营活动和特定主题推广</p>
+              </div>
+            </div>
+            
+            <!-- 排序策略 -->
+            <div style="margin-bottom: 24px;">
+              <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 16px;">排序策略</h3>
+              <div style="margin-bottom: 16px;">
+                <label style="display: block; margin-bottom: 8px; font-weight: 500;">主排序模型</label>
+                <select class="form-select" style="margin-bottom: 8px;">
+                  <option value="rank_default" selected>默认混合排序模型 (Hybrid Ranking)</option>
+                  <option value="rank_ctr">点击率优化模型 (CTR)</option>
+                  <option value="rank_cvr">转化率优化模型 (CVR)</option>
+                  <option value="rank_revenue">收入优化模型 (Revenue)</option>
+                </select>
+                <p style="font-size: 14px; color: var(--text-light); margin-bottom: 16px;">默认混合排序模型综合考虑点击率、转化率和收入，适合大多数场景</p>
+              </div>
+              
+              <div style="border: 1px solid var(--gray-200); border-radius: var(--border-radius); padding: 16px; margin-bottom: 16px;">
+                <h4 style="font-size: 14px; font-weight: 600; margin-bottom: 12px;">多目标优化</h4>
+                <div style="margin-bottom: 12px;">
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                    <label style="margin: 0; font-size: 14px;">点击率 (CTR)</label>
+                    <span style="width: 40px; text-align: center; font-size: 14px;">50%</span>
+                  </div>
+                  <input type="range" min="0" max="100" value="50" style="width: 100%;">
+                </div>
+                <div style="margin-bottom: 12px;">
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                    <label style="margin: 0; font-size: 14px;">转化率 (CVR)</label>
+                    <span style="width: 40px; text-align: center; font-size: 14px;">30%</span>
+                  </div>
+                  <input type="range" min="0" max="100" value="30" style="width: 100%;">
+                </div>
+                <div>
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                    <label style="margin: 0; font-size: 14px;">用户留存率</label>
+                    <span style="width: 40px; text-align: center; font-size: 14px;">20%</span>
+                  </div>
+                  <input type="range" min="0" max="100" value="20" style="width: 100%;">
+                </div>
+              </div>
+              
+              <div style="display: flex; align-items: center;">
+                <input type="checkbox" id="use-personalized" checked style="margin-right: 8px;">
+                <label for="use-personalized" style="margin: 0;">启用个性化用户特征</label>
+              </div>
+            </div>
+            
+            <!-- 过滤与干预规则 -->
+            <div>
+              <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 16px;">过滤与干预规则</h3>
+              
+              <div style="margin-bottom: 16px;">
+                <div style="display: flex; align-items: center; margin-bottom: 8px;">
+                  <input type="checkbox" id="filter-repeat" checked style="margin-right: 8px;">
+                  <label for="filter-repeat" style="margin: 0; font-weight: 500;">过滤最近交互过的物品</label>
+                </div>
+                <div style="margin-left: 24px; margin-bottom: 16px;">
+                  <label style="display: block; margin-bottom: 4px; font-size: 14px;">排除范围</label>
+                  <select class="form-select" style="font-size: 14px;">
+                    <option value="3days">最近3天</option>
+                    <option value="7days" selected>最近7天</option>
+                    <option value="14days">最近14天</option>
+                    <option value="30days">最近30天</option>
+                    <option value="custom">自定义</option>
+                  </select>
+                </div>
+              </div>
+              
+              <div style="margin-bottom: 16px;">
+                <div style="display: flex; align-items: center; margin-bottom: 8px;">
+                  <input type="checkbox" id="filter-diversity" checked style="margin-right: 8px;">
+                  <label for="filter-diversity" style="margin: 0; font-weight: 500;">增加推荐多样性</label>
+                </div>
+                <div style="margin-left: 24px; margin-bottom: 16px;">
+                  <label style="display: block; margin-bottom: 4px; font-size: 14px;">同类目最大展示数量</label>
+                  <input type="number" class="form-control" value="3" min="1" max="10" style="max-width: 100px; font-size: 14px;">
+                </div>
+              </div>
+              
+              <div style="margin-bottom: 16px;">
+                <div style="display: flex; align-items: center; margin-bottom: 8px;">
+                  <input type="checkbox" id="rule-promotion" style="margin-right: 8px;">
+                  <label for="rule-promotion" style="margin: 0; font-weight: 500;">促销商品提权</label>
+                </div>
+                <div style="margin-left: 24px; margin-bottom: 16px;">
+                  <label style="display: block; margin-bottom: 4px; font-size: 14px;">提权幅度</label>
+                  <select class="form-select" style="font-size: 14px; margin-bottom: 8px;" disabled>
+                    <option value="low">小幅提权 (1.2倍)</option>
+                    <option value="medium" selected>中等提权 (1.5倍)</option>
+                    <option value="high">大幅提权 (2倍)</option>
+                    <option value="extreme">极限提权 (5倍)</option>
+                    <option value="custom">自定义</option>
+                  </select>
+                  <button type="button" class="btn-sm" style="background-color: var(--gray-100); border: none; padding: 4px 8px; border-radius: 4px; font-size: 14px;" disabled>选择促销商品</button>
+                </div>
+              </div>
+              
+              <div>
+                <button type="button" class="btn-secondary btn-sm"><i data-feather="plus" style="width: 14px; height: 14px; margin-right: 4px;"></i> 添加新规则</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- A/B测试配置 -->
+        <div class="card">
+          <div class="card-header">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <h2 class="card-title">A/B测试配置</h2>
+              <button class="btn-primary btn-sm"><i data-feather="plus" style="width: 14px; height: 14px; margin-right: 4px;"></i> 创建测试</button>
+            </div>
+          </div>
+          <div class="card-body">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th style="width: 20%;">测试名称</th>
+                  <th style="width: 15%;">状态</th>
+                  <th style="width: 15%;">流量分配</th>
+                  <th style="width: 20%;">开始时间</th>
+                  <th style="width: 15%;">对照组CTR</th>
+                  <th style="width: 15%;">操作</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>提高内容多样性</td>
+                  <td><span class="badge" style="background-color: var(--success); color: white; padding: 2px 6px; border-radius: 4px; font-size: 12px;">进行中</span></td>
+                  <td>A:50% B:50%</td>
+                  <td>2023-10-16</td>
+                  <td>+12.5%</td>
+                  <td>
+                    <button class="btn-sm" style="padding: 2px 6px; background: none; border: none; color: var(--primary); font-size: 12px;"><i data-feather="eye" style="width: 12px; height: 12px; margin-right: 2px;"></i> 查看</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>优化转化策略</td>
+                  <td><span class="badge" style="background-color: var(--gray-400); color: white; padding: 2px 6px; border-radius: 4px; font-size: 12px;">已完成</span></td>
+                  <td>A:50% B:50%</td>
+                  <td>2023-10-10</td>
+                  <td>+8.2%</td>
+                  <td>
+                    <button class="btn-sm" style="padding: 2px 6px; background: none; border: none; color: var(--primary); font-size: 12px;"><i data-feather="eye" style="width: 12px; height: 12px; margin-right: 2px;"></i> 查看</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      
+      <!-- 右侧辅助信息 -->
+      <div class="col-4">
+        <!-- 性能影响预估 -->
+        <div class="card" style="margin-bottom: 24px;">
+          <div class="card-header">
+            <h3 class="card-title" style="font-size: 16px;">性能影响预估</h3>
+          </div>
+          <div class="card-body">
+            <div style="margin-bottom: 16px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                <p style="margin: 0; font-weight: 500;">点击率 (CTR)</p>
+                <p style="margin: 0; font-weight: 600; color: var(--success);">+1.8%</p>
+              </div>
+              <div class="progress" style="height: 8px; margin-bottom: 4px;">
+                <div class="progress-bar" style="width: 60%; background-color: var(--success);"></div>
+              </div>
+              <p style="margin: 0; font-size: 12px; color: var(--text-light); text-align: right;">预估提升效果</p>
+            </div>
+            
+            <div style="margin-bottom: 16px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                <p style="margin: 0; font-weight: 500;">转化率 (CVR)</p>
+                <p style="margin: 0; font-weight: 600; color: var(--success);">+0.9%</p>
+              </div>
+              <div class="progress" style="height: 8px; margin-bottom: 4px;">
+                <div class="progress-bar" style="width: 40%; background-color: var(--success);"></div>
+              </div>
+              <p style="margin: 0; font-size: 12px; color: var(--text-light); text-align: right;">预估提升效果</p>
+            </div>
+            
+            <div style="margin-bottom: 16px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                <p style="margin: 0; font-weight: 500;">推荐多样性</p>
+                <p style="margin: 0; font-weight: 600; color: var(--success);">+25.2%</p>
+              </div>
+              <div class="progress" style="height: 8px; margin-bottom: 4px;">
+                <div class="progress-bar" style="width: 85%; background-color: var(--success);"></div>
+              </div>
+              <p style="margin: 0; font-size: 12px; color: var(--text-light); text-align: right;">预估提升效果</p>
+            </div>
+            
+            <div>
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                <p style="margin: 0; font-weight: 500;">计算资源消耗</p>
+                <p style="margin: 0; font-weight: 600; color: var(--warning);">+12.5%</p>
+              </div>
+              <div class="progress" style="height: 8px; margin-bottom: 4px;">
+                <div class="progress-bar" style="width: 55%; background-color: var(--warning);"></div>
+              </div>
+              <p style="margin: 0; font-size: 12px; color: var(--text-light); text-align: right;">预估增加消耗</p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 智能助手 -->
+        <div class="card" style="background-color: rgba(79, 70, 229, 0.05); border: 1px solid rgba(79, 70, 229, 0.1); margin-bottom: 24px;">
+          <div class="card-header">
+            <h3 class="card-title" style="font-size: 16px;">智能助手建议</h3>
+          </div>
+          <div class="card-body" style="padding: 16px;">
+            <div style="margin-bottom: 16px;">
+              <div style="display: flex; align-items: flex-start; margin-bottom: 12px;">
+                <div style="width: 24px; height: 24px; background-color: rgba(79, 70, 229, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 12px; flex-shrink: 0;">
+                  <i data-feather="zap" style="width: 14px; height: 14px; color: var(--primary);"></i>
+                </div>
+                <div>
+                  <p style="font-weight: 500; margin-bottom: 4px; color: var(--dark);">优化点击率</p>
+                  <p style="font-size: 14px; color: var(--text); margin-bottom: 8px;">考虑增加协同过滤权重至9-10，结合您的用户数据，可能带来更高的点击率。</p>
+                  <button class="btn-sm" style="background-color: rgba(79, 70, 229, 0.1); border: none; color: var(--primary); padding: 4px 8px; font-size: 12px; border-radius: 4px;">应用此建议</button>
+                </div>
+              </div>
+            </div>
+            
+            <div style="margin-bottom: 16px;">
+              <div style="display: flex; align-items: flex-start; margin-bottom: 12px;">
+                <div style="width: 24px; height: 24px; background-color: rgba(16, 185, 129, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 12px; flex-shrink: 0;">
+                  <i data-feather="trending-up" style="width: 14px; height: 14px; color: var(--success);"></i>
+                </div>
+                <div>
+                  <p style="font-weight: 500; margin-bottom: 4px; color: var(--dark);">提高转化率</p>
+                  <p style="font-size: 14px; color: var(--text); margin-bottom: 8px;">基于历史数据分析，为转化率目标分配40%的权重可能带来更好的整体业绩。</p>
+                  <button class="btn-sm" style="background-color: rgba(16, 185, 129, 0.1); border: none; color: var(--success); padding: 4px 8px; font-size: 12px; border-radius: 4px;">应用此建议</button>
+                </div>
+              </div>
+            </div>
+            
+            <div>
+              <div style="display: flex; align-items: flex-start;">
+                <div style="width: 24px; height: 24px; background-color: rgba(14, 165, 233, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 12px; flex-shrink: 0;">
+                  <i data-feather="gift" style="width: 14px; height: 14px; color: var(--secondary);"></i>
+                </div>
+                <div>
+                  <p style="font-weight: 500; margin-bottom: 4px; color: var(--dark);">促销活动优化</p>
+                  <p style="font-size: 14px; color: var(--text); margin-bottom: 8px;">检测到您有10个高利润促销商品，开启促销商品提权可能带来15%~20%的额外收入。</p>
+                  <button class="btn-sm" style="background-color: rgba(14, 165, 233, 0.1); border: none; color: var(--secondary); padding: 4px 8px; font-size: 12px; border-radius: 4px;">查看并应用</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 常见配置模板 -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title" style="font-size: 16px;">常见配置模板</h3>
+          </div>
+          <div class="card-body" style="padding: 0;">
+            <ul style="list-style: none; padding: 0; margin: 0;">
+              <li style="padding: 12px 16px; border-bottom: 1px solid var(--gray-200);">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <div>
+                    <p style="font-weight: 500; margin-bottom: 2px;">高点击率优化</p>
+                    <p style="font-size: 12px; color: var(--text-light); margin: 0;">注重提高用户参与度和点击行为</p>
+                  </div>
+                  <button class="btn-sm" style="background-color: var(--gray-100); border: none; color: var(--text); padding: 4px 8px; font-size: 12px; border-radius: 4px;">应用</button>
+                </div>
+              </li>
+              <li style="padding: 12px 16px; border-bottom: 1px solid var(--gray-200);">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <div>
+                    <p style="font-weight: 500; margin-bottom: 2px;">高转化率优化</p>
+                    <p style="font-size: 12px; color: var(--text-light); margin: 0;">专注提高购买转化和订单完成率</p>
+                  </div>
+                  <button class="btn-sm" style="background-color: var(--gray-100); border: none; color: var(--text); padding: 4px 8px; font-size: 12px; border-radius: 4px;">应用</button>
+                </div>
+              </li>
+              <li style="padding: 12px 16px; border-bottom: 1px solid var(--gray-200);">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <div>
+                    <p style="font-weight: 500; margin-bottom: 2px;">发现模式</p>
+                    <p style="font-size: 12px; color: var(--text-light); margin: 0;">增加推荐多样性，帮助用户发现新内容</p>
+                  </div>
+                  <button class="btn-sm" style="background-color: var(--gray-100); border: none; color: var(--text); padding: 4px 8px; font-size: 12px; border-radius: 4px;">应用</button>
+                </div>
+              </li>
+              <li style="padding: 12px 16px;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <div>
+                    <p style="font-weight: 500; margin-bottom: 2px;">促销优先</p>
+                    <p style="font-size: 12px; color: var(--text-light); margin: 0;">优先推荐促销商品和高利润商品</p>
+                  </div>
+                  <button class="btn-sm" style="background-color: var(--gray-100); border: none; color: var(--text); padding: 4px 8px; font-size: 12px; border-radius: 4px;">应用</button>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 助手按钮 -->
+  <button class="assistant-button">
+    <i data-feather="message-circle"></i>
+  </button>
+
+  <script>
+    feather.replace();
+  </script>
+  <script src="../recsys_platform_prototype/js/app.js"></script>
+</body>
+</html> 

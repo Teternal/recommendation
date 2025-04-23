@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>部署完成 - 智能推荐SAAS平台</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="../recsys_platform_prototype/css/styles.css">
+  <script src="https://unpkg.com/feather-icons"></script>
+</head>
+<body>
+  <!-- 导航栏 -->
+  <nav class="navbar">
+    <div class="navbar-logo">
+      <img src="../recsys_platform_prototype/img/logo-placeholder.svg" alt="智推Logo">
+      <span>智能推荐平台</span>
+    </div>
+    <div class="navbar-nav">
+      <a href="#" class="nav-link">产品</a>
+      <a href="#" class="nav-link">文档</a>
+      <a href="#" class="nav-link">价格</a>
+      <a href="#" class="nav-link">联系我们</a>
+      <button class="btn-primary">登录</button>
+    </div>
+  </nav>
+
+  <!-- 主内容区 -->
+  <div class="container" style="padding: 40px 0 80px;">
+    <!-- 步骤指示器 -->
+    <div class="steps" style="margin-bottom: 40px;">
+      <div class="step completed">
+        <div class="step-circle">
+          <i data-feather="check" style="width: 20px; height: 20px;"></i>
+        </div>
+        <div class="step-text">创建应用</div>
+      </div>
+      <div class="step completed">
+        <div class="step-circle">
+          <i data-feather="check" style="width: 20px; height: 20px;"></i>
+        </div>
+        <div class="step-text">连接数据</div>
+      </div>
+      <div class="step completed">
+        <div class="step-circle">
+          <i data-feather="check" style="width: 20px; height: 20px;"></i>
+        </div>
+        <div class="step-text">一键部署</div>
+      </div>
+    </div>
+
+    <!-- 部署成功通知 -->
+    <div style="text-align: center; margin-bottom: 48px;">
+      <div style="width: 96px; height: 96px; background-color: var(--success); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px;">
+        <i data-feather="check" style="width: 48px; height: 48px; color: white;"></i>
+      </div>
+      <h1 style="font-size: 32px; font-weight: 700; margin-bottom: 16px; color: var(--dark);">恭喜，您的推荐系统已成功部署！</h1>
+      <p style="font-size: 18px; color: var(--text); max-width: 600px; margin: 0 auto;">您的个性化商品推荐已经启动并准备好服务您的用户。您可以立即开始使用、监控和优化它。</p>
+    </div>
+
+    <div class="row">
+      <div class="col-8">
+        <!-- 推荐系统信息卡片 -->
+        <div class="card" style="margin-bottom: 24px;">
+          <div class="card-header">
+            <h2 class="card-title">我的电商推荐（个性化商品推荐）</h2>
+            <span class="badge" style="background-color: var(--success); color: white; padding: 4px 8px; border-radius: 4px; font-size: 12px;">运行中</span>
+          </div>
+          <div class="card-body">
+            <div class="row" style="margin-bottom: 24px;">
+              <div class="col-4">
+                <p style="font-size: 14px; color: var(--text-light); margin-bottom: 4px;">应用ID</p>
+                <p style="font-weight: 500; margin-bottom: 0;">app-78924ef1</p>
+              </div>
+              <div class="col-4">
+                <p style="font-size: 14px; color: var(--text-light); margin-bottom: 4px;">创建时间</p>
+                <p style="font-weight: 500; margin-bottom: 0;">2023-10-15 14:32:45</p>
+              </div>
+              <div class="col-4">
+                <p style="font-size: 14px; color: var(--text-light); margin-bottom: 4px;">当前版本</p>
+                <p style="font-weight: 500; margin-bottom: 0;">v1.0 (初始版本)</p>
+              </div>
+            </div>
+
+            <!-- API信息 -->
+            <div style="margin-bottom: 24px;">
+              <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 12px;">API 端点</h3>
+              <div style="display: flex; margin-bottom: 8px;">
+                <div style="background-color: var(--gray-100); padding: 8px 12px; border-radius: 4px 0 0 4px; font-weight: 500; width: 100px;">获取推荐</div>
+                <div style="flex-grow: 1; border: 1px solid var(--gray-200); padding: 8px 12px; border-radius: 0 4px 4px 0; font-family: monospace; display: flex; justify-content: space-between; align-items: center;">
+                  <code>https://api.recsys.example.com/v1/recommendations/app-78924ef1/items</code>
+                  <button type="button" style="background: none; border: none; color: var(--primary); cursor: pointer;"><i data-feather="copy" style="width: 16px; height: 16px;"></i></button>
+                </div>
+              </div>
+              <div style="display: flex;">
+                <div style="background-color: var(--gray-100); padding: 8px 12px; border-radius: 4px 0 0 4px; font-weight: 500; width: 100px;">记录事件</div>
+                <div style="flex-grow: 1; border: 1px solid var(--gray-200); padding: 8px 12px; border-radius: 0 4px 4px 0; font-family: monospace; display: flex; justify-content: space-between; align-items: center;">
+                  <code>https://api.recsys.example.com/v1/events/app-78924ef1</code>
+                  <button type="button" style="background: none; border: none; color: var(--primary); cursor: pointer;"><i data-feather="copy" style="width: 16px; height: 16px;"></i></button>
+                </div>
+              </div>
+            </div>
+
+            <!-- 初始指标 -->
+            <div>
+              <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 12px;">指标仪表板</h3>
+              <div class="row">
+                <div class="col-3">
+                  <div style="background-color: var(--gray-100); border-radius: var(--border-radius); padding: 16px; text-align: center;">
+                    <p style="font-size: 12px; color: var(--text-light); margin-bottom: 8px;">服务状态</p>
+                    <p style="font-size: 24px; font-weight: 700; color: var(--success); margin-bottom: 0;">健康</p>
+                  </div>
+                </div>
+                <div class="col-3">
+                  <div style="background-color: var(--gray-100); border-radius: var(--border-radius); padding: 16px; text-align: center;">
+                    <p style="font-size: 12px; color: var(--text-light); margin-bottom: 8px;">API响应时间</p>
+                    <p style="font-size: 24px; font-weight: 700; color: var(--dark); margin-bottom: 0;">45ms</p>
+                  </div>
+                </div>
+                <div class="col-3">
+                  <div style="background-color: var(--gray-100); border-radius: var(--border-radius); padding: 16px; text-align: center;">
+                    <p style="font-size: 12px; color: var(--text-light); margin-bottom: 8px;">模型准确率</p>
+                    <p style="font-size: 24px; font-weight: 700; color: var(--dark); margin-bottom: 0;">86.2%</p>
+                  </div>
+                </div>
+                <div class="col-3">
+                  <div style="background-color: var(--gray-100); border-radius: var(--border-radius); padding: 16px; text-align: center;">
+                    <p style="font-size: 12px; color: var(--text-light); margin-bottom: 8px;">请求总数</p>
+                    <p style="font-size: 24px; font-weight: 700; color: var(--dark); margin-bottom: 0;">0</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer">
+            <div style="display: flex; justify-content: flex-end;">
+              <button type="button" class="btn-secondary" style="margin-right: 8px;"><i data-feather="settings" style="width: 16px; height: 16px; margin-right: 4px;"></i> 设置</button>
+              <button type="button" class="btn-primary"><i data-feather="bar-chart-2" style="width: 16px; height: 16px; margin-right: 4px;"></i> 查看详细指标</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- SDK集成指南 -->
+        <div class="card">
+          <div class="card-header">
+            <h2 class="card-title">快速集成指南</h2>
+          </div>
+          <div class="card-body">
+            <!-- 集成步骤 -->
+            <div class="row" style="margin-bottom: 24px;">
+              <div class="col-4">
+                <div style="text-align: center;">
+                  <div style="width: 48px; height: 48px; background-color: rgba(79, 70, 229, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px;">
+                    <i data-feather="code" style="width: 24px; height: 24px; color: var(--primary);"></i>
+                  </div>
+                  <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">1. 安装SDK</h3>
+                  <p style="font-size: 14px; color: var(--text-light);">将我们的SDK添加到您的项目中</p>
+                </div>
+              </div>
+              <div class="col-4">
+                <div style="text-align: center;">
+                  <div style="width: 48px; height: 48px; background-color: rgba(79, 70, 229, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px;">
+                    <i data-feather="key" style="width: 24px; height: 24px; color: var(--primary);"></i>
+                  </div>
+                  <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">2. 配置API密钥</h3>
+                  <p style="font-size: 14px; color: var(--text-light);">使用您的唯一API密钥初始化SDK</p>
+                </div>
+              </div>
+              <div class="col-4">
+                <div style="text-align: center;">
+                  <div style="width: 48px; height: 48px; background-color: rgba(79, 70, 229, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px;">
+                    <i data-feather="box" style="width: 24px; height: 24px; color: var(--primary);"></i>
+                  </div>
+                  <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">3. 获取推荐</h3>
+                  <p style="font-size: 14px; color: var(--text-light);">调用API获取个性化推荐结果</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- 代码示例 -->
+            <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 12px;">代码示例</h3>
+            
+            <!-- 选项卡 -->
+            <div style="margin-bottom: 16px;">
+              <div style="display: flex; border-bottom: 1px solid var(--gray-200);">
+                <button type="button" class="tab-btn active" onclick="switchTab('javascript')" style="padding: 8px 16px; background: none; border: none; border-bottom: 2px solid var(--primary); font-weight: 500; cursor: pointer;">JavaScript</button>
+                <button type="button" class="tab-btn" onclick="switchTab('python')" style="padding: 8px 16px; background: none; border: none; border-bottom: 2px solid transparent; color: var(--text-light); cursor: pointer;">Python</button>
+                <button type="button" class="tab-btn" onclick="switchTab('java')" style="padding: 8px 16px; background: none; border: none; border-bottom: 2px solid transparent; color: var(--text-light); cursor: pointer;">Java</button>
+                <button type="button" class="tab-btn" onclick="switchTab('php')" style="padding: 8px 16px; background: none; border: none; border-bottom: 2px solid transparent; color: var(--text-light); cursor: pointer;">PHP</button>
+              </div>
+            </div>
+            
+            <!-- JavaScript代码 -->
+            <div id="code-javascript" class="code-tab" style="background-color: var(--gray-100); padding: 16px; border-radius: var(--border-radius); font-family: monospace; font-size: 14px; overflow-x: auto;">
+<pre style="margin: 0;">// 1. 安装SDK
+// npm install @recsys/javascript-sdk
+
+// 2. 初始化SDK
+import RecSys from '@recsys/javascript-sdk';
+
+const recsys = new RecSys({
+  apiKey: 'sk_78924ef1a2b3c4d5e6f7g8h9i0j',
+  appId: 'app-78924ef1'
+});
+
+// 3. 获取推荐
+recsys.getRecommendations({
+  userId: 'user-123',
+  limit: 10,
+  context: {
+    page: 'homepage',
+    device: 'mobile'
+  }
+}).then(recommendations => {
+  console.log(recommendations);
+  // 将推荐结果渲染到页面
+  renderRecommendations(recommendations);
+}).catch(error => {
+  console.error('获取推荐失败:', error);
+});
+
+// 4. 记录用户事件
+recsys.trackEvent({
+  userId: 'user-123',
+  itemId: 'item-456',
+  eventType: 'click',
+  timestamp: new Date().toISOString()
+});</pre>
+            </div>
+            
+            <!-- Python代码（默认隐藏） -->
+            <div id="code-python" class="code-tab" style="display: none; background-color: var(--gray-100); padding: 16px; border-radius: var(--border-radius); font-family: monospace; font-size: 14px; overflow-x: auto;">
+<pre style="margin: 0;"># 1. 安装SDK
+# pip install recsys-python-sdk
+
+# 2. 初始化SDK
+from recsys import RecSys
+
+recsys = RecSys(
+    api_key="sk_78924ef1a2b3c4d5e6f7g8h9i0j",
+    app_id="app-78924ef1"
+)
+
+# 3. 获取推荐
+try:
+    recommendations = recsys.get_recommendations(
+        user_id="user-123",
+        limit=10,
+        context={
+            "page": "homepage",
+            "device": "mobile"
+        }
+    )
+    print(recommendations)
+    # 处理推荐结果
+except Exception as e:
+    print(f"获取推荐失败: {e}")
+
+# 4. 记录用户事件
+recsys.track_event(
+    user_id="user-123",
+    item_id="item-456",
+    event_type="click",
+    timestamp=datetime.now().isoformat()
+)</pre>
+            </div>
+            
+            <!-- Java代码（默认隐藏） -->
+            <div id="code-java" class="code-tab" style="display: none; background-color: var(--gray-100); padding: 16px; border-radius: var(--border-radius); font-family: monospace; font-size: 14px; overflow-x: auto;">
+<pre style="margin: 0;">// 1. 添加依赖
+// Maven: com.recsys:recsys-java-sdk
+
+// 2. 初始化SDK
+import com.recsys.RecSys;
+import com.recsys.models.*;
+
+RecSys recsys = new RecSys.Builder()
+    .apiKey("sk_78924ef1a2b3c4d5e6f7g8h9i0j")
+    .appId("app-78924ef1")
+    .build();
+
+// 3. 获取推荐
+try {
+    Map<String, String> context = new HashMap<>();
+    context.put("page", "homepage");
+    context.put("device", "mobile");
+    
+    List<Recommendation> recommendations = recsys.getRecommendations(
+        "user-123",
+        10,
+        context
+    );
+    
+    // 处理推荐结果
+    for (Recommendation rec : recommendations) {
+        System.out.println(rec.getItemId() + ": " + rec.getScore());
+    }
+} catch (RecSysException e) {
+    System.err.println("获取推荐失败: " + e.getMessage());
+}
+
+// 4. 记录用户事件
+Event event = new Event.Builder()
+    .userId("user-123")
+    .itemId("item-456")
+    .eventType("click")
+    .timestamp(new Date())
+    .build();
+    
+recsys.trackEvent(event);</pre>
+            </div>
+            
+            <!-- PHP代码（默认隐藏） -->
+            <div id="code-php" class="code-tab" style="display: none; background-color: var(--gray-100); padding: 16px; border-radius: var(--border-radius); font-family: monospace; font-size: 14px; overflow-x: auto;">
+<pre style="margin: 0;">&lt;?php
+// 1. 安装SDK
+// composer require recsys/php-sdk
+
+// 2. 初始化SDK
+require_once 'vendor/autoload.php';
+
+$recsys = new \RecSys\Client([
+    'api_key' => 'sk_78924ef1a2b3c4d5e6f7g8h9i0j',
+    'app_id' => 'app-78924ef1'
+]);
+
+// 3. 获取推荐
+try {
+    $recommendations = $recsys->getRecommendations([
+        'user_id' => 'user-123',
+        'limit' => 10,
+        'context' => [
+            'page' => 'homepage',
+            'device' => 'mobile'
+        ]
+    ]);
+    
+    // 处理推荐结果
+    foreach ($recommendations as $rec) {
+        echo $rec['item_id'] . ': ' . $rec['score'] . PHP_EOL;
+    }
+} catch (\Exception $e) {
+    echo '获取推荐失败: ' . $e->getMessage();
+}
+
+// 4. 记录用户事件
+$recsys->trackEvent([
+    'user_id' => 'user-123',
+    'item_id' => 'item-456',
+    'event_type' => 'click',
+    'timestamp' => date('c')
+]);
+?></pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 右侧辅助信息 -->
+      <div class="col-4">
+        <!-- API密钥卡片 -->
+        <div class="card" style="margin-bottom: 24px;">
+          <div class="card-header">
+            <h3 class="card-title" style="font-size: 16px;">API密钥</h3>
+          </div>
+          <div class="card-body">
+            <div style="margin-bottom: 16px;">
+              <p style="font-size: 14px; color: var(--text-light); margin-bottom: 8px;">生产环境密钥</p>
+              <div style="display: flex; align-items: center; justify-content: space-between;">
+                <code style="font-family: monospace; background-color: var(--gray-100); padding: 6px 12px; border-radius: 4px;">sk_78924ef1********j</code>
+                <button type="button" style="background: none; border: none; color: var(--primary); cursor: pointer;"><i data-feather="eye" style="width: 16px; height: 16px;"></i></button>
+              </div>
+            </div>
+            <div>
+              <p style="font-size: 14px; color: var(--text-light); margin-bottom: 8px;">测试环境密钥</p>
+              <div style="display: flex; align-items: center; justify-content: space-between;">
+                <code style="font-family: monospace; background-color: var(--gray-100); padding: 6px 12px; border-radius: 4px;">sk_test_58924ef1********m</code>
+                <button type="button" style="background: none; border: none; color: var(--primary); cursor: pointer;"><i data-feather="eye" style="width: 16px; height: 16px;"></i></button>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer">
+            <button type="button" class="btn-secondary" style="width: 100%;"><i data-feather="refresh-cw" style="width: 16px; height: 16px; margin-right: 4px;"></i> 重新生成密钥</button>
+          </div>
+        </div>
+
+        <!-- 下一步建议 -->
+        <div class="card" style="background-color: rgba(79, 70, 229, 0.05); border: 1px solid rgba(79, 70, 229, 0.1); margin-bottom: 24px;">
+          <div class="card-header">
+            <h3 class="card-title" style="font-size: 16px;">接下来您可以...</h3>
+          </div>
+          <div class="card-body" style="padding: 0;">
+            <ul style="list-style: none; padding: 0; margin: 0;">
+              <li style="padding: 16px; border-bottom: 1px solid rgba(79, 70, 229, 0.1);">
+                <div style="display: flex; align-items: flex-start;">
+                  <div style="width: 24px; height: 24px; background-color: rgba(79, 70, 229, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 12px; flex-shrink: 0;">
+                    <i data-feather="code" style="width: 14px; height: 14px; color: var(--primary);"></i>
+                  </div>
+                  <div>
+                    <p style="font-weight: 500; margin-bottom: 4px; color: var(--dark);">集成SDK</p>
+                    <p style="font-size: 14px; color: var(--text-light); margin-bottom: 8px;">使用我们的SDK将推荐功能集成到您的网站或应用中</p>
+                    <a href="#" style="font-size: 14px; font-weight: 500; color: var(--primary); text-decoration: none;">查看集成文档</a>
+                  </div>
+                </div>
+              </li>
+              <li style="padding: 16px; border-bottom: 1px solid rgba(79, 70, 229, 0.1);">
+                <div style="display: flex; align-items: flex-start;">
+                  <div style="width: 24px; height: 24px; background-color: rgba(16, 185, 129, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 12px; flex-shrink: 0;">
+                    <i data-feather="sliders" style="width: 14px; height: 14px; color: var(--success);"></i>
+                  </div>
+                  <div>
+                    <p style="font-weight: 500; margin-bottom: 4px; color: var(--dark);">优化推荐策略</p>
+                    <p style="font-size: 14px; color: var(--text-light); margin-bottom: 8px;">调整排序策略和规则，使推荐更符合业务需求</p>
+                    <a href="#" style="font-size: 14px; font-weight: 500; color: var(--primary); text-decoration: none;">前往策略配置</a>
+                  </div>
+                </div>
+              </li>
+              <li style="padding: 16px;">
+                <div style="display: flex; align-items: flex-start;">
+                  <div style="width: 24px; height: 24px; background-color: rgba(245, 158, 11, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 12px; flex-shrink: 0;">
+                    <i data-feather="bar-chart-2" style="width: 14px; height: 14px; color: var(--warning);"></i>
+                  </div>
+                  <div>
+                    <p style="font-weight: 500; margin-bottom: 4px; color: var(--dark);">创建A/B测试</p>
+                    <p style="font-size: 14px; color: var(--text-light); margin-bottom: 8px;">设置对照实验，验证不同推荐策略的效果</p>
+                    <a href="#" style="font-size: 14px; font-weight: 500; color: var(--primary); text-decoration: none;">创建新实验</a>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+          
+          <!-- 添加进入管理后台卡片 -->
+          <div class="card" style="background-color: rgba(79, 70, 229, 0.05); border: 1px solid rgba(79, 70, 229, 0.1); margin-bottom: 24px; margin-top: 24px;">
+            <div class="card-body" style="text-align: center; padding: 24px;">
+              <div style="width: 64px; height: 64px; background-color: var(--primary-light); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px;">
+                <i data-feather="layout" style="width: 32px; height: 32px; color: var(--primary);"></i>
+              </div>
+              <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 8px; color: var(--dark);">进入管理后台</h3>
+              <p style="font-size: 14px; color: var(--text); margin-bottom: 16px;">在管理后台中监控和管理您的推荐系统，包括模型管理、数据源配置、分析报表等</p>
+              <a href="dashboard.html" class="btn-primary">
+                <i data-feather="layout" style="width: 16px; height: 16px; margin-right: 8px;"></i>
+                进入管理后台
+              </a>
+            </div>
+          </div>
+          
+        </div>
+
+        <!-- 帮助资源 -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title" style="font-size: 16px;">帮助资源</h3>
+          </div>
+          <div class="card-body" style="padding: 0;">
+            <ul style="list-style: none; padding: 0; margin: 0;">
+              <li style="padding: 12px 16px; border-bottom: 1px solid var(--gray-200);">
+                <a href="#" style="text-decoration: none; color: var(--primary); display: flex; align-items: center;">
+                  <i data-feather="book-open" style="width: 16px; height: 16px; margin-right: 8px;"></i>
+                  <span>开发者文档</span>
+                </a>
+              </li>
+              <li style="padding: 12px 16px; border-bottom: 1px solid var(--gray-200);">
+                <a href="#" style="text-decoration: none; color: var(--primary); display: flex; align-items: center;">
+                  <i data-feather="video" style="width: 16px; height: 16px; margin-right: 8px;"></i>
+                  <span>视频教程</span>
+                </a>
+              </li>
+              <li style="padding: 12px 16px; border-bottom: 1px solid var(--gray-200);">
+                <a href="#" style="text-decoration: none; color: var(--primary); display: flex; align-items: center;">
+                  <i data-feather="github" style="width: 16px; height: 16px; margin-right: 8px;"></i>
+                  <span>示例代码仓库</span>
+                </a>
+              </li>
+              <li style="padding: 12px 16px;">
+                <a href="#" style="text-decoration: none; color: var(--primary); display: flex; align-items: center;">
+                  <i data-feather="message-circle" style="width: 16px; height: 16px; margin-right: 8px;"></i>
+                  <span>联系技术支持</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 助手按钮 -->
+  <button class="assistant-button">
+    <i data-feather="message-circle"></i>
+  </button>
+
+  <script>
+    feather.replace();
+    
+    function switchTab(language) {
+      // 隐藏所有代码选项卡
+      document.querySelectorAll('.code-tab').forEach(tab => {
+        tab.style.display = 'none';
+      });
+      
+      // 显示选中的代码选项卡
+      document.getElementById('code-' + language).style.display = 'block';
+      
+      // 更新选项卡样式
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('active');
+        btn.style.borderBottomColor = 'transparent';
+        btn.style.color = 'var(--text-light)';
+      });
+      
+      const activeBtn = document.querySelector(`.tab-btn[onclick="switchTab('${language}')"]`);
+      activeBtn.classList.add('active');
+      activeBtn.style.borderBottomColor = 'var(--primary)';
+      activeBtn.style.color = 'var(--dark)';
+    }
+  </script>
+  <script src="../recsys_platform_prototype/js/app.js"></script>
+</body>
+</html> 

@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>数据管理 - 智能推荐SAAS平台</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="../recsys_platform_prototype/css/styles.css">
+  <script src="https://unpkg.com/feather-icons"></script>
+  <style>
+    .sidebar {
+      width: 240px;
+      background-color: var(--dark);
+      color: white;
+      height: 100vh;
+      position: fixed;
+      left: 0;
+      top: 0;
+      overflow-y: auto;
+    }
+    .sidebar-header {
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .sidebar-menu {
+      padding: 16px 0;
+    }
+    .sidebar-menu-item {
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      color: rgba(255, 255, 255, 0.7);
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .sidebar-menu-item:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+      color: white;
+    }
+    .sidebar-menu-item.active {
+      background-color: var(--primary);
+      color: white;
+    }
+    .sidebar-menu-item i {
+      margin-right: 12px;
+    }
+    .main-content {
+      margin-left: 240px;
+      padding: 24px;
+    }
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+    .user-menu {
+      display: flex;
+      align-items: center;
+    }
+    .card {
+      background-color: white;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 24px;
+    }
+    .card-header {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--gray-200);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .card-body {
+      padding: 20px;
+    }
+    .tab-nav {
+      display: flex;
+      border-bottom: 1px solid var(--gray-200);
+      margin-bottom: 16px;
+    }
+    .tab-btn {
+      padding: 12px 16px;
+      font-weight: 500;
+      color: var(--text-light);
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+    }
+    .tab-btn.active {
+      color: var(--primary);
+      border-bottom-color: var(--primary);
+    }
+    .badge {
+      font-size: 12px;
+      padding: 4px 8px;
+      border-radius: 20px;
+      font-weight: 500;
+    }
+    .badge-success {
+      background-color: rgba(16, 185, 129, 0.1);
+      color: var(--success);
+    }
+    .badge-warning {
+      background-color: rgba(245, 158, 11, 0.1);
+      color: var(--warning);
+    }
+    .badge-danger {
+      background-color: rgba(239, 68, 68, 0.1);
+      color: var(--danger);
+    }
+    .badge-info {
+      background-color: rgba(59, 130, 246, 0.1);
+      color: #3b82f6;
+    }
+    .data-source-card {
+      border: 1px solid var(--gray-200);
+      border-radius: var(--border-radius);
+      padding: 20px;
+      margin-bottom: 16px;
+      transition: all 0.2s;
+    }
+    .data-source-card:hover {
+      border-color: var(--primary);
+      box-shadow: var(--shadow-sm);
+    }
+  </style>
+</head>
+<body>
+  <!-- 侧边栏 -->
+  <div class="sidebar">
+    <div class="sidebar-header">
+      <img src="../recsys_platform_prototype/img/logo-placeholder.svg" alt="Logo" style="width: 32px; height: 32px; margin-right: 12px;">
+      <span style="font-weight: 600; font-size: 18px;">智能推荐平台</span>
+    </div>
+    <div class="sidebar-menu">
+      <a href="dashboard.html" class="sidebar-menu-item">
+        <i data-feather="grid"></i>
+        <span>仪表盘</span>
+      </a>
+      <a href="applications.html" class="sidebar-menu-item">
+        <i data-feather="box"></i>
+        <span>应用管理</span>
+      </a>
+      <a href="data-management.html" class="sidebar-menu-item active">
+        <i data-feather="database"></i>
+        <span>数据管理</span>
+      </a>
+      <a href="strategy.html" class="sidebar-menu-item">
+        <i data-feather="sliders"></i>
+        <span>策略配置</span>
+      </a>
+      <a href="model-management.html" class="sidebar-menu-item">
+        <i data-feather="layers"></i>
+        <span>模型管理</span>
+      </a>
+      <a href="reports.html" class="sidebar-menu-item">
+        <i data-feather="bar-chart-2"></i>
+        <span>分析报表</span>
+      </a>
+      <a href="scenario.html" class="sidebar-menu-item">
+        <i data-feather="flag"></i>
+        <span>场景管理</span>
+      </a>
+      <a href="#" class="sidebar-menu-item">
+        <i data-feather="bell"></i>
+        <span>告警监控</span>
+      </a>
+      <a href="#" class="sidebar-menu-item">
+        <i data-feather="users"></i>
+        <span>用户管理</span>
+      </a>
+      <a href="#" class="sidebar-menu-item">
+        <i data-feather="settings"></i>
+        <span>系统设置</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- 主内容区 -->
+  <div class="main-content">
+    <div class="header">
+      <h1 style="font-size: 24px; font-weight: 700; margin: 0;">数据管理</h1>
+      <div class="user-menu">
+        <div style="margin-right: 16px; position: relative;">
+          <i data-feather="bell" style="width: 20px; height: 20px; color: var(--text-light);"></i>
+          <span style="position: absolute; top: -5px; right: -5px; width: 16px; height: 16px; background-color: var(--danger); border-radius: 50%; font-size: 10px; display: flex; align-items: center; justify-content: center; color: white;">3</span>
+        </div>
+        <div style="display: flex; align-items: center;">
+          <div style="width: 36px; height: 36px; background-color: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 8px; color: white; font-weight: 600;">JD</div>
+          <div>
+            <div style="font-weight: 600; font-size: 14px;">张三</div>
+            <div style="font-size: 12px; color: var(--text-light);">管理员</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 数据管理选项卡 -->
+    <div class="tab-nav">
+      <div class="tab-btn active">数据连接</div>
+      <div class="tab-btn">数据同步任务</div>
+      <div class="tab-btn">数据字典</div>
+      <div class="tab-btn">数据质量</div>
+      <div class="tab-btn">数据加工</div>
+    </div>
+
+    <!-- 数据连接 -->
+    <div class="row">
+      <div class="col-8">
+        <!-- 已连接数据源 -->
+        <div class="card">
+          <div class="card-header">
+            <h2 style="font-size: 18px; font-weight: 600; margin: 0;">已连接数据源</h2>
+            <button class="btn-primary"><i data-feather="plus" style="width: 16px; height: 16px; margin-right: 4px;"></i> 新建连接</button>
+          </div>
+          <div class="card-body">
+            <!-- 已连接数据源列表 -->
+            <div class="data-source-card">
+              <div style="display: flex; justify-content: space-between; margin-bottom: 16px;">
+                <div style="display: flex; align-items: center;">
+                  <div style="width: 40px; height: 40px; background-color: var(--primary-light); border-radius: var(--border-radius); display: flex; align-items: center; justify-content: center; margin-right: 12px;">
+                    <i data-feather="database" style="width: 20px; height: 20px; color: var(--primary);"></i>
+                  </div>
+                  <div>
+                    <div style="font-weight: 600; font-size: 16px;">用户数据库</div>
+                    <div style="font-size: 12px; color: var(--text-light);">MySQL连接</div>
+                  </div>
+                </div>
+                <span class="badge badge-success">已连接</span>
+              </div>
+              <div style="display: flex; margin-bottom: 16px;">
+                <div style="flex: 1;">
+                  <div style="font-size: 13px; color: var(--text-light); margin-bottom: 4px;">主机地址</div>
+                  <div style="font-weight: 500;">db-user.example.com</div>
+                </div>
+                <div style="flex: 1;">
+                  <div style="font-size: 13px; color: var(--text-light); margin-bottom: 4px;">数据库名</div>
+                  <div style="font-weight: 500;">user_db</div>
+                </div>
+                <div style="flex: 1;">
+                  <div style="font-size: 13px; color: var(--text-light); margin-bottom: 4px;">最后同步</div>
+                  <div style="font-weight: 500;">2023-10-15 08:30</div>
+                </div>
+              </div>
+              <div style="margin-bottom: 16px;">
+                <div style="font-size: 13px; color: var(--text-light); margin-bottom: 4px;">同步表</div>
+                <div>
+                  <span class="tag">users</span>
+                  <span class="tag">user_attributes</span>
+                  <span class="tag">user_segments</span>
+                </div>
+              </div>
+              <div style="display: flex; justify-content: flex-end;">
+                <button class="btn-secondary" style="margin-right: 8px;"><i data-feather="edit-2" style="width: 16px; height: 16px; margin-right: 4px;"></i> 编辑</button>
+                <button class="btn-primary"><i data-feather="refresh-cw" style="width: 16px; height: 16px; margin-right: 4px;"></i> 立即同步</button>
+              </div>
+            </div>
+
+            <div class="data-source-card">
+              <div style="display: flex; justify-content: space-between; margin-bottom: 16px;">
+                <div style="display: flex; align-items: center;">
+                  <div style="width: 40px; height: 40px; background-color: var(--success-light); border-radius: var(--border-radius); display: flex; align-items: center; justify-content: center; margin-right: 12px;">
+                    <i data-feather="shopping-bag" style="width: 20px; height: 20px; color: var(--success);"></i>
+                  </div>
+                  <div>
+                    <div style="font-weight: 600; font-size: 16px;">商品数据库</div>
+                    <div style="font-size: 12px; color: var(--text-light);">PostgreSQL连接</div>
+                  </div>
+                </div>
+                <span class="badge badge-success">已连接</span>
+              </div>
+              <div style="display: flex; margin-bottom: 16px;">
+                <div style="flex: 1;">
+                  <div style="font-size: 13px; color: var(--text-light); margin-bottom: 4px;">主机地址</div>
+                  <div style="font-weight: 500;">db-product.example.com</div>
+                </div>
+                <div style="flex: 1;">
+                  <div style="font-size: 13px; color: var(--text-light); margin-bottom: 4px;">数据库名</div>
+                  <div style="font-weight: 500;">product_db</div>
+                </div>
+                <div style="flex: 1;">
+                  <div style="font-size: 13px; color: var(--text-light); margin-bottom: 4px;">最后同步</div>
+                  <div style="font-weight: 500;">2023-10-15 12:15</div>
+                </div>
+              </div>
+              <div style="margin-bottom: 16px;">
+                <div style="font-size: 13px; color: var(--text-light); margin-bottom: 4px;">同步表</div>
+                <div>
+                  <span class="tag">products</span>
+                  <span class="tag">categories</span>
+                  <span class="tag">product_attributes</span>
+                  <span class="tag">inventory</span>
+                </div>
+              </div>
+              <div style="display: flex; justify-content: flex-end;">
+                <button class="btn-secondary" style="margin-right: 8px;"><i data-feather="edit-2" style="width: 16px; height: 16px; margin-right: 4px;"></i> 编辑</button>
+                <button class="btn-primary"><i data-feather="refresh-cw" style="width: 16px; height: 16px; margin-right: 4px;"></i> 立即同步</button>
+              </div>
+            </div>
+
+            <div class="data-source-card">
+              <div style="display: flex; justify-content: space-between; margin-bottom: 16px;">
+                <div style="display: flex; align-items: center;">
+                  <div style="width: 40px; height: 40px; background-color: var(--warning-light); border-radius: var(--border-radius); display: flex; align-items: center; justify-content: center; margin-right: 12px;">
+                    <i data-feather="activity" style="width: 20px; height: 20px; color: var(--warning);"></i>
+                  </div>
+                  <div>
+                    <div style="font-weight: 600; font-size: 16px;">行为数据流</div>
+                    <div style="font-size: 12px; color: var(--text-light);">Kafka连接</div>
+                  </div>
+                </div>
+                <span class="badge badge-warning">需要注意</span>
+              </div>
+              <div style="display: flex; margin-bottom: 16px;">
+                <div style="flex: 1;">
+                  <div style="font-size: 13px; color: var(--text-light); margin-bottom: 4px;">Broker地址</div>
+                  <div style="font-weight: 500;">kafka.example.com:9092</div>
+                </div>
+                <div style="flex: 1;">
+                  <div style="font-size: 13px; color: var(--text-light); margin-bottom: 4px;">消费组</div>
+                  <div style="font-weight: 500;">recsys-consumer</div>
+                </div>
+                <div style="flex: 1;">
+                  <div style="font-size: 13px; color: var(--text-light); margin-bottom: 4px;">状态</div>
+                  <div style="font-weight: 500; color: var(--warning);">延迟较高</div>
+                </div>
+              </div>
+              <div style="margin-bottom: 16px;">
+                <div style="font-size: 13px; color: var(--text-light); margin-bottom: 4px;">订阅主题</div>
+                <div>
+                  <span class="tag">user_clicks</span>
+                  <span class="tag">user_views</span>
+                  <span class="tag">user_purchases</span>
+                  <span class="tag">user_likes</span>
+                </div>
+              </div>
+              <div style="display: flex; justify-content: flex-end;">
+                <button class="btn-secondary" style="margin-right: 8px;"><i data-feather="edit-2" style="width: 16px; height: 16px; margin-right: 4px;"></i> 编辑</button>
+                <button class="btn-warning"><i data-feather="alert-triangle" style="width: 16px; height: 16px; margin-right: 4px;"></i> 查看问题</button>
+              </div>
+            </div>
+
+            <div class="data-source-card">
+              <div style="display: flex; justify-content: space-between; margin-bottom: 16px;">
+                <div style="display: flex; align-items: center;">
+                  <div style="width: 40px; height: 40px; background-color: rgba(59, 130, 246, 0.1); border-radius: var(--border-radius); display: flex; align-items: center; justify-content: center; margin-right: 12px;">
+                    <i data-feather="hard-drive" style="width: 20px; height: 20px; color: #3b82f6;"></i>
+                  </div>
+                  <div>
+                    <div style="font-weight: 600; font-size: 16px;">历史数据仓库</div>
+                    <div style="font-size: 12px; color: var(--text-light);">Hive连接</div>
+                  </div>
+                </div>
+                <span class="badge badge-success">已连接</span>
+              </div>
+              <div style="display: flex; margin-bottom: 16px;">
+                <div style="flex: 1;">
+                  <div style="font-size: 13px; color: var(--text-light); margin-bottom: 4px;">服务地址</div>
+                  <div style="font-weight: 500;">hive.example.com:10000</div>
+                </div>
+                <div style="flex: 1;">
+                  <div style="font-size: 13px; color: var(--text-light); margin-bottom: 4px;">数据库</div>
+                  <div style="font-weight: 500;">recsys_warehouse</div>
+                </div>
+                <div style="flex: 1;">
+                  <div style="font-size: 13px; color: var(--text-light); margin-bottom: 4px;">最后同步</div>
+                  <div style="font-weight: 500;">2023-10-14 23:45</div>
+                </div>
+              </div>
+              <div style="margin-bottom: 16px;">
+                <div style="font-size: 13px; color: var(--text-light); margin-bottom: 4px;">同步表</div>
+                <div>
+                  <span class="tag">user_behavior_history</span>
+                  <span class="tag">product_popularity</span>
+                  <span class="tag">user_product_matrix</span>
+                </div>
+              </div>
+              <div style="display: flex; justify-content: flex-end;">
+                <button class="btn-secondary" style="margin-right: 8px;"><i data-feather="edit-2" style="width: 16px; height: 16px; margin-right: 4px;"></i> 编辑</button>
+                <button class="btn-primary"><i data-feather="refresh-cw" style="width: 16px; height: 16px; margin-right: 4px;"></i> 立即同步</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 数据加工任务 -->
+        <div class="card">
+          <div class="card-header">
+            <h2 style="font-size: 18px; font-weight: 600; margin: 0;">数据加工任务</h2>
+            <button class="btn-primary"><i data-feather="plus" style="width: 16px; height: 16px; margin-right: 4px;"></i> 创建任务</button>
+          </div>
+          <div style="padding: 0;">
+            <table class="table" style="margin: 0;">
+              <thead>
+                <tr>
+                  <th>任务名称</th>
+                  <th>任务类型</th>
+                  <th>来源</th>
+                  <th>目标</th>
+                  <th>频率</th>
+                  <th>状态</th>
+                  <th>操作</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>用户特征计算</td>
+                  <td>特征工程</td>
+                  <td>用户数据库</td>
+                  <td>特征仓库</td>
+                  <td>每日</td>
+                  <td><span class="badge badge-success">运行中</span></td>
+                  <td>
+                    <button class="btn-icon" style="margin-right: 4px;"><i data-feather="edit-2" style="width: 16px; height: 16px;"></i></button>
+                    <button class="btn-icon"><i data-feather="eye" style="width: 16px; height: 16px;"></i></button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>商品相似度计算</td>
+                  <td>相似度计算</td>
+                  <td>商品数据库</td>
+                  <td>特征仓库</td>
+                  <td>每周</td>
+                  <td><span class="badge badge-success">运行中</span></td>
+                  <td>
+                    <button class="btn-icon" style="margin-right: 4px;"><i data-feather="edit-2" style="width: 16px; height: 16px;"></i></button>
+                    <button class="btn-icon"><i data-feather="eye" style="width: 16px; height: 16px;"></i></button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>用户行为汇总</td>
+                  <td>数据汇总</td>
+                  <td>行为数据流</td>
+                  <td>数据仓库</td>
+                  <td>实时</td>
+                  <td><span class="badge badge-warning">部分运行</span></td>
+                  <td>
+                    <button class="btn-icon" style="margin-right: 4px;"><i data-feather="edit-2" style="width: 16px; height: 16px;"></i></button>
+                    <button class="btn-icon"><i data-feather="eye" style="width: 16px; height: 16px;"></i></button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>商品标签生成</td>
+                  <td>特征工程</td>
+                  <td>商品数据库</td>
+                  <td>特征仓库</td>
+                  <td>每周</td>
+                  <td><span class="badge badge-success">运行中</span></td>
+                  <td>
+                    <button class="btn-icon" style="margin-right: 4px;"><i data-feather="edit-2" style="width: 16px; height: 16px;"></i></button>
+                    <button class="btn-icon"><i data-feather="eye" style="width: 16px; height: 16px;"></i></button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>用户兴趣画像</td>
+                  <td>特征工程</td>
+                  <td>行为数据流</td>
+                  <td>特征仓库</td>
+                  <td>每日</td>
+                  <td><span class="badge badge-danger">已停止</span></td>
+                  <td>
+                    <button class="btn-icon" style="margin-right: 4px;"><i data-feather="edit-2" style="width: 16px; height: 16px;"></i></button>
+                    <button class="btn-icon"><i data-feather="play" style="width: 16px; height: 16px;"></i></button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-4">
+        <!-- 快速添加数据源 -->
+        <div class="card" style="margin-bottom: 24px;">
+          <div class="card-header">
+            <h2 style="font-size: 18px; font-weight: 600; margin: 0;">数据连接向导</h2>
+          </div>
+          <div class="card-body">
+            <p style="color: var(--text-light); margin-bottom: 16px;">选择数据源类型，快速创建新连接</p>
+            
+            <div style="margin-bottom: 16px; border: 1px solid var(--gray-200); border-radius: var(--border-radius); padding: 16px; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.borderColor='var(--primary)'" onmouseout="this.style.borderColor='var(--gray-200)'">
+              <div style="display: flex; align-items: center; margin-bottom: 12px;">
+                <div style="width: 32px; height: 32px; background-color: var(--primary-light); border-radius: var(--border-radius); display: flex; align-items: center; justify-content: center; margin-right: 12px;">
+                  <i data-feather="database" style="width: 16px; height: 16px; color: var(--primary);"></i>
+                </div>
+                <div style="font-weight: 600;">关系型数据库</div>
+              </div>
+              <p style="font-size: 14px; color: var(--text-light); margin: 0;">连接MySQL, PostgreSQL, SQL Server等数据库</p>
+            </div>
+            
+            <div style="margin-bottom: 16px; border: 1px solid var(--gray-200); border-radius: var(--border-radius); padding: 16px; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.borderColor='var(--primary)'" onmouseout="this.style.borderColor='var(--gray-200)'">
+              <div style="display: flex; align-items: center; margin-bottom: 12px;">
+                <div style="width: 32px; height: 32px; background-color: var(--warning-light); border-radius: var(--border-radius); display: flex; align-items: center; justify-content: center; margin-right: 12px;">
+                  <i data-feather="activity" style="width: 16px; height: 16px; color: var(--warning);"></i>
+                </div>
+                <div style="font-weight: 600;">消息队列</div>
+              </div>
+              <p style="font-size: 14px; color: var(--text-light); margin: 0;">连接Kafka, RabbitMQ等流式数据源</p>
+            </div>
+            
+            <div style="margin-bottom: 16px; border: 1px solid var(--gray-200); border-radius: var(--border-radius); padding: 16px; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.borderColor='var(--primary)'" onmouseout="this.style.borderColor='var(--gray-200)'">
+              <div style="display: flex; align-items: center; margin-bottom: 12px;">
+                <div style="width: 32px; height: 32px; background-color: rgba(59, 130, 246, 0.1); border-radius: var(--border-radius); display: flex; align-items: center; justify-content: center; margin-right: 12px;">
+                  <i data-feather="hard-drive" style="width: 16px; height: 16px; color: #3b82f6;"></i>
+                </div>
+                <div style="font-weight: 600;">数据仓库</div>
+              </div>
+              <p style="font-size: 14px; color: var(--text-light); margin: 0;">连接Hive, Snowflake, Redshift等数据仓库</p>
+            </div>
+            
+            <div style="border: 1px solid var(--gray-200); border-radius: var(--border-radius); padding: 16px; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.borderColor='var(--primary)'" onmouseout="this.style.borderColor='var(--gray-200)'">
+              <div style="display: flex; align-items: center; margin-bottom: 12px;">
+                <div style="width: 32px; height: 32px; background-color: var(--success-light); border-radius: var(--border-radius); display: flex; align-items: center; justify-content: center; margin-right: 12px;">
+                  <i data-feather="upload" style="width: 16px; height: 16px; color: var(--success);"></i>
+                </div>
+                <div style="font-weight: 600;">文件上传</div>
+              </div>
+              <p style="font-size: 14px; color: var(--text-light); margin: 0;">上传CSV, JSON, Parquet等格式文件</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 数据字典和质量 -->
+        <div class="card">
+          <div class="card-header">
+            <h2 style="font-size: 18px; font-weight: 600; margin: 0;">数据质量监控</h2>
+          </div>
+          <div class="card-body">
+            <div style="margin-bottom: 20px;">
+              <div style="display: flex; justify-content: space-between; margin-bottom: 12px;">
+                <div style="font-weight: 500;">数据覆盖率</div>
+                <div>
+                  <span style="font-weight: 600; color: var(--success);">92%</span>
+                  <span style="font-size: 12px; color: var(--text-light);"> (目标: 90%)</span>
+                </div>
+              </div>
+              <div class="progress" style="height: 6px; margin-bottom: 4px;">
+                <div class="progress-bar" style="width: 92%; background-color: var(--success);"></div>
+              </div>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+              <div style="display: flex; justify-content: space-between; margin-bottom: 12px;">
+                <div style="font-weight: 500;">数据完整性</div>
+                <div>
+                  <span style="font-weight: 600; color: var(--warning);">82%</span>
+                  <span style="font-size: 12px; color: var(--text-light);"> (目标: 95%)</span>
+                </div>
+              </div>
+              <div class="progress" style="height: 6px; margin-bottom: 4px;">
+                <div class="progress-bar" style="width: 82%; background-color: var(--warning);"></div>
+              </div>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+              <div style="display: flex; justify-content: space-between; margin-bottom: 12px;">
+                <div style="font-weight: 500;">数据新鲜度</div>
+                <div>
+                  <span style="font-weight: 600; color: var(--success);">98%</span>
+                  <span style="font-size: 12px; color: var(--text-light);"> (目标: 90%)</span>
+                </div>
+              </div>
+              <div class="progress" style="height: 6px; margin-bottom: 4px;">
+                <div class="progress-bar" style="width: 98%; background-color: var(--success);"></div>
+              </div>
+            </div>
+
+            <div style="margin-top: 24px;">
+              <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 12px;">最近异常</h3>
+              <div style="border-left: 3px solid var(--warning); padding-left: 12px; margin-bottom: 12px;">
+                <div style="font-weight: 500;">商品数据缺失</div>
+                <div style="font-size: 12px; color: var(--text-light);">products表中有12.5%的记录缺少category_id</div>
+                <div style="font-size: 12px; color: var(--text-light); margin-top: 4px;">2023-10-15 12:30</div>
+              </div>
+              <div style="border-left: 3px solid var(--danger); padding-left: 12px; margin-bottom: 12px;">
+                <div style="font-weight: 500;">用户行为数据延迟</div>
+                <div style="font-size: 12px; color: var(--text-light);">user_clicks主题消费延迟超过30分钟</div>
+                <div style="font-size: 12px; color: var(--text-light); margin-top: 4px;">2023-10-15 10:15</div>
+              </div>
+              <div style="border-left: 3px solid var(--warning); padding-left: 12px;">
+                <div style="font-weight: 500;">数据格式异常</div>
+                <div style="font-size: 12px; color: var(--text-light);">user_attributes表中email字段格式异常率8.2%</div>
+                <div style="font-size: 12px; color: var(--text-light); margin-top: 4px;">2023-10-14 16:45</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    feather.replace();
+  </script>
+  <script src="../recsys_platform_prototype/js/app.js"></script>
+</body>
+</html> 
