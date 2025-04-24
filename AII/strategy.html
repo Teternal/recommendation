@@ -3,13 +3,55 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>策略配置 - 智能推荐SAAS平台</title>
+  <title>策略配置 - 智能推荐平台</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
-  <link rel="stylesheet" href="../recsys_platform_prototype/css/styles.css">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
   <script src="https://unpkg.com/feather-icons"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jsplumb@2.15.6/dist/js/jsplumb.min.js"></script>
   <style>
+    :root {
+      --primary: #6366f1;
+      --primary-light: #e8eaf6;
+      --primary-dark: #5a5fcf;
+      --secondary: #f5f5f5;
+      --success: #4caf50;
+      --success-light: #e8f5e9;
+      --warning: #ff9800;
+      --warning-light: #fff3e0;
+      --danger: #f44336;
+      --danger-light: #ffebee;
+      --info: #0ea5e9;
+      --info-light: #e0f7fa;
+      --text: #333333;
+      --text-light: #666666;
+      --text-muted: #999999;
+      --border: #e0e0e0;
+      --background: #f8f9fa;
+      --card-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+      --border-radius: 8px;
+      --transition: all 0.3s ease;
+      --dark: #141b2d;
+      --sidebar-width: 260px;
+      --gray-100: #f8f9fa;
+      --gray-200: #e9ecef;
+      --gray-300: #dee2e6;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+      --max-width: 1440px;
+    }
+    
+    body {
+      font-family: 'Inter', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+      background-color: var(--background);
+      color: var(--text);
+      margin: 0;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    
+    /* 侧边栏 */
     .sidebar {
-      width: 240px;
+      width: var(--sidebar-width);
       background-color: var(--dark);
       color: white;
       height: 100vh;
@@ -17,66 +59,144 @@
       left: 0;
       top: 0;
       overflow-y: auto;
+      z-index: 1000;
     }
+    
     .sidebar-header {
-      padding: 16px;
+      padding: 16px 20px;
       display: flex;
       align-items: center;
       border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      height: 60px;
+      box-sizing: border-box;
     }
+    
     .sidebar-menu {
-      padding: 16px 0;
+      padding: 0;
     }
+    
     .sidebar-menu-item {
-      padding: 12px 16px;
+      padding: 14px 20px;
       display: flex;
       align-items: center;
       color: rgba(255, 255, 255, 0.7);
       text-decoration: none;
       transition: all 0.2s;
+      gap: 16px;
+      font-size: 16px;
     }
+    
     .sidebar-menu-item:hover {
-      background-color: rgba(255, 255, 255, 0.1);
+      background-color: rgba(255, 255, 255, 0.05);
       color: white;
     }
+    
     .sidebar-menu-item.active {
       background-color: var(--primary);
       color: white;
     }
+    
     .sidebar-menu-item i {
-      margin-right: 12px;
+      width: 22px;
+      height: 22px;
     }
+    
+    /* 主内容区域 */
     .main-content {
-      margin-left: 240px;
+      margin-left: var(--sidebar-width);
       padding: 24px;
+      width: calc(100% - var(--sidebar-width));
+      max-width: calc(var(--max-width) - var(--sidebar-width));
+      margin-right: auto;
+      overflow-y: auto;
     }
-    .header {
+    
+    /* 标签页 */
+    .tab-nav {
       display: flex;
-      justify-content: space-between;
-      align-items: center;
+      border-bottom: 1px solid var(--border);
       margin-bottom: 24px;
     }
-    .user-menu {
-      display: flex;
-      align-items: center;
+    
+    .tab-btn {
+      padding: 12px 20px;
+      font-weight: 500;
+      color: var(--text-light);
+      cursor: pointer;
+      transition: var(--transition);
+      border-bottom: 2px solid transparent;
+      white-space: nowrap;
     }
-    .canvas-area {
+    
+    .tab-btn.active {
+      color: var(--primary);
+      border-bottom-color: var(--primary);
+    }
+    
+    .tab-content {
+      display: none;
+    }
+    
+    .tab-content.active {
+      display: block;
+    }
+    
+    /* 卡片样式 */
+    .card {
       background-color: white;
       border-radius: var(--border-radius);
       box-shadow: var(--shadow-sm);
-      height: 500px;
-      display: flex;
-      border: 1px solid var(--gray-200);
       margin-bottom: 24px;
+      border: none;
+      overflow: hidden;
+      width: 100%;
     }
+    
+    .card-header {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+      background-color: white;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+    
+    .card-title {
+      font-weight: 600;
+      margin: 0;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .card-body {
+      padding: 20px;
+    }
+    
+    /* 画布区域 */
+    .canvas-container {
+      display: flex;
+      background-color: white;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow-sm);
+      border: none;
+      margin-bottom: 24px;
+      overflow: hidden;
+      height: 560px;
+    }
+    
     .node-panel {
-      width: 240px;
+      width: 260px;
       border-right: 1px solid var(--gray-200);
-      padding: 16px;
+      background-color: var(--gray-50);
+      padding: 20px;
       height: 100%;
       overflow-y: auto;
     }
-    .canvas {
+    
+    .canvas-area {
       flex: 1;
       position: relative;
       background-image: 
@@ -86,195 +206,476 @@
       overflow: auto;
       padding: 20px;
     }
+    
     .node-group {
-      margin-bottom: 16px;
+      margin-bottom: 20px;
     }
+    
     .node-group-title {
+      display: flex;
+      align-items: center;
       font-weight: 600;
-      font-size: 14px;
-      margin-bottom: 8px;
-      color: var(--text-dark);
-      display: flex;
-      align-items: center;
+      margin-bottom: 12px;
+      color: var(--text);
+      font-size: 15px;
     }
+    
     .node-group-title i {
-      width: 16px;
-      height: 16px;
-      margin-right: 8px;
+      margin-right: 10px;
+      width: 18px;
+      height: 18px;
     }
+    
     .node-item {
-      padding: 8px;
-      background-color: var(--gray-50);
-      border: 1px solid var(--gray-200);
+      background-color: white;
       border-radius: var(--border-radius);
-      margin-bottom: 8px;
-      font-size: 13px;
+      padding: 10px 12px;
+      margin-bottom: 10px;
+      box-shadow: var(--shadow-sm);
       cursor: grab;
-      transition: all 0.2s;
+      transition: var(--transition);
       display: flex;
       align-items: center;
+      font-size: 14px;
     }
+    
     .node-item:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
       border-color: var(--primary);
-      background-color: var(--primary-light);
     }
+    
     .node-item i {
+      margin-right: 10px;
       width: 16px;
       height: 16px;
-      margin-right: 8px;
-      color: var(--text-light);
     }
+    
+    /* 画布节点 */
     .canvas-node {
       position: absolute;
-      width: 200px;
+      width: 220px;
       background-color: white;
-      border: 1px solid var(--gray-200);
       border-radius: var(--border-radius);
-      padding: 12px;
       box-shadow: var(--shadow-sm);
+      transition: var(--transition);
       cursor: move;
+      padding: 0;
+      overflow: hidden;
+      border: 1px solid var(--border);
     }
+    
+    .canvas-node:hover {
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+    
     .canvas-node-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 8px;
+      padding: 12px;
+      background-color: var(--primary-light);
+      border-bottom: 1px solid var(--border);
     }
+    
+    .node-type-filter .canvas-node-header {
+      background-color: rgba(99, 102, 241, 0.1);
+    }
+    
+    .node-type-feature .canvas-node-header {
+      background-color: rgba(76, 175, 80, 0.1);
+    }
+    
+    .node-type-model .canvas-node-header {
+      background-color: rgba(255, 152, 0, 0.1);
+    }
+    
+    .node-type-strategy .canvas-node-header {
+      background-color: rgba(244, 67, 54, 0.1);
+    }
+    
+    .node-type-output .canvas-node-header {
+      background-color: rgba(14, 165, 233, 0.1);
+    }
+    
     .canvas-node-title {
       font-weight: 600;
       font-size: 14px;
-      color: var(--text-dark);
       display: flex;
       align-items: center;
     }
+    
     .canvas-node-title i {
+      margin-right: 8px;
       width: 16px;
       height: 16px;
-      margin-right: 8px;
     }
+    
     .canvas-node-actions {
       display: flex;
+      gap: 6px;
     }
+    
     .canvas-node-actions i {
+      cursor: pointer;
       width: 16px;
       height: 16px;
-      color: var(--text-light);
-      cursor: pointer;
-      margin-left: 8px;
+      padding: 3px;
+      border-radius: 4px;
+      transition: var(--transition);
     }
+    
     .canvas-node-actions i:hover {
-      color: var(--text-dark);
+      background-color: rgba(0, 0, 0, 0.05);
     }
+    
     .canvas-node-content {
-      font-size: 12px;
-      color: var(--text-light);
+      padding: 12px;
+      font-size: 13px;
+      color: var(--text);
+      line-height: 1.5;
     }
+    
     .canvas-node-footer {
+      padding: 8px 12px;
       display: flex;
       justify-content: space-between;
-      margin-top: 12px;
+      background-color: var(--gray-50);
       font-size: 12px;
+      color: var(--text-light);
+      border-top: 1px solid var(--border);
     }
-    .canvas-connector {
-      position: absolute;
-      background-color: #94a3b8;
-      height: 2px;
-    }
-    .strategy-list {
-      margin-bottom: 24px;
-    }
+    
+    /* 策略卡片 */
     .strategy-card {
       background-color: white;
       border-radius: var(--border-radius);
       box-shadow: var(--shadow-sm);
-      padding: 16px;
       margin-bottom: 16px;
-      border: 1px solid var(--gray-200);
-      transition: all 0.2s;
+      border: 1px solid var(--border);
+      overflow: hidden;
+      transition: var(--transition);
     }
+    
     .strategy-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
       border-color: var(--primary);
-      box-shadow: var(--shadow-md);
     }
-    .strategy-card-header {
+    
+    .strategy-header {
+      padding: 16px;
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
-      margin-bottom: 12px;
+      border-bottom: 1px solid var(--border);
     }
+    
+    .strategy-info {
+      display: flex;
+      flex-direction: column;
+    }
+    
     .strategy-title {
-      font-weight: 600;
       font-size: 16px;
-      color: var(--text-dark);
+      font-weight: 600;
+      margin-bottom: 4px;
     }
+    
     .strategy-meta {
       font-size: 12px;
       color: var(--text-light);
-      margin-top: 4px;
     }
+    
+    .strategy-body {
+      padding: 12px 16px;
+    }
+    
     .strategy-stats {
       display: flex;
-      margin-bottom: 12px;
+      margin-bottom: 16px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
     }
+    
     .strategy-stat {
       flex: 1;
       text-align: center;
-      padding: 8px;
-      border-right: 1px solid var(--gray-200);
+      padding: 0 8px;
+      border-right: 1px solid var(--border);
     }
+    
     .strategy-stat:last-child {
       border-right: none;
     }
+    
     .strategy-stat-value {
       font-size: 18px;
       font-weight: 600;
-      color: var(--text-dark);
+      margin-bottom: 4px;
     }
+    
     .strategy-stat-label {
       font-size: 12px;
       color: var(--text-light);
     }
+    
     .strategy-actions {
       display: flex;
       justify-content: flex-end;
+      gap: 8px;
     }
-    .tab-nav {
-      display: flex;
-      border-bottom: 1px solid var(--gray-200);
-      margin-bottom: 16px;
-    }
-    .tab-btn {
-      padding: 12px 16px;
+    
+    /* 按钮样式 */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: var(--border-radius);
+      padding: 8px 16px;
+      font-size: 14px;
       font-weight: 500;
-      color: var(--text-light);
+      transition: var(--transition);
       cursor: pointer;
-      border-bottom: 2px solid transparent;
+      border: none;
+      white-space: nowrap;
     }
-    .tab-btn.active {
+    
+    .btn-primary {
+      background-color: var(--primary);
+      color: white;
+    }
+    
+    .btn-primary:hover {
+      background-color: var(--primary-dark);
+    }
+    
+    .btn-outline {
+      background-color: transparent;
+      border: 1px solid var(--border);
+      color: var(--text);
+    }
+    
+    .btn-outline:hover {
+      border-color: var(--primary);
       color: var(--primary);
-      border-bottom-color: var(--primary);
+      background-color: var(--primary-light);
     }
-    .config-section {
-      margin-bottom: 24px;
+    
+    /* 模板卡片 */
+    .template-card {
+      padding: 16px;
+      border-radius: var(--border-radius);
+      background-color: white;
+      border: 1px solid var(--border);
+      margin-bottom: 12px;
+      cursor: pointer;
+      transition: var(--transition);
     }
-    .config-title {
+    
+    .template-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--primary);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    
+    .template-title {
       font-weight: 600;
-      font-size: 16px;
+      font-size: 15px;
+      margin-bottom: 4px;
+    }
+    
+    .template-desc {
+      font-size: 13px;
+      color: var(--text-light);
+    }
+    
+    /* 徽章样式 */
+    .badge {
+      padding: 4px 8px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+    
+    .badge-primary {
+      background-color: rgba(99, 102, 241, 0.1);
+      color: var(--primary);
+    }
+    
+    .badge-success {
+      background-color: rgba(76, 175, 80, 0.1);
+      color: var(--success);
+    }
+    
+    .badge-warning {
+      background-color: rgba(255, 152, 0, 0.1);
+      color: var(--warning);
+    }
+    
+    .badge-danger {
+      background-color: rgba(244, 67, 54, 0.1);
+      color: var(--danger);
+    }
+    
+    .badge-info {
+      background-color: rgba(14, 165, 233, 0.1);
+      color: var(--info);
+    }
+    
+    /* 表单元素 */
+    .form-group {
       margin-bottom: 16px;
+    }
+    
+    .form-label {
+      display: block;
+      font-weight: 500;
+      margin-bottom: 8px;
+      color: var(--text);
+      font-size: 14px;
+    }
+    
+    .form-control {
+      width: 100%;
+      padding: 8px 12px;
+      border: 1px solid var(--border);
+      border-radius: var(--border-radius);
+      transition: var(--transition);
+      background-color: white;
+      font-size: 14px;
+      color: var(--text);
+    }
+    
+    .form-control:focus {
+      border-color: var(--primary);
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+    }
+    
+    .form-slider {
+      width: 100%;
+      margin-right: 12px;
+    }
+    
+    .form-radio {
+      display: flex;
+      gap: 16px;
+    }
+    
+    .form-check {
       display: flex;
       align-items: center;
+      gap: 6px;
     }
-    .config-title i {
-      margin-right: 8px;
+    
+    /* 辅助类 */
+    .d-flex { display: flex; }
+    .flex-column { flex-direction: column; }
+    .justify-between { justify-content: space-between; }
+    .items-center { align-items: center; }
+    .gap-2 { gap: 8px; }
+    .gap-3 { gap: 12px; }
+    .gap-4 { gap: 16px; }
+    
+    .mb-1 { margin-bottom: 4px; }
+    .mb-2 { margin-bottom: 8px; }
+    .mb-3 { margin-bottom: 12px; }
+    .mb-4 { margin-bottom: 16px; }
+    .mb-5 { margin-bottom: 20px; }
+    .mb-6 { margin-bottom: 24px; }
+    
+    .mt-2 { margin-top: 8px; }
+    .ml-2 { margin-left: 8px; }
+    .mr-2 { margin-right: 8px; }
+    
+    .w-100 { width: 100%; }
+    
+    .text-sm { font-size: 14px; }
+    .text-xs { font-size: 12px; }
+    
+    .font-bold { font-weight: 600; }
+    .text-muted { color: var(--text-muted); }
+
+    /* 菜单按钮 */
+    .menu-toggle {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: white;
+      font-size: 24px;
+      position: fixed;
+      top: 16px;
+      left: 16px;
+      z-index: 1001;
+    }
+    
+    @media screen and (max-width: 768px) {
+      .menu-toggle {
+        display: flex;
+      }
+      
+      .sidebar {
+        left: calc(-1 * var(--sidebar-width));
+      }
+      
+      .sidebar.active {
+        left: 0;
+      }
+      
+      .main-content {
+        margin-left: 0;
+        width: 100%;
+        max-width: 100%;
+      }
+      
+      .canvas-container {
+        flex-direction: column;
+        height: auto;
+      }
+      
+      .node-panel {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+        max-height: 250px;
+      }
+    }
+    
+    /* AI助手按钮 */
+    .ai-assistant-btn {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background-color: var(--primary);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      border: none;
+      cursor: pointer;
+      z-index: 1000;
+      transition: all 0.3s;
+    }
+    
+    .ai-assistant-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
     }
   </style>
 </head>
 <body>
   <!-- 侧边栏 -->
-  <div class="sidebar">
+  <div class="sidebar" id="sidebar">
     <div class="sidebar-header">
-      <img src="../recsys_platform_prototype/img/logo-placeholder.svg" alt="Logo" style="width: 32px; height: 32px; margin-right: 12px;">
-      <span style="font-weight: 600; font-size: 18px;">智能推荐平台</span>
+      <img src="img/logo-placeholder.svg" alt="智推Logo" style="height: 28px; margin-right: 12px;">
+      <span style="font-weight: 600; color: white;">智能推荐平台</span>
     </div>
     <div class="sidebar-menu">
       <a href="dashboard.html" class="sidebar-menu-item">
@@ -282,18 +683,18 @@
         <span>仪表盘</span>
       </a>
       <a href="applications.html" class="sidebar-menu-item">
-        <i data-feather="box"></i>
+        <i data-feather="package"></i>
         <span>应用管理</span>
       </a>
-      <a href="data-sources.html" class="sidebar-menu-item">
+      <a href="data-management.html" class="sidebar-menu-item">
         <i data-feather="database"></i>
-        <span>数据源</span>
+        <span>数据管理</span>
       </a>
       <a href="scenes-management.html" class="sidebar-menu-item">
         <i data-feather="layout"></i>
         <span>场景管理</span>
       </a>
-      <a href="strategy.html" class="sidebar-menu-item active">
+      <a href="strategy-simplified.html" class="sidebar-menu-item active">
         <i data-feather="sliders"></i>
         <span>策略配置</span>
       </a>
@@ -309,7 +710,7 @@
         <i data-feather="flag"></i>
         <span>A/B测试</span>
       </a>
-      <a href="#" class="sidebar-menu-item">
+      <a href="model-alarm.html" class="sidebar-menu-item">
         <i data-feather="bell"></i>
         <span>告警监控</span>
       </a>
@@ -317,485 +718,551 @@
         <i data-feather="users"></i>
         <span>用户管理</span>
       </a>
-      <a href="#" class="sidebar-menu-item">
-        <i data-feather="settings"></i>
-        <span>系统设置</span>
-      </a>
     </div>
   </div>
+  
+  <!-- 菜单切换按钮 -->
+  <button class="menu-toggle" onclick="toggleSidebar()">
+    <i data-feather="menu"></i>
+  </button>
 
   <!-- 主内容区 -->
   <div class="main-content">
-    <div class="header">
+    <div class="d-flex justify-between items-center mb-6">
       <h1 style="font-size: 24px; font-weight: 700; margin: 0;">策略配置</h1>
-      <div class="user-menu">
-        <div style="margin-right: 16px; position: relative;">
-          <i data-feather="bell" style="width: 20px; height: 20px; color: var(--text-light);"></i>
-          <span style="position: absolute; top: -5px; right: -5px; width: 16px; height: 16px; background-color: var(--danger); border-radius: 50%; font-size: 10px; display: flex; align-items: center; justify-content: center; color: white;">3</span>
-        </div>
-        <div style="display: flex; align-items: center;">
-          <div style="width: 36px; height: 36px; background-color: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 8px; color: white; font-weight: 600;">JD</div>
-          <div>
-            <div style="font-weight: 600; font-size: 14px;">张三</div>
-            <div style="font-size: 12px; color: var(--text-light);">管理员</div>
-          </div>
-        </div>
+      <div class="d-flex gap-2">
+        <button class="btn btn-outline">
+          <i data-feather="plus" style="width: 16px; height: 16px; margin-right: 8px;"></i>
+          新建策略
+        </button>
+        <button class="btn btn-primary">
+          <i data-feather="save" style="width: 16px; height: 16px; margin-right: 8px;"></i>
+          保存变更
+        </button>
       </div>
     </div>
-
-    <!-- 策略配置选项卡 -->
+    
+    <!-- 标签导航 -->
     <div class="tab-nav">
-      <div class="tab-btn active">策略画布</div>
-      <div class="tab-btn">规则引擎</div>
-      <div class="tab-btn">策略分组</div>
-      <div class="tab-btn">排序策略</div>
-      <div class="tab-btn">效果预览</div>
+      <div class="tab-btn active" data-tab="canvas">策略画布</div>
+      <div class="tab-btn" data-tab="rule-engine">规则引擎</div>
+      <div class="tab-btn" data-tab="strategy-groups">策略分组</div>
+      <div class="tab-btn" data-tab="strategy-list">策略列表</div>
+      <div class="tab-btn" data-tab="templates">策略模板</div>
+      <div class="tab-btn" data-tab="global-config">全局配置</div>
     </div>
-
-    <!-- 策略画布选项卡内容 -->
-    <div class="tab-content active">
-      <div style="display: flex; justify-content: space-between; margin-bottom: 16px;">
-        <div style="display: flex; align-items: center;">
-          <div style="font-weight: 600; margin-right: 12px;">当前策略：</div>
-          <select class="select" style="width: 240px;">
-            <option>商品推荐策略 v1.0</option>
-            <option>新用户冷启动策略</option>
-            <option>购买转化策略</option>
-            <option>相似商品策略</option>
+    
+    <!-- 标签内容 -->
+    <div class="tab-content active" id="canvas-tab">
+      <div class="d-flex justify-between items-center mb-4">
+        <div class="d-flex gap-3">
+          <select class="form-control" style="width: 180px;">
+            <option value="default">默认应用</option>
+            <option value="e-commerce">电商应用</option>
+            <option value="content">内容应用</option>
+            <option value="social">社交应用</option>
           </select>
+          <input type="text" class="form-control" placeholder="策略名称" style="width: 200px;">
         </div>
-        <div style="display: flex;">
-          <button class="btn-secondary" style="margin-right: 8px;">
-            <i data-feather="upload" style="width: 16px; height: 16px; margin-right: 4px;"></i>
+        <div class="d-flex gap-2">
+          <button class="btn btn-outline">
+            <i data-feather="upload" style="width: 16px; height: 16px; margin-right: 6px;"></i>
             导入
           </button>
-          <button class="btn-secondary" style="margin-right: 8px;">
-            <i data-feather="download" style="width: 16px; height: 16px; margin-right: 4px;"></i>
+          <button class="btn btn-outline">
+            <i data-feather="download" style="width: 16px; height: 16px; margin-right: 6px;"></i>
             导出
           </button>
-          <button class="btn-primary">
-            <i data-feather="save" style="width: 16px; height: 16px; margin-right: 4px;"></i>
-            保存
+          <button class="btn btn-outline">
+            <i data-feather="play" style="width: 16px; height: 16px; margin-right: 6px;"></i>
+            测试
+          </button>
+          <button class="btn btn-outline">
+            <i data-feather="rotate-cw" style="width: 16px; height: 16px; margin-right: 6px;"></i>
+            重置
           </button>
         </div>
       </div>
-
-      <!-- 策略画布区域 -->
-      <div class="canvas-area">
-        <!-- 左侧节点面板 -->
+      
+      <!-- 画布容器 -->
+      <div class="canvas-container">
+        <!-- 节点面板 -->
         <div class="node-panel">
           <div class="node-group">
             <div class="node-group-title">
-              <i data-feather="filter" style="color: var(--primary);"></i>
-              <span>数据过滤</span>
+              <i data-feather="filter"></i>
+              数据筛选
             </div>
-            <div class="node-item">
+            <div class="node-item" draggable="true" data-node-type="filter">
               <i data-feather="users"></i>
-              <span>用户筛选</span>
+              用户筛选
             </div>
-            <div class="node-item">
-              <i data-feather="tag"></i>
-              <span>商品筛选</span>
-            </div>
-            <div class="node-item">
-              <i data-feather="calendar"></i>
-              <span>时间筛选</span>
-            </div>
-          </div>
-
-          <div class="node-group">
-            <div class="node-group-title">
-              <i data-feather="layers" style="color: var(--success);"></i>
-              <span>特征处理</span>
-            </div>
-            <div class="node-item">
-              <i data-feather="user"></i>
-              <span>用户特征</span>
-            </div>
-            <div class="node-item">
+            <div class="node-item" draggable="true" data-node-type="filter">
               <i data-feather="shopping-bag"></i>
-              <span>商品特征</span>
+              商品筛选
             </div>
-            <div class="node-item">
+            <div class="node-item" draggable="true" data-node-type="filter">
+              <i data-feather="clock"></i>
+              时间筛选
+            </div>
+          </div>
+          
+          <div class="node-group">
+            <div class="node-group-title">
+              <i data-feather="code"></i>
+              特征处理
+            </div>
+            <div class="node-item" draggable="true" data-node-type="feature">
+              <i data-feather="user-check"></i>
+              用户特征
+            </div>
+            <div class="node-item" draggable="true" data-node-type="feature">
+              <i data-feather="package"></i>
+              商品特征
+            </div>
+            <div class="node-item" draggable="true" data-node-type="feature">
               <i data-feather="activity"></i>
-              <span>行为特征</span>
+              行为特征
             </div>
           </div>
-
+          
           <div class="node-group">
             <div class="node-group-title">
-              <i data-feather="cpu" style="color: var(--warning);"></i>
-              <span>模型</span>
+              <i data-feather="cpu"></i>
+              推荐模型
             </div>
-            <div class="node-item">
-              <i data-feather="thumbs-up"></i>
-              <span>协同过滤</span>
+            <div class="node-item" draggable="true" data-node-type="model">
+              <i data-feather="share-2"></i>
+              协同过滤
             </div>
-            <div class="node-item">
+            <div class="node-item" draggable="true" data-node-type="model">
               <i data-feather="trending-up"></i>
-              <span>排序模型</span>
+              内容推荐
             </div>
-            <div class="node-item">
-              <i data-feather="target"></i>
-              <span>相似度计算</span>
+            <div class="node-item" draggable="true" data-node-type="model">
+              <i data-feather="zap"></i>
+              深度学习
             </div>
           </div>
-
+          
           <div class="node-group">
             <div class="node-group-title">
-              <i data-feather="sliders" style="color: var(--danger);"></i>
-              <span>策略规则</span>
+              <i data-feather="sliders"></i>
+              策略规则
             </div>
-            <div class="node-item">
-              <i data-feather="refresh-cw"></i>
-              <span>多策略融合</span>
-            </div>
-            <div class="node-item">
+            <div class="node-item" draggable="true" data-node-type="strategy">
               <i data-feather="shuffle"></i>
-              <span>打散规则</span>
+              排序规则
             </div>
-            <div class="node-item">
-              <i data-feather="eye"></i>
-              <span>曝光控制</span>
+            <div class="node-item" draggable="true" data-node-type="strategy">
+              <i data-feather="grid"></i>
+              打散规则
+            </div>
+            <div class="node-item" draggable="true" data-node-type="strategy">
+              <i data-feather="percent"></i>
+              去重规则
             </div>
           </div>
-
+          
           <div class="node-group">
             <div class="node-group-title">
-              <i data-feather="box" style="color: #3b82f6;"></i>
-              <span>输出</span>
+              <i data-feather="send"></i>
+              输出处理
             </div>
-            <div class="node-item">
+            <div class="node-item" draggable="true" data-node-type="output">
               <i data-feather="list"></i>
-              <span>推荐列表</span>
+              推荐列表
             </div>
-            <div class="node-item">
-              <i data-feather="grid"></i>
-              <span>矩阵输出</span>
+            <div class="node-item" draggable="true" data-node-type="output">
+              <i data-feather="refresh-cw"></i>
+              缓存策略
+            </div>
+            <div class="node-item" draggable="true" data-node-type="output">
+              <i data-feather="inbox"></i>
+              触发事件
             </div>
           </div>
         </div>
-
-        <!-- 中央画布 -->
-        <div class="canvas">
+        
+        <!-- 画布区域 -->
+        <div class="canvas-area" id="canvasArea">
           <!-- 示例节点 -->
-          <div class="canvas-node" style="top: 50px; left: 100px;">
+          <div class="canvas-node node-type-filter" style="top: 80px; left: 340px;">
             <div class="canvas-node-header">
               <div class="canvas-node-title">
-                <i data-feather="users" style="color: var(--primary);"></i>
-                <span>用户筛选</span>
+                <i data-feather="shopping-bag"></i>
+                商品筛选
               </div>
               <div class="canvas-node-actions">
                 <i data-feather="edit-2"></i>
-                <i data-feather="x"></i>
+                <i data-feather="trash-2"></i>
               </div>
             </div>
             <div class="canvas-node-content">
-              条件: 7天内活跃 & 有购买行为
+              <div class="text-sm mb-2">条件设置：</div>
+              <div class="text-xs mb-1">- 商品上架时间 > 7天</div>
+              <div class="text-xs mb-1">- 商品库存 > 10</div>
+              <div class="text-xs">- 商品状态 = 正常</div>
             </div>
             <div class="canvas-node-footer">
-              <span>输出: 30% 用户</span>
-              <span>ID: node-1</span>
+              <span>ID: node_01</span>
+              <span>输出：商品集合</span>
             </div>
           </div>
-
-          <div class="canvas-node" style="top: 50px; left: 380px;">
+          
+          <div class="canvas-node node-type-model" style="top: 80px; left: 620px;">
             <div class="canvas-node-header">
               <div class="canvas-node-title">
-                <i data-feather="tag" style="color: var(--primary);"></i>
-                <span>商品筛选</span>
+                <i data-feather="share-2"></i>
+                协同过滤
               </div>
               <div class="canvas-node-actions">
                 <i data-feather="edit-2"></i>
-                <i data-feather="x"></i>
+                <i data-feather="trash-2"></i>
               </div>
             </div>
             <div class="canvas-node-content">
-              条件: 上架时间 < 30天 & 库存 > 10
+              <div class="text-sm mb-2">模型参数：</div>
+              <div class="text-xs mb-1">- 算法：Item-CF</div>
+              <div class="text-xs mb-1">- 相似度：余弦相似度</div>
+              <div class="text-xs">- 邻居数：50</div>
             </div>
             <div class="canvas-node-footer">
-              <span>输出: 2500+ 商品</span>
-              <span>ID: node-2</span>
+              <span>ID: node_02</span>
+              <span>输出：排序列表</span>
             </div>
           </div>
-
-          <div class="canvas-node" style="top: 180px; left: 240px;">
+          
+          <div class="canvas-node node-type-strategy" style="top: 250px; left: 620px;">
             <div class="canvas-node-header">
               <div class="canvas-node-title">
-                <i data-feather="thumbs-up" style="color: var(--warning);"></i>
-                <span>协同过滤</span>
+                <i data-feather="grid"></i>
+                打散规则
               </div>
               <div class="canvas-node-actions">
                 <i data-feather="edit-2"></i>
-                <i data-feather="x"></i>
+                <i data-feather="trash-2"></i>
               </div>
             </div>
             <div class="canvas-node-content">
-              模型: item-cf-v2
-              参数: k=50, alpha=0.7
+              <div class="text-sm mb-2">规则设置：</div>
+              <div class="text-xs mb-1">- 同品类商品间隔 > 3</div>
+              <div class="text-xs mb-1">- 同品牌商品间隔 > 2</div>
+              <div class="text-xs">- 最大连续相似度 < 0.8</div>
             </div>
             <div class="canvas-node-footer">
-              <span>输出: 推荐集</span>
-              <span>ID: node-3</span>
+              <span>ID: node_03</span>
+              <span>输出：排序列表</span>
             </div>
           </div>
-
-          <div class="canvas-node" style="top: 310px; left: 240px;">
+          
+          <div class="canvas-node node-type-output" style="top: 250px; left: 900px;">
             <div class="canvas-node-header">
               <div class="canvas-node-title">
-                <i data-feather="shuffle" style="color: var(--danger);"></i>
-                <span>打散规则</span>
+                <i data-feather="list"></i>
+                推荐列表
               </div>
               <div class="canvas-node-actions">
                 <i data-feather="edit-2"></i>
-                <i data-feather="x"></i>
+                <i data-feather="trash-2"></i>
               </div>
             </div>
             <div class="canvas-node-content">
-              规则: 同类目最多2个连续
-              同品牌最多3个连续
+              <div class="text-sm mb-2">输出设置：</div>
+              <div class="text-xs mb-1">- 输出数量：20</div>
+              <div class="text-xs mb-1">- 最低置信度：0.6</div>
+              <div class="text-xs">- 缓存策略：10分钟</div>
             </div>
             <div class="canvas-node-footer">
-              <span>输出: 处理后推荐集</span>
-              <span>ID: node-4</span>
+              <span>ID: node_04</span>
+              <span>输出：API结果</span>
             </div>
           </div>
-
-          <div class="canvas-node" style="top: 430px; left: 240px;">
-            <div class="canvas-node-header">
-              <div class="canvas-node-title">
-                <i data-feather="list" style="color: #3b82f6;"></i>
-                <span>推荐列表</span>
-              </div>
-              <div class="canvas-node-actions">
-                <i data-feather="edit-2"></i>
-                <i data-feather="x"></i>
-              </div>
-            </div>
-            <div class="canvas-node-content">
-              输出数量: 20
-              缓存策略: TTL=1小时
-            </div>
-            <div class="canvas-node-footer">
-              <span>最终输出</span>
-              <span>ID: node-5</span>
-            </div>
-          </div>
-
-          <!-- 连接线 -->
-          <div class="canvas-connector" style="width: 80px; top: 90px; left: 300px; transform: rotate(0deg);"></div>
-          <div class="canvas-connector" style="width: 80px; top: 150px; left: 270px; transform: rotate(90deg);"></div>
-          <div class="canvas-connector" style="width: 80px; top: 245px; left: 270px; transform: rotate(90deg);"></div>
-          <div class="canvas-connector" style="width: 80px; top: 370px; left: 270px; transform: rotate(90deg);"></div>
+          
+          <!-- 连接线由jsPlumb渲染 -->
         </div>
       </div>
-
-      <!-- 策略列表 -->
-      <div class="row">
-        <div class="col-8">
-          <h2 style="font-size: 18px; font-weight: 600; margin-bottom: 16px;">策略列表</h2>
-          <div class="strategy-list">
-            <div class="strategy-card">
-              <div class="strategy-card-header">
-                <div>
-                  <div class="strategy-title">商品推荐策略 v1.0</div>
-                  <div class="strategy-meta">创建于 2023-09-15 | 最后更新 2023-10-12</div>
-                </div>
-                <span class="badge badge-success">生产中</span>
+    </div>
+    
+    <div class="tab-content" id="rule-engine-tab">
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title">
+            <i data-feather="code" style="width: 18px; height: 18px;"></i>
+            规则引擎配置
+          </h2>
+          <button class="btn btn-primary">
+            <i data-feather="plus" style="width: 16px; height: 16px; margin-right: 8px;"></i>
+            添加规则
+          </button>
+        </div>
+        <div class="card-body">
+          <p class="text-muted mb-4">在此配置推荐系统的业务规则，支持条件表达式和逻辑组合。</p>
+          
+          <div class="form-group">
+            <div class="form-label">规则类型</div>
+            <div class="form-radio">
+              <div class="form-check">
+                <input type="radio" id="rule-type-filter" name="rule-type" checked>
+                <label for="rule-type-filter">过滤规则</label>
               </div>
-              <div class="strategy-stats">
-                <div class="strategy-stat">
-                  <div class="strategy-stat-value">24.6%</div>
-                  <div class="strategy-stat-label">点击率</div>
-                </div>
-                <div class="strategy-stat">
-                  <div class="strategy-stat-value">3.8%</div>
-                  <div class="strategy-stat-label">转化率</div>
-                </div>
-                <div class="strategy-stat">
-                  <div class="strategy-stat-value">78.5</div>
-                  <div class="strategy-stat-label">曝光量(万/日)</div>
-                </div>
-                <div class="strategy-stat">
-                  <div class="strategy-stat-value">100%</div>
-                  <div class="strategy-stat-label">流量占比</div>
-                </div>
+              <div class="form-check">
+                <input type="radio" id="rule-type-sort" name="rule-type">
+                <label for="rule-type-sort">排序规则</label>
               </div>
-              <div class="strategy-actions">
-                <button class="btn-secondary" style="margin-right: 8px;">
-                  <i data-feather="edit-2" style="width: 16px; height: 16px; margin-right: 4px;"></i>
-                  编辑
-                </button>
-                <button class="btn-secondary">
-                  <i data-feather="copy" style="width: 16px; height: 16px; margin-right: 4px;"></i>
-                  复制
-                </button>
+              <div class="form-check">
+                <input type="radio" id="rule-type-blend" name="rule-type">
+                <label for="rule-type-blend">混合规则</label>
               </div>
             </div>
-
-            <div class="strategy-card">
-              <div class="strategy-card-header">
-                <div>
-                  <div class="strategy-title">新用户冷启动策略</div>
-                  <div class="strategy-meta">创建于 2023-08-22 | 最后更新 2023-10-05</div>
-                </div>
-                <span class="badge badge-info">测试中</span>
-              </div>
-              <div class="strategy-stats">
-                <div class="strategy-stat">
-                  <div class="strategy-stat-value">18.2%</div>
-                  <div class="strategy-stat-label">点击率</div>
-                </div>
-                <div class="strategy-stat">
-                  <div class="strategy-stat-value">2.5%</div>
-                  <div class="strategy-stat-label">转化率</div>
-                </div>
-                <div class="strategy-stat">
-                  <div class="strategy-stat-value">12.8</div>
-                  <div class="strategy-stat-label">曝光量(万/日)</div>
-                </div>
-                <div class="strategy-stat">
-                  <div class="strategy-stat-value">0%</div>
-                  <div class="strategy-stat-label">流量占比</div>
-                </div>
-              </div>
-              <div class="strategy-actions">
-                <button class="btn-secondary" style="margin-right: 8px;">
-                  <i data-feather="edit-2" style="width: 16px; height: 16px; margin-right: 4px;"></i>
-                  编辑
-                </button>
-                <button class="btn-secondary">
-                  <i data-feather="copy" style="width: 16px; height: 16px; margin-right: 4px;"></i>
-                  复制
-                </button>
-              </div>
-            </div>
-
-            <div class="strategy-card">
-              <div class="strategy-card-header">
-                <div>
-                  <div class="strategy-title">购买转化策略</div>
-                  <div class="strategy-meta">创建于 2023-07-08 | 最后更新 2023-09-30</div>
-                </div>
-                <span class="badge badge-warning">调优中</span>
-              </div>
-              <div class="strategy-stats">
-                <div class="strategy-stat">
-                  <div class="strategy-stat-value">22.1%</div>
-                  <div class="strategy-stat-label">点击率</div>
-                </div>
-                <div class="strategy-stat">
-                  <div class="strategy-stat-value">4.2%</div>
-                  <div class="strategy-stat-label">转化率</div>
-                </div>
-                <div class="strategy-stat">
-                  <div class="strategy-stat-value">35.6</div>
-                  <div class="strategy-stat-label">曝光量(万/日)</div>
-                </div>
-                <div class="strategy-stat">
-                  <div class="strategy-stat-value">0%</div>
-                  <div class="strategy-stat-label">流量占比</div>
-                </div>
-              </div>
-              <div class="strategy-actions">
-                <button class="btn-secondary" style="margin-right: 8px;">
-                  <i data-feather="edit-2" style="width: 16px; height: 16px; margin-right: 4px;"></i>
-                  编辑
-                </button>
-                <button class="btn-secondary">
-                  <i data-feather="copy" style="width: 16px; height: 16px; margin-right: 4px;"></i>
-                  复制
-                </button>
-              </div>
+          </div>
+          
+          <div class="form-group">
+            <div class="form-label">规则名称</div>
+            <input type="text" class="form-control" placeholder="输入规则名称">
+          </div>
+          
+          <div class="form-group">
+            <div class="form-label">规则内容</div>
+            <textarea class="form-control" rows="6" placeholder="if(user.is_new && item.category != '已浏览类别') { 
+  score += 0.2
+} else if(item.is_hot && user.prefer_popular) {
+  score += 0.15
+}"></textarea>
+          </div>
+          
+          <div class="d-flex justify-between items-center">
+            <button class="btn btn-outline">
+              <i data-feather="help-circle" style="width: 16px; height: 16px; margin-right: 8px;"></i>
+              规则语法帮助
+            </button>
+            <div class="d-flex gap-2">
+              <button class="btn btn-outline">测试</button>
+              <button class="btn btn-primary">保存</button>
             </div>
           </div>
         </div>
-
-        <div class="col-4">
-          <!-- 策略模板 -->
-          <div class="card" style="margin-bottom: 24px;">
-            <div class="card-header">
-              <h2 style="font-size: 18px; font-weight: 600; margin: 0;">策略模板</h2>
+      </div>
+    </div>
+    
+    <div class="tab-content" id="strategy-groups-tab">
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title">
+            <i data-feather="layers" style="width: 18px; height: 18px;"></i>
+            策略分组管理
+          </h2>
+          <button class="btn btn-primary">
+            <i data-feather="plus" style="width: 16px; height: 16px; margin-right: 8px;"></i>
+            创建分组
+          </button>
+        </div>
+        <div class="card-body">
+          <p class="text-muted mb-4">通过策略分组，您可以为不同用户群体或场景定制不同的推荐策略。</p>
+          
+          <div class="d-flex mb-4">
+            <input type="text" class="form-control" placeholder="搜索分组" style="max-width: 300px;">
+          </div>
+          
+          <table style="width: 100%; border-collapse: collapse;">
+            <thead>
+              <tr style="background-color: var(--gray-50); border-bottom: 1px solid var(--border);">
+                <th style="padding: 12px 16px; text-align: left; font-weight: 600; font-size: 14px;">分组名称</th>
+                <th style="padding: 12px 16px; text-align: left; font-weight: 600; font-size: 14px;">用户条件</th>
+                <th style="padding: 12px 16px; text-align: left; font-weight: 600; font-size: 14px;">场景</th>
+                <th style="padding: 12px 16px; text-align: left; font-weight: 600; font-size: 14px;">策略</th>
+                <th style="padding: 12px 16px; text-align: right; font-weight: 600; font-size: 14px;">操作</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom: 1px solid var(--border);">
+                <td style="padding: 12px 16px; font-size: 14px;">新用户组</td>
+                <td style="padding: 12px 16px; font-size: 14px;">注册时间 < 7天</td>
+                <td style="padding: 12px 16px; font-size: 14px;">首页、分类页</td>
+                <td style="padding: 12px 16px; font-size: 14px;">新用户冷启动策略</td>
+                <td style="padding: 12px 16px; text-align: right;">
+                  <button style="border: none; background: none; cursor: pointer; color: var(--primary);">
+                    <i data-feather="edit-2" style="width: 16px; height: 16px;"></i>
+                  </button>
+                  <button style="border: none; background: none; cursor: pointer; color: var(--danger); margin-left: 8px;">
+                    <i data-feather="trash-2" style="width: 16px; height: 16px;"></i>
+                  </button>
+                </td>
+              </tr>
+              <tr style="border-bottom: 1px solid var(--border);">
+                <td style="padding: 12px 16px; font-size: 14px;">高价值用户组</td>
+                <td style="padding: 12px 16px; font-size: 14px;">近30天消费 > ¥1000</td>
+                <td style="padding: 12px 16px; font-size: 14px;">全部场景</td>
+                <td style="padding: 12px 16px; font-size: 14px;">高价值商品推荐策略</td>
+                <td style="padding: 12px 16px; text-align: right;">
+                  <button style="border: none; background: none; cursor: pointer; color: var(--primary);">
+                    <i data-feather="edit-2" style="width: 16px; height: 16px;"></i>
+                  </button>
+                  <button style="border: none; background: none; cursor: pointer; color: var(--danger); margin-left: 8px;">
+                    <i data-feather="trash-2" style="width: 16px; height: 16px;"></i>
+                  </button>
+                </td>
+              </tr>
+              <tr style="border-bottom: 1px solid var(--border);">
+                <td style="padding: 12px 16px; font-size: 14px;">促销活动用户组</td>
+                <td style="padding: 12px 16px; font-size: 14px;">点击过促销活动</td>
+                <td style="padding: 12px 16px; font-size: 14px;">首页、商详页</td>
+                <td style="padding: 12px 16px; font-size: 14px;">活动商品推荐策略</td>
+                <td style="padding: 12px 16px; text-align: right;">
+                  <button style="border: none; background: none; cursor: pointer; color: var(--primary);">
+                    <i data-feather="edit-2" style="width: 16px; height: 16px;"></i>
+                  </button>
+                  <button style="border: none; background: none; cursor: pointer; color: var(--danger); margin-left: 8px;">
+                    <i data-feather="trash-2" style="width: 16px; height: 16px;"></i>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    
+    <div class="tab-content" id="strategy-list-tab">
+      <div class="d-flex justify-between items-center mb-4">
+        <input type="text" class="form-control" placeholder="搜索策略" style="max-width: 300px;">
+        <div class="d-flex gap-2">
+          <select class="form-control">
+            <option value="all">全部状态</option>
+            <option value="production">生产中</option>
+            <option value="testing">测试中</option>
+            <option value="draft">草稿</option>
+          </select>
+          <button class="btn btn-outline">
+            <i data-feather="filter" style="width: 16px; height: 16px; margin-right: 8px;"></i>
+            筛选
+          </button>
+        </div>
+      </div>
+      
+      <div class="d-flex gap-4 mb-4" style="flex-wrap: wrap;">
+        <div class="strategy-card" style="width: calc(33.333% - 16px);">
+          <div class="strategy-header">
+            <div class="strategy-info">
+              <div class="strategy-title">首页热门推荐策略</div>
+              <div class="strategy-meta">
+                创建于 2023-07-15 · 最后更新于 2023-10-05
+              </div>
             </div>
-            <div class="card-body">
-              <p style="color: var(--text-light); margin-bottom: 16px;">使用预设模板快速创建策略</p>
-
-              <div style="margin-bottom: 12px; border: 1px solid var(--gray-200); border-radius: var(--border-radius); padding: 12px; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.borderColor='var(--primary)'" onmouseout="this.style.borderColor='var(--gray-200)'">
-                <div style="font-weight: 600; margin-bottom: 4px;">基础商品推荐</div>
-                <div style="font-size: 12px; color: var(--text-light);">针对电商场景的基础推荐策略模板</div>
+            <span class="badge badge-success">生产中</span>
+          </div>
+          <div class="strategy-body">
+            <div class="strategy-stats">
+              <div class="strategy-stat">
+                <div class="strategy-stat-value">5.2%</div>
+                <div class="strategy-stat-label">CTR</div>
               </div>
-
-              <div style="margin-bottom: 12px; border: 1px solid var(--gray-200); border-radius: var(--border-radius); padding: 12px; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.borderColor='var(--primary)'" onmouseout="this.style.borderColor='var(--gray-200)'">
-                <div style="font-weight: 600; margin-bottom: 4px;">内容推荐</div>
-                <div style="font-size: 12px; color: var(--text-light);">针对资讯、视频等内容的推荐策略模板</div>
+              <div class="strategy-stat">
+                <div class="strategy-stat-value">2.1%</div>
+                <div class="strategy-stat-label">CVR</div>
               </div>
-
-              <div style="margin-bottom: 12px; border: 1px solid var(--gray-200); border-radius: var(--border-radius); padding: 12px; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.borderColor='var(--primary)'" onmouseout="this.style.borderColor='var(--gray-200)'">
-                <div style="font-weight: 600; margin-bottom: 4px;">新用户冷启动</div>
-                <div style="font-size: 12px; color: var(--text-light);">面向新用户的推荐策略，解决冷启动问题</div>
+              <div class="strategy-stat">
+                <div class="strategy-stat-value">12.5万</div>
+                <div class="strategy-stat-label">曝光量</div>
               </div>
-
-              <div style="border: 1px solid var(--gray-200); border-radius: var(--border-radius); padding: 12px; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.borderColor='var(--primary)'" onmouseout="this.style.borderColor='var(--gray-200)'">
-                <div style="font-weight: 600; margin-bottom: 4px;">相似商品推荐</div>
-                <div style="font-size: 12px; color: var(--text-light);">计算商品相似度并推荐类似商品的策略</div>
+              <div class="strategy-stat">
+                <div class="strategy-stat-value">60%</div>
+                <div class="strategy-stat-label">流量占比</div>
               </div>
+            </div>
+            <div class="strategy-actions">
+              <button class="btn btn-outline">
+                <i data-feather="copy" style="width: 14px; height: 14px; margin-right: 6px;"></i>
+                复制
+              </button>
+              <button class="btn btn-outline">
+                <i data-feather="edit" style="width: 14px; height: 14px; margin-right: 6px;"></i>
+                编辑
+              </button>
             </div>
           </div>
-
-          <!-- 策略参数配置 -->
-          <div class="card">
-            <div class="card-header">
-              <h2 style="font-size: 18px; font-weight: 600; margin: 0;">全局参数配置</h2>
+        </div>
+        
+        <div class="strategy-card" style="width: calc(33.333% - 16px);">
+          <div class="strategy-header">
+            <div class="strategy-info">
+              <div class="strategy-title">相似商品推荐策略</div>
+              <div class="strategy-meta">
+                创建于 2023-08-10 · 最后更新于 2023-09-28
+              </div>
             </div>
-            <div class="card-body">
-              <div style="margin-bottom: 16px;">
-                <label style="display: block; font-weight: 500; margin-bottom: 8px;">缓存策略</label>
-                <select class="select" style="width: 100%;">
-                  <option>固定时间窗口 (1小时)</option>
-                  <option>固定时间窗口 (4小时)</option>
-                  <option>固定时间窗口 (24小时)</option>
-                  <option>动态失效</option>
-                </select>
+            <span class="badge badge-warning">测试中</span>
+          </div>
+          <div class="strategy-body">
+            <div class="strategy-stats">
+              <div class="strategy-stat">
+                <div class="strategy-stat-value">4.8%</div>
+                <div class="strategy-stat-label">CTR</div>
               </div>
-
-              <div style="margin-bottom: 16px;">
-                <label style="display: block; font-weight: 500; margin-bottom: 8px;">推荐数量</label>
-                <input type="number" class="input" value="20" style="width: 100%;">
+              <div class="strategy-stat">
+                <div class="strategy-stat-value">1.9%</div>
+                <div class="strategy-stat-label">CVR</div>
               </div>
-
-              <div style="margin-bottom: 16px;">
-                <label style="display: block; font-weight: 500; margin-bottom: 8px;">最低置信度</label>
-                <div style="display: flex; align-items: center;">
-                  <input type="range" min="0" max="100" value="75" style="flex: 1; margin-right: 8px;">
-                  <span style="font-weight: 500;">75%</span>
-                </div>
+              <div class="strategy-stat">
+                <div class="strategy-stat-value">3.2万</div>
+                <div class="strategy-stat-label">曝光量</div>
               </div>
-
-              <div style="margin-bottom: 16px;">
-                <label style="display: block; font-weight: 500; margin-bottom: 8px;">实时计算</label>
-                <div style="display: flex; align-items: center;">
-                  <div style="margin-right: 16px;">
-                    <input type="radio" id="realtime-yes" name="realtime" checked>
-                    <label for="realtime-yes">开启</label>
-                  </div>
-                  <div>
-                    <input type="radio" id="realtime-no" name="realtime">
-                    <label for="realtime-no">关闭</label>
-                  </div>
-                </div>
+              <div class="strategy-stat">
+                <div class="strategy-stat-value">20%</div>
+                <div class="strategy-stat-label">流量占比</div>
               </div>
-
-              <div style="margin-bottom: 16px;">
-                <label style="display: block; font-weight: 500; margin-bottom: 8px;">降级策略</label>
-                <select class="select" style="width: 100%;">
-                  <option>热门商品兜底</option>
-                  <option>同类目热门兜底</option>
-                  <option>历史推荐兜底</option>
-                  <option>不启用降级</option>
-                </select>
+            </div>
+            <div class="strategy-actions">
+              <button class="btn btn-outline">
+                <i data-feather="copy" style="width: 14px; height: 14px; margin-right: 6px;"></i>
+                复制
+              </button>
+              <button class="btn btn-outline">
+                <i data-feather="edit" style="width: 14px; height: 14px; margin-right: 6px;"></i>
+                编辑
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        <div class="strategy-card" style="width: calc(33.333% - 16px);">
+          <div class="strategy-header">
+            <div class="strategy-info">
+              <div class="strategy-title">新用户冷启动策略</div>
+              <div class="strategy-meta">
+                创建于 2023-06-20 · 最后更新于 2023-10-10
               </div>
-
-              <button class="btn-primary" style="width: 100%;">应用全局设置</button>
+            </div>
+            <span class="badge badge-info">调优中</span>
+          </div>
+          <div class="strategy-body">
+            <div class="strategy-stats">
+              <div class="strategy-stat">
+                <div class="strategy-stat-value">6.5%</div>
+                <div class="strategy-stat-label">CTR</div>
+              </div>
+              <div class="strategy-stat">
+                <div class="strategy-stat-value">1.7%</div>
+                <div class="strategy-stat-label">CVR</div>
+              </div>
+              <div class="strategy-stat">
+                <div class="strategy-stat-value">2.8万</div>
+                <div class="strategy-stat-label">曝光量</div>
+              </div>
+              <div class="strategy-stat">
+                <div class="strategy-stat-value">20%</div>
+                <div class="strategy-stat-label">流量占比</div>
+              </div>
+            </div>
+            <div class="strategy-actions">
+              <button class="btn btn-outline">
+                <i data-feather="copy" style="width: 14px; height: 14px; margin-right: 6px;"></i>
+                复制
+              </button>
+              <button class="btn btn-outline">
+                <i data-feather="edit" style="width: 14px; height: 14px; margin-right: 6px;"></i>
+                编辑
+              </button>
             </div>
           </div>
         </div>

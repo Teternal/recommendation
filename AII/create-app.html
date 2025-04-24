@@ -52,29 +52,26 @@
           </div>
           <div class="card-body">
             <form>
-              <!-- 应用基本信息 -->
+              <!-- 应用名称 -->
               <div class="form-group">
                 <label for="app-name" class="form-label">应用名称</label>
-                <input type="text" id="app-name" class="form-control" placeholder="例如：我的电商推荐">
-                <small class="form-text">给您的推荐应用起一个便于识别的名称</small>
-              </div>
-
-              <div class="form-group">
-                <label for="app-description" class="form-label">应用描述（可选）</label>
-                <textarea id="app-description" class="form-control" rows="3" placeholder="简要描述此应用的用途和目标"></textarea>
+                <input type="text" id="app-name" class="form-control" placeholder="例如：电商推荐系统" value="电商推荐系统">
+                <small class="form-text">给您的推荐应用起一个名称，方便后续管理</small>
               </div>
 
               <!-- 行业选择 -->
               <div class="form-group">
-                <label class="form-label">选择行业</label>
-                <div class="row" style="margin-bottom: 16px;">
+                <label class="form-label">行业类型</label>
+                <div class="row">
                   <!-- 电商行业 -->
                   <div class="col-4">
                     <div class="template-card selected" onclick="selectIndustry(this, 'ecommerce')">
-                      <div class="template-card-image" style="background-image: url('../recsys_platform_prototype/img/ecommerce-placeholder.jpg'); height: 120px;"></div>
-                      <div class="template-card-body">
-                        <h3 class="template-card-title">电商</h3>
-                        <p class="template-card-text">提升转化率和客单价</p>
+                      <div style="padding: 16px; text-align: center;">
+                        <div style="width: 48px; height: 48px; background-color: rgba(79, 70, 229, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px;">
+                          <i data-feather="shopping-bag" style="width: 24px; height: 24px; color: var(--primary);"></i>
+                        </div>
+                        <h3 class="template-card-title" style="font-size: 16px;">电商</h3>
+                        <p class="template-card-text" style="font-size: 12px;">商品推荐、个性化营销</p>
                       </div>
                     </div>
                   </div>
@@ -82,100 +79,110 @@
                   <!-- 内容行业 -->
                   <div class="col-4">
                     <div class="template-card" onclick="selectIndustry(this, 'content')">
-                      <div class="template-card-image" style="background-image: url('../recsys_platform_prototype/img/content-placeholder.jpg'); height: 120px;"></div>
-                      <div class="template-card-body">
-                        <h3 class="template-card-title">内容</h3>
-                        <p class="template-card-text">提高用户参与度和停留时间</p>
+                      <div style="padding: 16px; text-align: center;">
+                        <div style="width: 48px; height: 48px; background-color: rgba(14, 165, 233, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px;">
+                          <i data-feather="film" style="width: 24px; height: 24px; color: var(--secondary);"></i>
+                        </div>
+                        <h3 class="template-card-title" style="font-size: 16px;">内容</h3>
+                        <p class="template-card-text" style="font-size: 12px;">文章、视频、音乐推荐</p>
                       </div>
                     </div>
                   </div>
 
-                  <!-- 金融行业 -->
+                  <!-- 社交行业 -->
                   <div class="col-4">
-                    <div class="template-card" onclick="selectIndustry(this, 'finance')">
-                      <div class="template-card-image" style="background-image: url('../recsys_platform_prototype/img/finance-placeholder.jpg'); height: 120px;"></div>
-                      <div class="template-card-body">
-                        <h3 class="template-card-title">金融</h3>
-                        <p class="template-card-text">精准推荐金融产品</p>
+                    <div class="template-card" onclick="selectIndustry(this, 'social')">
+                      <div style="padding: 16px; text-align: center;">
+                        <div style="width: 48px; height: 48px; background-color: rgba(249, 115, 22, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px;">
+                          <i data-feather="users" style="width: 24px; height: 24px; color: var(--accent);"></i>
+                        </div>
+                        <h3 class="template-card-title" style="font-size: 16px;">社交</h3>
+                        <p class="template-card-text" style="font-size: 12px;">好友推荐、内容分发</p>
                       </div>
                     </div>
                   </div>
                 </div>
+              </div>
+              
+              <!-- 场景信息 -->
+              <div class="form-group">
+                <label for="scenario-name" class="form-label">场景名称</label>
+                <input type="text" id="scenario-name" class="form-control" placeholder="例如：首页商品推荐" value="个性化商品推荐">
+                <small class="form-text">给您的推荐场景起一个便于识别的名称</small>
+              </div>
 
+              <!-- 场景类型 -->
+              <div class="form-group">
+                <label class="form-label">场景类型</label>
                 <div class="row">
-                  <!-- 教育行业 -->
-                  <div class="col-4">
-                    <div class="template-card" onclick="selectIndustry(this, 'education')">
-                      <div class="template-card-image" style="background-image: url('../recsys_platform_prototype/img/education-placeholder.jpg'); height: 120px;"></div>
-                      <div class="template-card-body">
-                        <h3 class="template-card-title">教育</h3>
-                        <p class="template-card-text">个性化学习内容推荐</p>
+                  <!-- 猜你喜欢 -->
+                  <div class="col-6">
+                    <div class="template-card selected" onclick="selectScenarioType(this, 'personalized')">
+                      <div style="padding: 24px; text-align: center;">
+                        <div style="width: 64px; height: 64px; background-color: rgba(79, 70, 229, 0.1); border-radius: 16px; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px;">
+                          <i data-feather="user" style="width: 32px; height: 32px; color: var(--primary);"></i>
+                        </div>
+                        <h3 class="template-card-title">猜你喜欢</h3>
+                        <p class="template-card-text">基于用户历史行为，推荐个性化内容</p>
                       </div>
                     </div>
                   </div>
 
-                  <!-- 旅游行业 -->
-                  <div class="col-4">
-                    <div class="template-card" onclick="selectIndustry(this, 'travel')">
-                      <div class="template-card-image" style="background-image: url('../recsys_platform_prototype/img/travel-placeholder.jpg'); height: 120px;"></div>
-                      <div class="template-card-body">
-                        <h3 class="template-card-title">旅游</h3>
-                        <p class="template-card-text">个性化目的地和行程推荐</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <!-- 其他行业 -->
-                  <div class="col-4">
-                    <div class="template-card" onclick="selectIndustry(this, 'other')">
-                      <div class="template-card-image" style="background-color: var(--gray-200); height: 120px; display: flex; align-items: center; justify-content: center;">
-                        <i data-feather="plus" style="width: 32px; height: 32px; color: var(--text-light);"></i>
-                      </div>
-                      <div class="template-card-body">
-                        <h3 class="template-card-title">其他行业</h3>
-                        <p class="template-card-text">自定义推荐解决方案</p>
+                  <!-- 相关推荐 -->
+                  <div class="col-6">
+                    <div class="template-card" onclick="selectScenarioType(this, 'related')">
+                      <div style="padding: 24px; text-align: center;">
+                        <div style="width: 64px; height: 64px; background-color: rgba(14, 165, 233, 0.1); border-radius: 16px; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px;">
+                          <i data-feather="link" style="width: 32px; height: 32px; color: var(--secondary);"></i>
+                        </div>
+                        <h3 class="template-card-title">相关推荐</h3>
+                        <p class="template-card-text">基于当前内容特征，推荐相似内容</p>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
 
-              <!-- 权限设置 -->
+              <!-- 推荐目标 -->
               <div class="form-group">
-                <label class="form-label">权限设置</label>
-                <div style="border: 1px solid var(--gray-200); border-radius: var(--border-radius); padding: 16px; margin-bottom: 8px;">
-                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
-                    <div>
-                      <p style="font-weight: 500; margin-bottom: 4px;">团队成员</p>
-                      <p style="font-size: 14px; color: var(--text-light); margin: 0;">添加团队成员并设置权限</p>
-                    </div>
-                    <button type="button" class="btn-primary" style="font-size: 14px; padding: 6px 12px;">添加成员</button>
-                  </div>
-                  
-                  <div style="display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--gray-200);">
-                    <div style="display: flex; align-items: center;">
-                      <div style="width: 32px; height: 32px; background-color: var(--gray-200); border-radius: 50%; margin-right: 12px;"></div>
-                      <div>
-                        <p style="font-weight: 500; margin-bottom: 2px;">您（管理员）</p>
-                        <p style="font-size: 12px; color: var(--text-light); margin: 0;">owner@example.com</p>
+                <label class="form-label">场景目标</label>
+                <div style="margin-bottom: 8px;">
+                  <div class="row">
+                    <div class="col-6">
+                      <div style="display: flex; align-items: center; margin-bottom: 12px;">
+                        <input type="checkbox" id="goal-ctr" name="scenario-goal" checked style="margin-right: 8px;">
+                        <label for="goal-ctr" style="margin: 0;">提升点击率</label>
                       </div>
                     </div>
-                    <div>
-                      <select class="form-select" style="font-size: 14px; padding: 4px 8px;" disabled>
-                        <option selected>完全控制</option>
-                        <option>编辑权限</option>
-                        <option>只读权限</option>
-                      </select>
+                    <div class="col-6">
+                      <div style="display: flex; align-items: center; margin-bottom: 12px;">
+                        <input type="checkbox" id="goal-cvr" name="scenario-goal" style="margin-right: 8px;">
+                        <label for="goal-cvr" style="margin: 0;">提升转化率</label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-6">
+                      <div style="display: flex; align-items: center; margin-bottom: 12px;">
+                        <input type="checkbox" id="goal-retention" name="scenario-goal" style="margin-right: 8px;">
+                        <label for="goal-retention" style="margin: 0;">提升用户留存</label>
+                      </div>
+                    </div>
+                    <div class="col-6">
+                      <div style="display: flex; align-items: center; margin-bottom: 12px;">
+                        <input type="checkbox" id="goal-revenue" name="scenario-goal" style="margin-right: 8px;">
+                        <label for="goal-revenue" style="margin: 0;">提升销售额</label>
+                      </div>
                     </div>
                   </div>
                 </div>
-                <small class="form-text">您可以随时在应用设置中管理成员和权限</small>
+                <small class="form-text">可选择多个优化目标，系统将自动优化该指标</small>
               </div>
             </form>
           </div>
           <div class="card-footer">
-            <button type="button" class="btn-secondary" style="padding: 8px 16px; border: 1px solid var(--gray-300); color: var(--text); background: white; border-radius: var(--border-radius); cursor: pointer;">取消</button>
-            <button type="button" class="btn-primary" onclick="window.location.href='create-scenario.html'">下一步：创建推荐场景</button>
+            <button type="button" class="btn-secondary" onclick="window.location.href='index.html'">上一步</button>
+            <button type="button" class="btn-primary" onclick="window.location.href='data-sources-config.html'">下一步：配置数据源</button>
           </div>
         </div>
       </div>
@@ -191,17 +198,21 @@
               </div>
               <div>
                 <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 2px; color: var(--dark);">智能助手提示</h3>
-                <p style="font-size: 12px; color: var(--text-light); margin: 0;">基于您的选择提供建议</p>
+                <p style="font-size: 12px; color: var(--text-light); margin: 0;">帮助您完成场景配置</p>
               </div>
             </div>
             <div style="padding: 12px; background-color: white; border-radius: var(--border-radius); margin-bottom: 16px;">
-              <p style="margin-bottom: 8px; font-weight: 500; color: var(--dark);">电商行业推荐建议</p>
-              <p style="font-size: 14px; color: var(--text); margin-bottom: 0;">基于您选择的电商行业，系统自动为您推荐以下场景模板：</p>
-              <ul style="font-size: 14px; color: var(--text); margin: 8px 0 0; padding-left: 20px;">
-                <li>个性化商品推荐（首页）</li>
-                <li>相关商品推荐（商品详情页）</li>
-                <li>购买了还买了（结账页）</li>
+              <p style="margin-bottom: 8px; font-weight: 500; color: var(--dark);">个性化商品推荐建议</p>
+              <p style="font-size: 14px; color: var(--text); margin-bottom: 12px;">基于您选择的电商行业和猜你喜欢场景类型，我们推荐以下配置：</p>
+              <ul style="font-size: 14px; color: var(--text); margin: 0; padding-left: 20px;">
+                <li style="margin-bottom: 8px;"><strong>优化目标</strong>：点击率 + 转化率的组合可以提升整体收益</li>
+                <li style="margin-bottom: 8px;"><strong>推荐位置</strong>：首页、商品详情页、购物车页面</li>
+                <li><strong>算法选择</strong>：深度学习模型适合处理多种用户行为信号</li>
               </ul>
+            </div>
+            <div class="alert alert-success" style="margin-bottom: 16px;">
+              <i data-feather="info" style="width: 16px; height: 16px; margin-right: 8px; vertical-align: text-bottom;"></i>
+              <span>您的账户已开启智能数据工程能力，可自动完成80%的数据准备工作</span>
             </div>
             <div style="border-top: 1px dashed var(--gray-300); padding-top: 16px;">
               <div style="display: flex; align-items: center; color: var(--primary); font-size: 14px; font-weight: 500; cursor: pointer;">
@@ -228,7 +239,7 @@
               <li style="padding: 12px 24px; border-bottom: 1px solid var(--gray-200);">
                 <div style="display: flex; align-items: center;">
                   <div style="width: 24px; height: 24px; background-color: var(--gray-200); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 12px; color: var(--text); font-weight: 600; font-size: 12px;">2</div>
-                  <span style="color: var(--text);">设置业务目标帮助系统优化推荐</span>
+                  <span style="color: var(--text);">创建推荐场景和配置数据源</span>
                 </div>
               </li>
               <li style="padding: 12px 24px;">
@@ -252,16 +263,36 @@
   <script>
     feather.replace();
     
-    function selectIndustry(card, industry) {
+    function selectIndustry(card, type) {
       // 移除所有卡片的selected类
       const cards = document.querySelectorAll('.template-card');
-      cards.forEach(c => c.classList.remove('selected'));
+      cards.forEach(c => {
+        if (c.getAttribute('onclick') && c.getAttribute('onclick').includes('selectIndustry')) {
+          c.classList.remove('selected');
+        }
+      });
       
       // 为当前卡片添加selected类
       card.classList.add('selected');
       
-      // 这里可以添加更多逻辑，例如显示行业相关的辅助信息
-      console.log('Selected industry:', industry);
+      // 这里可以添加更多逻辑，例如显示行业相关的模板或示例
+      console.log('Selected industry:', type);
+    }
+    
+    function selectScenarioType(card, type) {
+      // 移除所有卡片的selected类
+      const cards = document.querySelectorAll('.template-card');
+      cards.forEach(c => {
+        if (c.getAttribute('onclick') && c.getAttribute('onclick').includes('selectScenarioType')) {
+          c.classList.remove('selected');
+        }
+      });
+      
+      // 为当前卡片添加selected类
+      card.classList.add('selected');
+      
+      // 这里可以添加更多逻辑，例如显示场景类型相关的辅助信息
+      console.log('Selected scenario type:', type);
     }
   </script>
   <script src="js/app.js"></script>

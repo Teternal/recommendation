@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>配置数据源 - 智能推荐SAAS平台</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="https://unpkg.com/feather-icons"></script>
+</head>
+<body>
+  <!-- 导航栏 -->
+  <nav class="navbar">
+    <div class="navbar-logo">
+      <img src="img/logo-placeholder.svg" alt="智推Logo">
+      <span>智能推荐平台</span>
+    </div>
+    <div class="navbar-nav">
+      <a href="#" class="nav-link">产品</a>
+      <a href="#" class="nav-link">文档</a>
+      <a href="#" class="nav-link">价格</a>
+      <a href="#" class="nav-link">联系我们</a>
+      <button class="btn-primary">登录</button>
+    </div>
+  </nav>
+
+  <!-- 主内容区 -->
+  <div class="container" style="padding: 40px 0 80px;">
+    <!-- 步骤指示器 -->
+    <div class="steps" style="margin-bottom: 40px;">
+      <div class="step completed">
+        <div class="step-circle">
+          <i data-feather="check" style="width: 20px; height: 20px;"></i>
+        </div>
+        <div class="step-text">创建应用</div>
+      </div>
+      <div class="step active">
+        <div class="step-circle">2</div>
+        <div class="step-text">连接数据</div>
+      </div>
+      <div class="step">
+        <div class="step-circle">3</div>
+        <div class="step-text">模型训练</div>
+      </div>
+      <div class="step">
+        <div class="step-circle">4</div>
+        <div class="step-text">部署服务</div>
+      </div>
+    </div>
+
+    <div class="row">
+      <!-- 左侧表单 -->
+      <div class="col-8">
+        <div class="card">
+          <div class="card-header">
+            <h2 class="card-title">配置数据源</h2>
+            <span style="color: var(--text-light); font-size: 14px;">第2步，共4步</span>
+          </div>
+          <div class="card-body">
+            <form>
+              <!-- 数据表选择 -->
+              <div class="form-group">
+                <label class="form-label">数据表选择</label>
+                <div class="row">
+                  <!-- 物品数据表 -->
+                  <div class="col-6">
+                    <div style="background-color: white; padding: 16px; border-radius: var(--border-radius); border: 2px solid var(--primary); margin-bottom: 16px;">
+                      <div style="display: flex; align-items: center; margin-bottom: 12px;">
+                        <div style="width: 32px; height: 32px; background-color: rgba(79, 70, 229, 0.1); border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-right: 12px;">
+                          <i data-feather="box" style="width: 16px; height: 16px; color: var(--primary);"></i>
+                        </div>
+                        <h4 style="margin: 0; font-size: 16px; font-weight: 600;">物品数据表</h4>
+                      </div>
+                      <p style="font-size: 14px; color: var(--text-light); margin-bottom: 12px;">包含推荐物品特征的数据表</p>
+                      <select class="form-select" style="margin-bottom: 8px;">
+                        <option>选择数据表...</option>
+                        <option selected>product_catalog</option>
+                        <option>item_features</option>
+                        <option>content_metadata</option>
+                      </select>
+                      <small style="font-size: 12px; color: var(--text-light);">必须包含物品ID及物品属性</small>
+                    </div>
+                  </div>
+                  
+                  <!-- 行为数据表 -->
+                  <div class="col-6">
+                    <div style="background-color: white; padding: 16px; border-radius: var(--border-radius); border: 2px solid var(--primary); margin-bottom: 16px;">
+                      <div style="display: flex; align-items: center; margin-bottom: 12px;">
+                        <div style="width: 32px; height: 32px; background-color: rgba(79, 70, 229, 0.1); border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-right: 12px;">
+                          <i data-feather="activity" style="width: 16px; height: 16px; color: var(--primary);"></i>
+                        </div>
+                        <h4 style="margin: 0; font-size: 16px; font-weight: 600;">行为数据表</h4>
+                      </div>
+                      <p style="font-size: 14px; color: var(--text-light); margin-bottom: 12px;">包含用户行为记录的数据表</p>
+                      <select class="form-select" style="margin-bottom: 8px;">
+                        <option>选择数据表...</option>
+                        <option selected>user_behaviors</option>
+                        <option>user_interactions</option>
+                        <option>click_stream</option>
+                      </select>
+                      <small style="font-size: 12px; color: var(--text-light);">必须包含用户ID、物品ID、行为类型和时间戳</small>
+                    </div>
+                  </div>
+                </div>
+                <small class="form-text">这些数据表将用于训练推荐模型和生成推荐结果</small>
+              </div>
+
+              <!-- 数据连接方式 -->
+              <div class="form-group">
+                <label class="form-label">数据连接方式</label>
+                <div class="row">
+                  <!-- API连接 -->
+                  <div class="col-3">
+                    <div class="template-card selected" onclick="selectDataConnection(this, 'api')">
+                      <div style="padding: 16px; text-align: center;">
+                        <div style="width: 48px; height: 48px; background-color: rgba(79, 70, 229, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px;">
+                          <i data-feather="code" style="width: 24px; height: 24px; color: var(--primary);"></i>
+                        </div>
+                        <h3 class="template-card-title" style="font-size: 16px;">API 连接</h3>
+                        <p class="template-card-text" style="font-size: 12px;">通过REST API实时传输数据</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- 文件上传 -->
+                  <div class="col-3">
+                    <div class="template-card" onclick="selectDataConnection(this, 'file')">
+                      <div style="padding: 16px; text-align: center;">
+                        <div style="width: 48px; height: 48px; background-color: rgba(14, 165, 233, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px;">
+                          <i data-feather="upload" style="width: 24px; height: 24px; color: var(--secondary);"></i>
+                        </div>
+                        <h3 class="template-card-title" style="font-size: 16px;">文件上传</h3>
+                        <p class="template-card-text" style="font-size: 12px;">上传CSV、JSON等格式文件</p>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <!-- Google GCS -->
+                  <div class="col-3">
+                    <div class="template-card" onclick="selectDataConnection(this, 'gcs')">
+                      <div style="padding: 16px; text-align: center;">
+                        <div style="width: 48px; height: 48px; background-color: rgba(234, 67, 53, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px;">
+                          <i data-feather="cloud" style="width: 24px; height: 24px; color: #EA4335;"></i>
+                        </div>
+                        <h3 class="template-card-title" style="font-size: 16px;">Google GCS</h3>
+                        <p class="template-card-text" style="font-size: 12px;">从Google云存储导入数据</p>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <!-- Amazon S3 -->
+                  <div class="col-3">
+                    <div class="template-card" onclick="selectDataConnection(this, 's3')">
+                      <div style="padding: 16px; text-align: center;">
+                        <div style="width: 48px; height: 48px; background-color: rgba(255, 153, 0, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px;">
+                          <i data-feather="database" style="width: 24px; height: 24px; color: #FF9900;"></i>
+                        </div>
+                        <h3 class="template-card-title" style="font-size: 16px;">Amazon S3</h3>
+                        <p class="template-card-text" style="font-size: 12px;">从S3存储桶导入数据</p>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <!-- 火山引擎 -->
+                  <div class="col-3">
+                    <div class="template-card" onclick="selectDataConnection(this, 'volcano')">
+                      <div style="padding: 16px; text-align: center;">
+                        <div style="width: 48px; height: 48px; background-color: rgba(36, 37, 84, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px;">
+                          <i data-feather="server" style="width: 24px; height: 24px; color: #242754;"></i>
+                        </div>
+                        <h3 class="template-card-title" style="font-size: 16px;">火山引擎</h3>
+                        <p class="template-card-text" style="font-size: 12px;">从火山引擎云存储导入数据</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- API配置 - 默认显示 -->
+              <div id="api-config" class="form-group">
+                <label class="form-label">API连接配置</label>
+                <div style="border: 1px solid var(--gray-200); border-radius: var(--border-radius); padding: 16px; margin-bottom: 8px;">
+                  <div class="form-group">
+                    <label for="endpoint-url" class="form-label">API端点URL</label>
+                    <input type="text" id="endpoint-url" class="form-control" placeholder="https://api.example.com/data" value="https://api.mycompany.com/recommender/data">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">认证方式</label>
+                    <div class="row" style="margin-bottom: 8px;">
+                      <div class="col-4">
+                        <div style="display: flex; align-items: center;">
+                          <input type="radio" id="auth-none" name="auth-method" style="margin-right: 8px;">
+                          <label for="auth-none" style="margin: 0;">无认证</label>
+                        </div>
+                      </div>
+                      <div class="col-4">
+                        <div style="display: flex; align-items: center;">
+                          <input type="radio" id="auth-apikey" name="auth-method" checked style="margin-right: 8px;">
+                          <label for="auth-apikey" style="margin: 0;">API Key</label>
+                        </div>
+                      </div>
+                      <div class="col-4">
+                        <div style="display: flex; align-items: center;">
+                          <input type="radio" id="auth-oauth" name="auth-method" style="margin-right: 8px;">
+                          <label for="auth-oauth" style="margin: 0;">OAuth 2.0</label>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div id="apikey-config">
+                      <label for="api-key" class="form-label">API Key</label>
+                      <input type="text" id="api-key" class="form-control" placeholder="输入您的API Key" value="sk_live_51KjsdiEjs92Jsla29slKdj">
+                    </div>
+                  </div>
+                </div>
+                <small class="form-text">系统将定期从API端点获取数据进行训练和推荐</small>
+              </div>
+
+              <!-- 文件上传配置 - 默认隐藏 -->
+              <div id="file-config" class="form-group" style="display: none;">
+                <label class="form-label">文件上传配置</label>
+                <div style="border: 1px solid var(--gray-200); border-radius: var(--border-radius); padding: 16px; margin-bottom: 8px;">
+                  <div class="form-group">
+                    <label class="form-label">用户数据文件</label>
+                    <div style="position: relative; margin-bottom: 16px;">
+                      <input type="file" id="user-file" style="display: none;">
+                      <button type="button" class="btn-secondary" onclick="document.getElementById('user-file').click()" style="width: 100%;">选择文件</button>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">物品数据文件</label>
+                    <div style="position: relative; margin-bottom: 16px;">
+                      <input type="file" id="item-file" style="display: none;">
+                      <button type="button" class="btn-secondary" onclick="document.getElementById('item-file').click()" style="width: 100%;">选择文件</button>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">行为数据文件</label>
+                    <div style="position: relative; margin-bottom: 8px;">
+                      <input type="file" id="behavior-file" style="display: none;">
+                      <button type="button" class="btn-secondary" onclick="document.getElementById('behavior-file').click()" style="width: 100%;">选择文件</button>
+                    </div>
+                  </div>
+                </div>
+                <small class="form-text">支持CSV、JSON、Parquet等格式，单个文件大小不超过500MB</small>
+              </div>
+
+              <!-- Google GCS配置 - 默认隐藏 -->
+              <div id="gcs-config" class="form-group" style="display: none;">
+                <label class="form-label">Google GCS配置</label>
+                <div style="border: 1px solid var(--gray-200); border-radius: var(--border-radius); padding: 16px; margin-bottom: 8px;">
+                  <div class="form-group">
+                    <label for="gcs-project" class="form-label">Google Cloud 项目ID</label>
+                    <input type="text" id="gcs-project" class="form-control" placeholder="your-project-id">
+                  </div>
+                  <div class="form-group">
+                    <label for="gcs-bucket" class="form-label">存储桶名称</label>
+                    <input type="text" id="gcs-bucket" class="form-control" placeholder="your-bucket-name">
+                  </div>
+                  <div class="form-group">
+                    <label for="gcs-path" class="form-label">数据路径</label>
+                    <input type="text" id="gcs-path" class="form-control" placeholder="path/to/your/data/">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">认证方式</label>
+                    <div style="display: flex; gap: 16px; margin-bottom: 16px;">
+                      <div style="display: flex; align-items: center;">
+                        <input type="radio" id="gcs-auth-key" name="gcs-auth-method" checked style="margin-right: 8px;">
+                        <label for="gcs-auth-key" style="margin: 0;">服务账号密钥</label>
+                      </div>
+                      <div style="display: flex; align-items: center;">
+                        <input type="radio" id="gcs-auth-auto" name="gcs-auth-method" style="margin-right: 8px;">
+                        <label for="gcs-auth-auto" style="margin: 0;">应用默认凭据</label>
+                      </div>
+                    </div>
+                    <div id="gcs-key-upload">
+                      <input type="file" id="gcs-key-file" style="display: none;">
+                      <button type="button" class="btn-secondary" onclick="document.getElementById('gcs-key-file').click()" style="width: 100%;">上传服务账号密钥JSON文件</button>
+                    </div>
+                  </div>
+                </div>
+                <small class="form-text">系统将从您指定的GCS路径读取数据文件进行训练和推荐</small>
+              </div>
+              
+              <!-- Amazon S3配置 - 默认隐藏 -->
+              <div id="s3-config" class="form-group" style="display: none;">
+                <label class="form-label">Amazon S3配置</label>
+                <div style="border: 1px solid var(--gray-200); border-radius: var(--border-radius); padding: 16px; margin-bottom: 8px;">
+                  <div class="form-group">
+                    <label for="s3-region" class="form-label">AWS 区域</label>
+                    <select id="s3-region" class="form-control">
+                      <option>请选择区域...</option>
+                      <option>us-east-1 (弗吉尼亚北部)</option>
+                      <option>us-west-2 (俄勒冈)</option>
+                      <option>ap-northeast-1 (东京)</option>
+                      <option>ap-east-1 (香港)</option>
+                      <option>ap-southeast-1 (新加坡)</option>
+                      <option>eu-central-1 (法兰克福)</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="s3-bucket" class="form-label">S3存储桶名称</label>
+                    <input type="text" id="s3-bucket" class="form-control" placeholder="your-bucket-name">
+                  </div>
+                  <div class="form-group">
+                    <label for="s3-path" class="form-label">数据路径前缀</label>
+                    <input type="text" id="s3-path" class="form-control" placeholder="path/to/your/data/">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">认证信息</label>
+                    <div class="row">
+                      <div class="col-6">
+                        <label for="s3-access-key" class="form-label">Access Key ID</label>
+                        <input type="text" id="s3-access-key" class="form-control" placeholder="AKIAIOSFODNN7EXAMPLE">
+                      </div>
+                      <div class="col-6">
+                        <label for="s3-secret-key" class="form-label">Secret Access Key</label>
+                        <input type="password" id="s3-secret-key" class="form-control" placeholder="wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <small class="form-text">系统将从您指定的S3存储桶读取数据文件进行训练和推荐</small>
+              </div>
+              
+              <!-- 火山引擎配置 - 默认隐藏 -->
+              <div id="volcano-config" class="form-group" style="display: none;">
+                <label class="form-label">火山引擎配置</label>
+                <div style="border: 1px solid var(--gray-200); border-radius: var(--border-radius); padding: 16px; margin-bottom: 8px;">
+                  <div class="form-group">
+                    <label for="volcano-region" class="form-label">区域</label>
+                    <select id="volcano-region" class="form-control">
+                      <option>请选择区域...</option>
+                      <option>cn-beijing (北京)</option>
+                      <option>cn-shanghai (上海)</option>
+                      <option>cn-guangzhou (广州)</option>
+                      <option>cn-hongkong (香港)</option>
+                      <option>us-east-1 (弗吉尼亚)</option>
+                      <option>ap-singapore-1 (新加坡)</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="volcano-bucket" class="form-label">存储桶名称</label>
+                    <input type="text" id="volcano-bucket" class="form-control" placeholder="your-tos-bucket">
+                  </div>
+                  <div class="form-group">
+                    <label for="volcano-path" class="form-label">数据路径前缀</label>
+                    <input type="text" id="volcano-path" class="form-control" placeholder="path/to/your/data/">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">认证信息</label>
+                    <div class="row">
+                      <div class="col-6">
+                        <label for="volcano-access-key" class="form-label">Access Key ID</label>
+                        <input type="text" id="volcano-access-key" class="form-control" placeholder="AKVOLCANOTOSKEY0001">
+                      </div>
+                      <div class="col-6">
+                        <label for="volcano-secret-key" class="form-label">Secret Access Key</label>
+                        <input type="password" id="volcano-secret-key" class="form-control" placeholder="VOLCANOTOSSECRETKEYexample123456789">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="volcano-endpoint" class="form-label">服务端点（可选）</label>
+                    <input type="text" id="volcano-endpoint" class="form-control" placeholder="https://tos-cn-beijing.volces.com">
+                    <small class="form-text" style="margin-top: 4px;">如不填写，将根据选择的区域自动设置</small>
+                  </div>
+                </div>
+                <small class="form-text">系统将从您指定的火山引擎云存储读取数据文件进行训练和推荐</small>
+              </div>
+
+              <!-- 数据工程配置 -->
+              <div class="form-group">
+                <label class="form-label">数据工程选项</label>
+                <div style="border: 1px solid var(--gray-200); border-radius: var(--border-radius); margin-bottom: 8px;">
+                  <div style="padding: 16px; border-bottom: 1px solid var(--gray-200); display: flex; align-items: center; justify-content: space-between;">
+                    <div>
+                      <p style="font-weight: 500; margin-bottom: 4px;">智能Schema映射</p>
+                      <p style="font-size: 14px; color: var(--text-light); margin: 0;">利用大模型自动识别和映射数据字段</p>
+                    </div>
+                    <label class="switch">
+                      <input type="checkbox" checked>
+                      <span class="slider"></span>
+                    </label>
+                  </div>
+                  <div style="padding: 16px; border-bottom: 1px solid var(--gray-200); display: flex; align-items: center; justify-content: space-between;">
+                    <div>
+                      <p style="font-weight: 500; margin-bottom: 4px;">数据质量检测</p>
+                      <p style="font-size: 14px; color: var(--text-light); margin: 0;">自动分析数据质量并生成报告</p>
+                    </div>
+                    <label class="switch">
+                      <input type="checkbox" checked>
+                      <span class="slider"></span>
+                    </label>
+                  </div>
+                  <div style="padding: 16px; display: flex; align-items: center; justify-content: space-between;">
+                    <div>
+                      <p style="font-weight: 500; margin-bottom: 4px;">异常数据处理</p>
+                      <p style="font-size: 14px; color: var(--text-light); margin: 0;">智能识别并处理异常数据</p>
+                    </div>
+                    <label class="switch">
+                      <input type="checkbox" checked>
+                      <span class="slider"></span>
+                    </label>
+                  </div>
+                </div>
+                <small class="form-text">这些智能工具将帮助您提高数据质量和精确性</small>
+              </div>
+            </form>
+          </div>
+          <div class="card-footer">
+            <a href="create-app.html" class="btn btn-secondary">上一步</a>
+            <a href="data-processing.html" class="btn btn-primary">下一步：数据处理</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 右侧辅助信息 -->
+      <div class="col-4">
+        <!-- 智能助手卡片 -->
+        <div class="card" style="background-color: rgba(79, 70, 229, 0.05); border: 1px solid rgba(79, 70, 229, 0.1); margin-bottom: 16px;">
+          <div class="card-body">
+            <div style="display: flex; align-items: center; margin-bottom: 16px;">
+              <div style="width: 40px; height: 40px; background-color: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 12px;">
+                <i data-feather="cpu" style="width: 20px; height: 20px; color: white;"></i>
+              </div>
+              <div>
+                <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 2px; color: var(--dark);">智能助手提示</h3>
+                <p style="font-size: 12px; color: var(--text-light); margin: 0;">帮助您配置数据源</p>
+              </div>
+            </div>
+            <div style="padding: 12px; background-color: white; border-radius: var(--border-radius); margin-bottom: 16px;">
+              <p style="margin-bottom: 8px; font-weight: 500; color: var(--dark);">数据源建议</p>
+              <p style="font-size: 14px; color: var(--text); margin-bottom: 12px;">为确保推荐效果，我们建议您的数据符合以下要求：</p>
+              <ul style="font-size: 14px; color: var(--text); margin: 0; padding-left: 20px;">
+                <li style="margin-bottom: 8px;"><strong>数据量</strong>：用户行为数据至少10,000条记录</li>
+                <li style="margin-bottom: 8px;"><strong>时间范围</strong>：包含最近30天的用户行为</li>
+                <li style="margin-bottom: 8px;"><strong>物品数据</strong>：包含详细的物品属性和分类信息</li>
+                <li><strong>用户数据</strong>：用户基本属性和标签</li>
+              </ul>
+            </div>
+            <div style="padding: 12px; background-color: white; border-radius: var(--border-radius); margin-bottom: 16px;">
+              <p style="margin-bottom: 8px; font-weight: 500; color: var(--dark);">数据隐私保护</p>
+              <p style="font-size: 14px; color: var(--text); margin: 0;">我们严格遵守数据隐私规范，所有数据均采用加密传输和存储。您可以在设置中管理数据访问权限和使用期限。</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 数据接入状态卡片 -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title" style="font-size: 16px;">数据接入状态</h3>
+          </div>
+          <div class="card-body">
+            <div style="display: flex; align-items: center; margin-bottom: 16px;">
+              <div style="width: 24px; height: 24px; background-color: var(--success); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 12px;">
+                <i data-feather="check" style="width: 16px; height: 16px; color: white;"></i>
+              </div>
+              <div>
+                <p style="font-size: 14px; font-weight: 500; margin: 0; color: var(--dark);">应用创建完成</p>
+                <p style="font-size: 12px; color: var(--text-light); margin: 0;">电商推荐系统</p>
+              </div>
+            </div>
+            <div style="display: flex; align-items: center; margin-bottom: 16px;">
+              <div style="width: 24px; height: 24px; background-color: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 12px;">
+                <span style="color: white; font-size: 12px; font-weight: 600;">2</span>
+              </div>
+              <div>
+                <p style="font-size: 14px; font-weight: 500; margin: 0; color: var(--dark);">正在配置数据源</p>
+                <p style="font-size: 12px; color: var(--text-light); margin: 0;">请完成必要字段配置</p>
+              </div>
+            </div>
+            <div style="display: flex; align-items: start; margin-bottom: 16px; opacity: 0.5;">
+              <div style="width: 24px; height: 24px; background-color: var(--gray-300); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 12px; margin-top: 3px;">
+                <span style="color: white; font-size: 12px; font-weight: 600;">3</span>
+              </div>
+              <div>
+                <p style="font-size: 14px; font-weight: 500; margin: 0; color: var(--text-light);">模型训练</p>
+                <p style="font-size: 12px; color: var(--text-light); margin: 0;">选择适合您业务的算法模型</p>
+              </div>
+            </div>
+            <div style="display: flex; align-items: start; opacity: 0.5;">
+              <div style="width: 24px; height: 24px; background-color: var(--gray-300); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 12px; margin-top: 3px;">
+                <span style="color: white; font-size: 12px; font-weight: 600;">4</span>
+              </div>
+              <div>
+                <p style="font-size: 14px; font-weight: 500; margin: 0; color: var(--text-light);">部署服务</p>
+                <p style="font-size: 12px; color: var(--text-light); margin: 0;">配置API接入和服务参数</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 助手按钮 -->
+  <button class="assistant-button">
+    <i data-feather="message-circle"></i>
+  </button>
+
+  <script>
+    feather.replace();
+    
+    function selectDataConnection(card, type) {
+      // 移除数据连接卡片的selected类
+      const cards = document.querySelectorAll('.template-card');
+      cards.forEach(c => {
+        if (c.getAttribute('onclick') && c.getAttribute('onclick').includes('selectDataConnection')) {
+          c.classList.remove('selected');
+        }
+      });
+      
+      // 为当前卡片添加selected类
+      card.classList.add('selected');
+      
+      // 隐藏所有配置
+      document.getElementById('api-config').style.display = 'none';
+      document.getElementById('file-config').style.display = 'none';
+      document.getElementById('gcs-config').style.display = 'none';
+      document.getElementById('s3-config').style.display = 'none';
+      document.getElementById('volcano-config').style.display = 'none';
+      
+      // 显示对应的配置部分
+      if (type === 'api') {
+        document.getElementById('api-config').style.display = 'block';
+      } else if (type === 'file') {
+        document.getElementById('file-config').style.display = 'block';
+      } else if (type === 'gcs') {
+        document.getElementById('gcs-config').style.display = 'block';
+      } else if (type === 's3') {
+        document.getElementById('s3-config').style.display = 'block';
+      } else if (type === 'volcano') {
+        document.getElementById('volcano-config').style.display = 'block';
+      }
+      
+      console.log('Selected data connection type:', type);
+    }
+  </script>
+  <script src="js/app.js"></script>
+</body>
+</html> 

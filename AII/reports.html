@@ -3,313 +3,1214 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>效果分析报告 - 智能推荐SAAS平台</title>
+  <title>效果分析 - 智能推荐平台</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
   <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
   <script src="https://unpkg.com/feather-icons"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/moment@2.29.4/moment.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css">
+  <style>
+    :root {
+      --primary: #6366f1;
+      --primary-light: #e8eaf6;
+      --primary-dark: #5a5fcf;
+      --secondary: #f5f5f5;
+      --success: #4caf50;
+      --success-light: #e8f5e9;
+      --warning: #ff9800;
+      --warning-light: #fff3e0;
+      --danger: #f44336;
+      --danger-light: #ffebee;
+      --info: #0ea5e9;
+      --info-light: #e0f7fa;
+      --text: #333333;
+      --text-light: #666666;
+      --text-muted: #999999;
+      --border: #e0e0e0;
+      --background: #f8f9fa;
+      --card-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+      --border-radius: 8px;
+      --transition: all 0.3s ease;
+      --dark: #141b2d;
+      --sidebar-width: 260px;
+      --gray-100: #f8f9fa;
+      --gray-200: #e9ecef;
+      --gray-300: #dee2e6;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+      --max-width: 1440px;
+    }
+    
+    body {
+      font-family: 'Inter', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+      background-color: var(--background);
+      color: var(--text);
+      margin: 0;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    
+    /* 侧边栏 */
+    .sidebar {
+      width: var(--sidebar-width);
+      background-color: var(--dark);
+      color: white;
+      height: 100vh;
+      position: fixed;
+      left: 0;
+      top: 0;
+      overflow-y: auto;
+      z-index: 1000;
+    }
+    
+    .sidebar-header {
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      height: 60px;
+      box-sizing: border-box;
+    }
+    
+    .sidebar-menu {
+      padding: 0;
+    }
+    
+    .sidebar-menu-item {
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      color: rgba(255, 255, 255, 0.7);
+      text-decoration: none;
+      transition: all 0.2s;
+      gap: 16px;
+      font-size: 16px;
+    }
+    
+    .sidebar-menu-item:hover {
+      background-color: rgba(255, 255, 255, 0.05);
+      color: white;
+    }
+    
+    .sidebar-menu-item.active {
+      background-color: var(--primary);
+      color: white;
+    }
+    
+    .sidebar-menu-item i {
+      width: 22px;
+      height: 22px;
+    }
+    
+    /* 主内容区域 */
+    .main-content {
+      margin-left: var(--sidebar-width);
+      padding: 24px;
+      width: calc(100% - var(--sidebar-width));
+      max-width: calc(var(--max-width) - var(--sidebar-width));
+      margin-right: auto;
+      overflow-y: auto;
+    }
+    
+    /* 卡片样式 */
+    .card {
+      background-color: white;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 24px;
+      border: none;
+      overflow: hidden;
+      width: 100%;
+    }
+    
+    .card-header {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+      background-color: white;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+    
+    .card-title {
+      font-weight: 600;
+      margin: 0;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .card-body {
+      padding: 20px;
+    }
+    
+    .chart-container {
+      width: 100%;
+      height: 300px;
+    }
+    
+    /* 统计卡片 */
+    .stats-card {
+      background-color: white;
+      border-radius: var(--border-radius);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      box-shadow: var(--shadow-sm);
+      height: 100%;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .stats-card:hover {
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      transform: translateY(-3px);
+    }
+    
+    .stats-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 6px;
+      height: 100%;
+      background-color: var(--primary);
+    }
+    
+    .stats-card.success::before {
+      background-color: var(--success);
+    }
+    
+    .stats-card.warning::before {
+      background-color: var(--warning);
+    }
+    
+    .stats-card.danger::before {
+      background-color: var(--danger);
+    }
+    
+    .stats-card.info::before {
+      background-color: var(--info);
+    }
+    
+    .stats-card .value {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 4px;
+      color: var(--text);
+    }
+    
+    .stats-card .label {
+      font-size: 14px;
+      color: var(--text-light);
+    }
+    
+    .stats-trend {
+      display: flex;
+      align-items: center;
+      margin-top: 12px;
+      font-size: 14px;
+    }
+    
+    .stats-trend.positive {
+      color: var(--success);
+    }
+    
+    .stats-trend.negative {
+      color: var(--danger);
+    }
+    
+    /* 按钮样式 */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: var(--border-radius);
+      padding: 8px 16px;
+      font-size: 14px;
+      font-weight: 500;
+      transition: var(--transition);
+      cursor: pointer;
+      border: none;
+      white-space: nowrap;
+    }
+    
+    .btn-primary {
+      background-color: var(--primary);
+      color: white;
+    }
+    
+    .btn-primary:hover {
+      background-color: var(--primary-dark);
+    }
+    
+    .btn-outline {
+      background-color: transparent;
+      border: 1px solid var(--border);
+      color: var(--text);
+    }
+    
+    .btn-outline:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+      background-color: var(--primary-light);
+    }
+    
+    /* 筛选器和工具栏 */
+    .filter-bar {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+    
+    .filter-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .date-range {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background-color: white;
+      border: 1px solid var(--border);
+      border-radius: var(--border-radius);
+      padding: 6px 12px;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    
+    .date-range:hover {
+      border-color: var(--primary);
+    }
+    
+    .dropdown {
+      position: relative;
+    }
+    
+    .dropdown-toggle {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background-color: white;
+      border: 1px solid var(--border);
+      border-radius: var(--border-radius);
+      padding: 6px 12px;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    
+    .dropdown-toggle:hover {
+      border-color: var(--primary);
+    }
+    
+    .dropdown-menu {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      min-width: 180px;
+      background-color: white;
+      border-radius: var(--border-radius);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      padding: 8px 0;
+      z-index: 10;
+      display: none;
+      margin-top: 4px;
+    }
+    
+    .dropdown-menu.show {
+      display: block;
+    }
+    
+    .dropdown-item {
+      padding: 8px 16px;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    
+    .dropdown-item:hover {
+      background-color: var(--primary-light);
+      color: var(--primary);
+    }
+    
+    /* 标签页 */
+    .tab-nav {
+      display: flex;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 24px;
+    }
+    
+    .tab-btn {
+      padding: 12px 20px;
+      font-weight: 500;
+      color: var(--text-light);
+      cursor: pointer;
+      transition: var(--transition);
+      border-bottom: 2px solid transparent;
+      white-space: nowrap;
+    }
+    
+    .tab-btn.active {
+      color: var(--primary);
+      border-bottom-color: var(--primary);
+    }
+    
+    .tab-content {
+      display: none;
+    }
+    
+    .tab-content.active {
+      display: block;
+    }
+    
+    /* 徽章样式 */
+    .badge {
+      padding: 4px 8px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+    
+    .badge-primary {
+      background-color: rgba(99, 102, 241, 0.1);
+      color: var(--primary);
+    }
+    
+    .badge-success {
+      background-color: rgba(76, 175, 80, 0.1);
+      color: var(--success);
+    }
+    
+    .badge-warning {
+      background-color: rgba(255, 152, 0, 0.1);
+      color: var(--warning);
+    }
+    
+    .badge-danger {
+      background-color: rgba(244, 67, 54, 0.1);
+      color: var(--danger);
+    }
+    
+    .badge-info {
+      background-color: rgba(14, 165, 233, 0.1);
+      color: var(--info);
+    }
+    
+    /* 特殊组件 */
+    .insight-card {
+      background-color: white;
+      border-radius: var(--border-radius);
+      padding: 20px;
+      margin-bottom: 16px;
+      transition: var(--transition);
+      box-shadow: var(--shadow-sm);
+      border-left: 4px solid var(--primary);
+    }
+    
+    .insight-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    }
+    
+    .insight-card.warning {
+      border-left-color: var(--warning);
+    }
+    
+    .insight-card.success {
+      border-left-color: var(--success);
+    }
+    
+    .insight-card.danger {
+      border-left-color: var(--danger);
+    }
+    
+    .insight-card.info {
+      border-left-color: var(--info);
+    }
+    
+    .insight-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 16px;
+      flex-shrink: 0;
+    }
+    
+    .insight-content {
+      flex: 1;
+    }
+    
+    .insight-title {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: var(--text);
+    }
+    
+    .insight-description {
+      color: var(--text-light);
+      margin-bottom: 12px;
+      line-height: 1.5;
+    }
+    
+    .suggestion-box {
+      background-color: var(--gray-100);
+      border-radius: var(--border-radius);
+      padding: 12px 16px;
+      margin-top: 12px;
+    }
+    
+    .suggestion-title {
+      display: flex;
+      align-items: center;
+      font-weight: 600;
+      margin-bottom: 8px;
+      gap: 8px;
+    }
+    
+    .tag-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+    
+    /* 比较卡片 */
+    .compare-card {
+      background-color: white;
+      border-radius: var(--border-radius);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+    }
+    
+    .compare-header {
+      padding: 16px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .compare-body {
+      display: flex;
+    }
+    
+    .compare-column {
+      flex: 1;
+      padding: 16px;
+    }
+    
+    .compare-column:first-child {
+      border-right: 1px solid var(--border);
+    }
+    
+    /* 响应式设计 */
+    @media screen and (max-width: 1200px) {
+      .row > [class*='col-'] {
+        width: 50%;
+      }
+    }
+    
+    @media screen and (max-width: 768px) {
+      .main-content {
+        margin-left: 0;
+        width: 100%;
+        max-width: 100%;
+      }
+      
+      .sidebar {
+        left: calc(-1 * var(--sidebar-width));
+      }
+      
+      .sidebar.active {
+        left: 0;
+      }
+      
+      .menu-toggle {
+        display: block;
+      }
+      
+      .row > [class*='col-'] {
+        width: 100%;
+      }
+      
+      .filter-bar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      
+      .compare-body {
+        flex-direction: column;
+      }
+      
+      .compare-column:first-child {
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+      }
+    }
+    
+    /* 辅助类 */
+    .row {
+      display: flex;
+      flex-wrap: wrap;
+      margin: 0 -12px;
+    }
+    
+    [class*='col-'] {
+      padding: 0 12px;
+      box-sizing: border-box;
+      margin-bottom: 24px;
+    }
+    
+    .col-12 { width: 100%; }
+    .col-6 { width: 50%; }
+    .col-4 { width: 33.333333%; }
+    .col-3 { width: 25%; }
+    .col-8 { width: 66.666666%; }
+    
+    .d-flex { display: flex; }
+    .flex-column { flex-direction: column; }
+    .justify-between { justify-content: space-between; }
+    .items-center { align-items: center; }
+    .flex-wrap { flex-wrap: wrap; }
+    .gap-2 { gap: 8px; }
+    .gap-4 { gap: 16px; }
+    
+    .mb-1 { margin-bottom: 4px; }
+    .mb-2 { margin-bottom: 8px; }
+    .mb-3 { margin-bottom: 12px; }
+    .mb-4 { margin-bottom: 16px; }
+    .mb-6 { margin-bottom: 24px; }
+    .mb-8 { margin-bottom: 32px; }
+    
+    .mt-1 { margin-top: 4px; }
+    .mt-2 { margin-top: 8px; }
+    .mt-3 { margin-top: 12px; }
+    .mt-4 { margin-top: 16px; }
+    
+    .font-bold { font-weight: 600; }
+    .text-sm { font-size: 14px; }
+    .text-xs { font-size: 12px; }
+    
+    .text-primary { color: var(--primary); }
+    .text-success { color: var(--success); }
+    .text-warning { color: var(--warning); }
+    .text-danger { color: var(--danger); }
+    .text-muted { color: var(--text-light); }
+    
+    .bg-light { background-color: var(--gray-100); }
+    .rounded { border-radius: var(--border-radius); }
+    .p-4 { padding: 16px; }
+    
+    /* 菜单按钮 */
+    .menu-toggle {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: white;
+      font-size: 24px;
+      position: fixed;
+      top: 16px;
+      left: 16px;
+      z-index: 1001;
+    }
+    
+    @media screen and (max-width: 768px) {
+      .menu-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+    
+    /* AI助手按钮 */
+    .ai-assistant-btn {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background-color: var(--primary);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      border: none;
+      cursor: pointer;
+      z-index: 1000;
+      transition: all 0.3s;
+    }
+    
+    .ai-assistant-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+    }
+  </style>
 </head>
 <body>
-  <!-- 导航栏 -->
-  <nav class="navbar">
-    <div class="navbar-logo">
-      <img src="img/logo-placeholder.svg" alt="智推Logo">
-      <span>智能推荐平台</span>
+  <!-- 侧边栏 -->
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <img src="img/logo-placeholder.svg" alt="智推Logo" style="height: 28px; margin-right: 12px;">
+      <span style="font-weight: 600; color: white;">智能推荐平台</span>
     </div>
-    <div class="navbar-nav">
-      <a href="#" class="nav-link">产品</a>
-      <a href="#" class="nav-link">文档</a>
-      <a href="#" class="nav-link">价格</a>
-      <a href="#" class="nav-link">联系我们</a>
-      <button class="btn-primary">登录</button>
+    <div class="sidebar-menu">
+      <a href="dashboard.html" class="sidebar-menu-item">
+        <i data-feather="grid"></i>
+        <span>仪表盘</span>
+      </a>
+      <a href="applications.html" class="sidebar-menu-item">
+        <i data-feather="package"></i>
+        <span>应用管理</span>
+      </a>
+      <a href="data-management.html" class="sidebar-menu-item">
+        <i data-feather="database"></i>
+        <span>数据管理</span>
+      </a>
+      <a href="scenes-management.html" class="sidebar-menu-item">
+        <i data-feather="layout"></i>
+        <span>场景管理</span>
+      </a>
+      <a href="strategy-simplified.html" class="sidebar-menu-item">
+        <i data-feather="sliders"></i>
+        <span>策略配置</span>
+      </a>
+      <a href="model-management.html" class="sidebar-menu-item">
+        <i data-feather="layers"></i>
+        <span>模型管理</span>
+      </a>
+      <a href="reports.html" class="sidebar-menu-item active">
+        <i data-feather="bar-chart-2"></i>
+        <span>分析报表</span>
+      </a>
+      <a href="ab-testing.html" class="sidebar-menu-item">
+        <i data-feather="flag"></i>
+        <span>A/B测试</span>
+      </a>
+      <a href="model-alarm.html" class="sidebar-menu-item">
+        <i data-feather="bell"></i>
+        <span>告警监控</span>
+      </a>
+      <a href="#" class="sidebar-menu-item">
+        <i data-feather="users"></i>
+        <span>用户管理</span>
+      </a>
     </div>
-  </nav>
+  </div>
+
+  <!-- 菜单按钮 -->
+  <button class="menu-toggle" onclick="toggleSidebar()">
+    <i data-feather="menu"></i>
+  </button>
 
   <!-- 主内容区 -->
-  <div class="container" style="padding: 40px 0 80px;">
-    <!-- 步骤指示器 -->
-    <div class="steps" style="margin-bottom: 40px;">
-      <div class="step completed">
-        <div class="step-circle">1</div>
-        <div class="step-text">创建应用</div>
-      </div>
-      <div class="step completed">
-        <div class="step-circle">2</div>
-        <div class="step-text">连接数据</div>
-      </div>
-      <div class="step active">
-        <div class="step-circle">3</div>
-        <div class="step-text">一键部署</div>
+  <div class="main-content">
+    <div class="d-flex justify-between items-center mb-6">
+      <h1 style="font-size: 24px; font-weight: 700; margin: 0;">效果分析报表</h1>
+      <div class="d-flex gap-2">
+        <button class="btn btn-outline">
+          <i data-feather="download" style="width: 16px; height: 16px; margin-right: 8px;"></i>
+          导出报告
+        </button>
+        <button class="btn btn-primary">
+          <i data-feather="refresh-cw" style="width: 16px; height: 16px; margin-right: 8px;"></i>
+          刷新数据
+        </button>
       </div>
     </div>
+    
+    <!-- 过滤器工具栏 -->
+    <div class="filter-bar">
+      <div class="filter-item">
+        <div class="date-range" id="dateRangeSelector">
+          <i data-feather="calendar" style="width: 16px; height: 16px;"></i>
+          <span>最近14天</span>
+          <i data-feather="chevron-down" style="width: 16px; height: 16px;"></i>
+        </div>
+      </div>
+      
+      <div class="filter-item dropdown">
+        <div class="dropdown-toggle" onclick="toggleDropdown('appDropdown')">
+          <i data-feather="package" style="width: 16px; height: 16px;"></i>
+          <span>所有应用</span>
+          <i data-feather="chevron-down" style="width: 16px; height: 16px;"></i>
+        </div>
+        <div class="dropdown-menu" id="appDropdown">
+          <div class="dropdown-item">所有应用</div>
+          <div class="dropdown-item">电商推荐</div>
+          <div class="dropdown-item">视频内容推荐</div>
+          <div class="dropdown-item">活动推荐</div>
+        </div>
+      </div>
+      
+      <div class="filter-item dropdown">
+        <div class="dropdown-toggle" onclick="toggleDropdown('sceneDropdown')">
+          <i data-feather="layout" style="width: 16px; height: 16px;"></i>
+          <span>所有场景</span>
+          <i data-feather="chevron-down" style="width: 16px; height: 16px;"></i>
+        </div>
+        <div class="dropdown-menu" id="sceneDropdown">
+          <div class="dropdown-item">所有场景</div>
+          <div class="dropdown-item">首页推荐</div>
+          <div class="dropdown-item">商品详情页</div>
+          <div class="dropdown-item">搜索结果页</div>
+          <div class="dropdown-item">个人中心</div>
+        </div>
+      </div>
+      
+      <div class="filter-item dropdown">
+        <div class="dropdown-toggle" onclick="toggleDropdown('dimensionDropdown')">
+          <i data-feather="layers" style="width: 16px; height: 16px;"></i>
+          <span>对比维度</span>
+          <i data-feather="chevron-down" style="width: 16px; height: 16px;"></i>
+        </div>
+        <div class="dropdown-menu" id="dimensionDropdown">
+          <div class="dropdown-item">无对比</div>
+          <div class="dropdown-item">按场景对比</div>
+          <div class="dropdown-item">按用户群对比</div>
+          <div class="dropdown-item">按设备对比</div>
+          <div class="dropdown-item">按时段对比</div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- 标签页导航 -->
+    <div class="tab-nav mb-6">
+      <div class="tab-btn active" onclick="switchTab('overview')">总览</div>
+      <div class="tab-btn" onclick="switchTab('performance')">业务表现</div>
+      <div class="tab-btn" onclick="switchTab('users')">用户分析</div>
+      <div class="tab-btn" onclick="switchTab('items')">物品分析</div>
+      <div class="tab-btn" onclick="switchTab('models')">模型分析</div>
+      <div class="tab-btn" onclick="switchTab('insights')">智能洞察</div>
+    </div>
 
-    <div class="row">
-      <!-- 主要内容 -->
-      <div class="col-12">
-        <div class="card">
-          <div class="card-header">
-            <h2 class="card-title">推荐效果分析报告</h2>
-            <p style="color: var(--primary); font-weight: 500;">简易模式</p>
-          </div>
-          <div class="card-body">
-            <!-- 报告总览 -->
-            <div style="margin-bottom: 32px;">
-              <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 16px;">报告总览</h3>
-              <div class="row">
-                <!-- KPI卡片 -->
-                <div class="col-3">
-                  <div class="card" style="background-color: rgba(79, 70, 229, 0.05); border: 1px solid rgba(79, 70, 229, 0.1);">
-                    <div class="card-body" style="padding: 16px;">
-                      <p style="font-size: 14px; color: var(--text-light); margin-bottom: 8px;">点击率 (CTR)</p>
-                      <div style="display: flex; justify-content: space-between; align-items: baseline;">
-                        <h4 style="font-size: 24px; font-weight: 700; margin: 0; color: var(--dark);">8.4%</h4>
-                        <span style="color: var(--success); font-size: 14px; display: flex; align-items: center;">
-                          <i data-feather="arrow-up" style="width: 16px; height: 16px; margin-right: 2px;"></i> +1.2%
-                        </span>
+    <!-- 主要内容 -->
+    <div class="container" style="padding: 40px 0 80px;">
+      <div class="row">
+        <!-- 主要内容 -->
+        <div class="col-12">
+          <div class="card">
+            <div class="card-header">
+              <h2 class="card-title">推荐效果分析报告</h2>
+              <p style="color: var(--primary); font-weight: 500;">简易模式</p>
+            </div>
+            <div class="card-body">
+              <!-- 总览标签内容 -->
+              <div class="tab-content active" id="overview">
+                <!-- KPI指标卡片 -->
+                <div class="row mb-6">
+                  <div class="col-3">
+                    <div class="stats-card">
+                      <div class="label">点击率 (CTR)</div>
+                      <div class="value">8.64%</div>
+                      <div class="stats-trend positive">
+                        <i data-feather="trending-up" style="width: 16px; height: 16px; margin-right: 4px;"></i>
+                        <span>较上期 +0.82%</span>
                       </div>
-                      <div class="progress" style="height: 4px; background-color: rgba(79, 70, 229, 0.1); border-radius: 2px; margin-top: 16px;">
-                        <div class="progress-bar" style="height: 100%; width: 84%; background-color: var(--primary); border-radius: 2px;"></div>
+                      <div style="margin-top: 12px;">
+                        <div class="d-flex justify-between mb-1">
+                          <span class="text-sm text-muted">目标达成率</span>
+                          <span class="text-sm font-bold">92%</span>
+                        </div>
+                        <div class="progress" style="height: 6px; background-color: var(--gray-200); border-radius: 3px;">
+                          <div class="progress-bar" style="height: 100%; width: 92%; background-color: var(--primary); border-radius: 3px;"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-3">
+                    <div class="stats-card success">
+                      <div class="label">转化率 (CVR)</div>
+                      <div class="value">3.42%</div>
+                      <div class="stats-trend positive">
+                        <i data-feather="trending-up" style="width: 16px; height: 16px; margin-right: 4px;"></i>
+                        <span>较上期 +0.31%</span>
+                      </div>
+                      <div style="margin-top: 12px;">
+                        <div class="d-flex justify-between mb-1">
+                          <span class="text-sm text-muted">目标达成率</span>
+                          <span class="text-sm font-bold">85%</span>
+                        </div>
+                        <div class="progress" style="height: 6px; background-color: var(--gray-200); border-radius: 3px;">
+                          <div class="progress-bar" style="height: 100%; width: 85%; background-color: var(--success); border-radius: 3px;"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-3">
+                    <div class="stats-card warning">
+                      <div class="label">人均浏览时长</div>
+                      <div class="value">5:38</div>
+                      <div class="stats-trend positive">
+                        <i data-feather="trending-up" style="width: 16px; height: 16px; margin-right: 4px;"></i>
+                        <span>较上期 +0:42</span>
+                      </div>
+                      <div style="margin-top: 12px;">
+                        <div class="d-flex justify-between mb-1">
+                          <span class="text-sm text-muted">目标达成率</span>
+                          <span class="text-sm font-bold">94%</span>
+                        </div>
+                        <div class="progress" style="height: 6px; background-color: var(--gray-200); border-radius: 3px;">
+                          <div class="progress-bar" style="height: 100%; width: 94%; background-color: var(--warning); border-radius: 3px;"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-3">
+                    <div class="stats-card info">
+                      <div class="label">每次推荐收益</div>
+                      <div class="value">¥5.84</div>
+                      <div class="stats-trend positive">
+                        <i data-feather="trending-up" style="width: 16px; height: 16px; margin-right: 4px;"></i>
+                        <span>较上期 +¥0.97</span>
+                      </div>
+                      <div style="margin-top: 12px;">
+                        <div class="d-flex justify-between mb-1">
+                          <span class="text-sm text-muted">目标达成率</span>
+                          <span class="text-sm font-bold">116%</span>
+                        </div>
+                        <div class="progress" style="height: 6px; background-color: var(--gray-200); border-radius: 3px;">
+                          <div class="progress-bar" style="height: 100%; width: 100%; background-color: var(--info); border-radius: 3px;"></div>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div class="col-3">
-                  <div class="card" style="background-color: rgba(16, 185, 129, 0.05); border: 1px solid rgba(16, 185, 129, 0.1);">
-                    <div class="card-body" style="padding: 16px;">
-                      <p style="font-size: 14px; color: var(--text-light); margin-bottom: 8px;">转化率 (CVR)</p>
-                      <div style="display: flex; justify-content: space-between; align-items: baseline;">
-                        <h4 style="font-size: 24px; font-weight: 700; margin: 0; color: var(--dark);">3.2%</h4>
-                        <span style="color: var(--success); font-size: 14px; display: flex; align-items: center;">
-                          <i data-feather="arrow-up" style="width: 16px; height: 16px; margin-right: 2px;"></i> +0.8%
-                        </span>
+                
+                <!-- 更多业务指标 -->
+                <div class="row mb-6">
+                  <div class="col-3">
+                    <div class="stats-card">
+                      <div class="label">UV渗透率</div>
+                      <div class="value">76.2%</div>
+                      <div class="stats-trend positive">
+                        <i data-feather="trending-up" style="width: 16px; height: 16px; margin-right: 4px;"></i>
+                        <span>较上期 +2.5%</span>
                       </div>
-                      <div class="progress" style="height: 4px; background-color: rgba(16, 185, 129, 0.1); border-radius: 2px; margin-top: 16px;">
-                        <div class="progress-bar" style="height: 100%; width: 64%; background-color: var(--success); border-radius: 2px;"></div>
+                    </div>
+                  </div>
+                  <div class="col-3">
+                    <div class="stats-card">
+                      <div class="label">人均互动次数</div>
+                      <div class="value">4.83</div>
+                      <div class="stats-trend positive">
+                        <i data-feather="trending-up" style="width: 16px; height: 16px; margin-right: 4px;"></i>
+                        <span>较上期 +0.51</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-3">
+                    <div class="stats-card">
+                      <div class="label">人均订单金额</div>
+                      <div class="value">¥142</div>
+                      <div class="stats-trend positive">
+                        <i data-feather="trending-up" style="width: 16px; height: 16px; margin-right: 4px;"></i>
+                        <span>较上期 +¥15</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-3">
+                    <div class="stats-card">
+                      <div class="label">平均响应时间</div>
+                      <div class="value">38ms</div>
+                      <div class="stats-trend positive">
+                        <i data-feather="trending-down" style="width: 16px; height: 16px; margin-right: 4px;"></i>
+                        <span>较上期 -5ms</span>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div class="col-3">
-                  <div class="card" style="background-color: rgba(245, 158, 11, 0.05); border: 1px solid rgba(245, 158, 11, 0.1);">
-                    <div class="card-body" style="padding: 16px;">
-                      <p style="font-size: 14px; color: var(--text-light); margin-bottom: 8px;">客单价</p>
-                      <div style="display: flex; justify-content: space-between; align-items: baseline;">
-                        <h4 style="font-size: 24px; font-weight: 700; margin: 0; color: var(--dark);">¥128</h4>
-                        <span style="color: var(--success); font-size: 14px; display: flex; align-items: center;">
-                          <i data-feather="arrow-up" style="width: 16px; height: 16px; margin-right: 2px;"></i> +¥15
-                        </span>
+                
+                <!-- 趋势图 -->
+                <div class="card mb-6">
+                  <div class="card-header">
+                    <h3 class="card-title">
+                      <i data-feather="trending-up" style="width: 18px; height: 18px;"></i>
+                      核心指标趋势
+                    </h3>
+                    <div class="d-flex gap-2">
+                      <button class="btn btn-outline text-sm" onclick="updateTrendMetric('ctr')">点击率</button>
+                      <button class="btn btn-outline text-sm" onclick="updateTrendMetric('cvr')">转化率</button>
+                      <button class="btn btn-outline text-sm" onclick="updateTrendMetric('dwell')">浏览时长</button>
+                      <button class="btn btn-outline text-sm" onclick="updateTrendMetric('revenue')">推荐收益</button>
+                    </div>
+                  </div>
+                  <div class="card-body">
+                    <div class="chart-container" id="trendChart"></div>
+                  </div>
+                </div>
+                
+                <!-- 场景对比和流量分布 -->
+                <div class="row mb-6">
+                  <div class="col-6">
+                    <div class="card" style="height: 100%;">
+                      <div class="card-header">
+                        <h3 class="card-title">
+                          <i data-feather="layout" style="width: 18px; height: 18px;"></i>
+                          场景效果对比
+                        </h3>
+                        <div class="badge badge-primary">本周数据</div>
                       </div>
-                      <div class="progress" style="height: 4px; background-color: rgba(245, 158, 11, 0.1); border-radius: 2px; margin-top: 16px;">
-                        <div class="progress-bar" style="height: 100%; width: 75%; background-color: var(--warning); border-radius: 2px;"></div>
+                      <div class="card-body">
+                        <div class="chart-container" style="height: 280px;" id="sceneCompareChart"></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="card" style="height: 100%;">
+                      <div class="card-header">
+                        <h3 class="card-title">
+                          <i data-feather="pie-chart" style="width: 18px; height: 18px;"></i>
+                          流量与转化分布
+                        </h3>
+                        <div class="badge badge-primary">本周数据</div>
+                      </div>
+                      <div class="card-body">
+                        <div class="chart-container" style="height: 280px;" id="conversionFunnelChart"></div>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div class="col-3">
-                  <div class="card" style="background-color: rgba(14, 165, 233, 0.05); border: 1px solid rgba(14, 165, 233, 0.1);">
-                    <div class="card-body" style="padding: 16px;">
-                      <p style="font-size: 14px; color: var(--text-light); margin-bottom: 8px;">每次推荐收益</p>
-                      <div style="display: flex; justify-content: space-between; align-items: baseline;">
-                        <h4 style="font-size: 24px; font-weight: 700; margin: 0; color: var(--dark);">¥4.10</h4>
-                        <span style="color: var(--success); font-size: 14px; display: flex; align-items: center;">
-                          <i data-feather="arrow-up" style="width: 16px; height: 16px; margin-right: 2px;"></i> +¥0.82
-                        </span>
+                
+                <!-- 智能洞察 -->
+                <div class="card mb-6">
+                  <div class="card-header">
+                    <h3 class="card-title">
+                      <i data-feather="zap" style="width: 18px; height: 18px;"></i>
+                      智能洞察与改进建议
+                    </h3>
+                    <button class="btn btn-outline text-sm">
+                      <i data-feather="refresh-cw" style="width: 14px; height: 14px; margin-right: 4px;"></i>
+                      更新洞察
+                    </button>
+                  </div>
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-6">
+                        <div class="insight-card">
+                          <div class="d-flex mb-3">
+                            <div class="insight-icon" style="background-color: rgba(99, 102, 241, 0.1);">
+                              <i data-feather="activity" style="width: 20px; height: 20px; color: var(--primary);"></i>
+                            </div>
+                            <div class="insight-content">
+                              <div class="insight-title">高峰期推荐性能优化空间</div>
+                              <div class="insight-description">
+                                在工作日12:00-13:00和18:00-20:00时段，推荐响应时间平均增加52%，同时点击率下降约11%。这表明高峰期系统性能可能影响了用户体验。
+                              </div>
+                              <div class="tag-list">
+                                <span class="badge badge-primary">系统性能</span>
+                                <span class="badge badge-primary">高峰负载</span>
+                                <span class="badge badge-primary">用户体验</span>
+                              </div>
+                              <div class="suggestion-box">
+                                <div class="suggestion-title">
+                                  <i data-feather="bulb" style="width: 16px; height: 16px; color: var(--warning);"></i>
+                                  <span style="color: var(--warning);">优化建议</span>
+                                </div>
+                                <div class="text-sm">
+                                  考虑在高峰期增加服务器资源分配，优化推荐请求的缓存策略，并为这些时段预计算部分推荐结果。
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
                       </div>
-                      <div class="progress" style="height: 4px; background-color: rgba(14, 165, 233, 0.1); border-radius: 2px; margin-top: 16px;">
-                        <div class="progress-bar" style="height: 100%; width: 70%; background-color: var(--info); border-radius: 2px;"></div>
+                      <div class="col-6">
+                        <div class="insight-card success">
+                          <div class="d-flex mb-3">
+                            <div class="insight-icon" style="background-color: rgba(76, 175, 80, 0.1);">
+                              <i data-feather="users" style="width: 20px; height: 20px; color: var(--success);"></i>
+                            </div>
+                            <div class="insight-content">
+                              <div class="insight-title">新注册用户转化率提升机会</div>
+                              <div class="insight-description">
+                                新用户(注册≤7天)的推荐点击率比平均水平高28%，但转化率低15%。这表明新用户对推荐内容有兴趣，但存在转化障碍。
+                              </div>
+                              <div class="tag-list">
+                                <span class="badge badge-success">新用户</span>
+                                <span class="badge badge-success">转化漏斗</span>
+                                <span class="badge badge-success">用户旅程</span>
+                              </div>
+                              <div class="suggestion-box">
+                                <div class="suggestion-title">
+                                  <i data-feather="bulb" style="width: 16px; height: 16px; color: var(--warning);"></i>
+                                  <span style="color: var(--warning);">优化建议</span>
+                                </div>
+                                <div class="text-sm">
+                                  为新用户推荐提供入门级产品和新用户专属优惠，降低首次购买门槛，并通过引导提示增强产品认知。
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
                       </div>
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- A/B测试结果 -->
+                <div class="card">
+                  <div class="card-header">
+                    <h3 class="card-title">
+                      <i data-feather="flag" style="width: 18px; height: 18px;"></i>
+                      正在进行的A/B测试
+                    </h3>
+                    <div class="d-flex gap-2">
+                      <div class="badge badge-warning">3个进行中</div>
+                      <button class="btn btn-outline text-sm">
+                        <i data-feather="plus" style="width: 14px; height: 14px; margin-right: 4px;"></i>
+                        创建测试
+                      </button>
+                    </div>
+                  </div>
+                  <div class="card-body">
+                    <div class="compare-card mb-4">
+                      <div class="compare-header">
+                        <div>
+                          <div class="font-bold mb-1">内容多样性优化测试</div>
+                          <div class="text-sm text-muted">测试时间: 2023-10-08 至 2023-10-22</div>
+                        </div>
+                        <div class="badge badge-warning">进行中</div>
+                      </div>
+                      <div class="compare-body">
+                        <div class="compare-column">
+                          <div class="d-flex justify-between mb-4">
+                            <div class="font-bold">A组: 当前算法</div>
+                            <div class="text-sm text-muted">流量占比: 50%</div>
+                          </div>
+                          <div class="d-flex justify-between mb-2">
+                            <div class="text-sm text-muted">点击率 (CTR)</div>
+                            <div class="text-sm font-bold">8.64%</div>
+                          </div>
+                          <div class="d-flex justify-between mb-2">
+                            <div class="text-sm text-muted">转化率 (CVR)</div>
+                            <div class="text-sm font-bold">3.42%</div>
+                          </div>
+                          <div class="d-flex justify-between mb-2">
+                            <div class="text-sm text-muted">人均浏览时长</div>
+                            <div class="text-sm font-bold">5:38</div>
+                          </div>
+                          <div class="d-flex justify-between">
+                            <div class="text-sm text-muted">每次推荐收益</div>
+                            <div class="text-sm font-bold">¥5.84</div>
+                          </div>
+                        </div>
+                        <div class="compare-column">
+                          <div class="d-flex justify-between mb-4">
+                            <div class="font-bold">B组: 多样性增强算法</div>
+                            <div class="text-sm text-muted">流量占比: 50%</div>
+                          </div>
+                          <div class="d-flex justify-between mb-2">
+                            <div class="text-sm text-muted">点击率 (CTR)</div>
+                            <div class="text-sm font-bold">
+                              9.21% 
+                              <span class="text-success text-xs">(+0.57%)</span>
+                            </div>
+                          </div>
+                          <div class="d-flex justify-between mb-2">
+                            <div class="text-sm text-muted">转化率 (CVR)</div>
+                            <div class="text-sm font-bold">
+                              3.56% 
+                              <span class="text-success text-xs">(+0.14%)</span>
+                            </div>
+                          </div>
+                          <div class="d-flex justify-between mb-2">
+                            <div class="text-sm text-muted">人均浏览时长</div>
+                            <div class="text-sm font-bold">
+                              6:12 
+                              <span class="text-success text-xs">(+0:34)</span>
+                            </div>
+                          </div>
+                          <div class="d-flex justify-between">
+                            <div class="text-sm text-muted">每次推荐收益</div>
+                            <div class="text-sm font-bold">
+                              ¥6.02 
+                              <span class="text-success text-xs">(+¥0.18)</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div class="d-flex justify-between">
+                      <button class="btn btn-outline">
+                        <i data-feather="list" style="width: 16px; height: 16px; margin-right: 8px;"></i>
+                        查看所有测试
+                      </button>
+                      <button class="btn btn-primary">
+                        <i data-feather="check-circle" style="width: 16px; height: 16px; margin-right: 8px;"></i>
+                        应用获胜策略
+                      </button>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-
-            <!-- 趋势图表 -->
-            <div style="margin-bottom: 32px;">
-              <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 16px;">
-                KPI趋势变化
-                <span style="font-size: 14px; color: var(--text-light); font-weight: normal;">（最近14天）</span>
-              </h3>
-              <div class="card">
-                <div class="card-body">
-                  <canvas id="trendChart" style="width: 100%; height: 300px;"></canvas>
-                </div>
-              </div>
-            </div>
-
-            <!-- 模型解释性 -->
-            <div style="margin-bottom: 32px;">
-              <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 16px;">模型解释性分析</h3>
-              <div class="card">
-                <div class="card-body">
-                  <div class="row">
-                    <div class="col-6">
-                      <h4 style="font-size: 16px; font-weight: 600; margin-bottom: 16px;">特征重要性</h4>
-                      <canvas id="featureChart" style="width: 100%; height: 200px;"></canvas>
-                    </div>
-                    <div class="col-6">
-                      <h4 style="font-size: 16px; font-weight: 600; margin-bottom: 16px;">推荐原因通俗解释</h4>
-                      <div style="background-color: rgba(79, 70, 229, 0.05); border-radius: var(--border-radius); padding: 16px;">
-                        <p style="font-weight: 500; margin-bottom: 12px; color: var(--dark);">主要推荐原因解释：</p>
-                        <ul style="margin: 0; padding-left: 20px; color: var(--text);">
-                          <li style="margin-bottom: 8px;">用户最近浏览了类似商品，表明对此类目有兴趣</li>
-                          <li style="margin-bottom: 8px;">购买行为历史显示用户对此品牌有较高忠诚度</li>
-                          <li style="margin-bottom: 8px;">用户所在城市的相似用户对此产品反馈良好</li>
-                          <li>商品价格区间符合用户历史购买习惯</li>
-                        </ul>
-                      </div>
-                    </div>
+              
+              <!-- 业务表现标签内容 -->
+              <div class="tab-content" id="performance">
+                <div class="card">
+                  <div class="card-body">
+                    <h3 style="margin-top: 0;">业务表现分析内容</h3>
+                    <p>这里将展示更详细的业务表现指标、趋势和分析。</p>
                   </div>
                 </div>
               </div>
-            </div>
-
-            <!-- 用户行为分析 -->
-            <div style="margin-bottom: 32px;">
-              <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 16px;">用户行为分析</h3>
-              <div class="card">
-                <div class="card-body">
-                  <div class="row">
-                    <div class="col-7">
-                      <h4 style="font-size: 16px; font-weight: 600; margin-bottom: 16px;">推荐接受度分布</h4>
-                      <canvas id="acceptanceChart" style="width: 100%; height: 250px;"></canvas>
-                    </div>
-                    <div class="col-5">
-                      <h4 style="font-size: 16px; font-weight: 600; margin-bottom: 16px;">未点击原因分析</h4>
-                      <div style="max-height: 250px; overflow-y: auto;">
-                        <div style="display: flex; justify-content: space-between; margin-bottom: 12px;">
-                          <span>不符合当前需求</span>
-                          <div style="display: flex; align-items: center; width: 120px;">
-                            <div style="background-color: var(--primary); height: 8px; width: 85%; border-radius: 4px; margin-right: 8px;"></div>
-                            <span style="font-size: 14px;">42%</span>
-                          </div>
-                        </div>
-                        <div style="display: flex; justify-content: space-between; margin-bottom: 12px;">
-                          <span>价格因素</span>
-                          <div style="display: flex; align-items: center; width: 120px;">
-                            <div style="background-color: var(--primary); height: 8px; width: 60%; border-radius: 4px; margin-right: 8px;"></div>
-                            <span style="font-size: 14px;">30%</span>
-                          </div>
-                        </div>
-                        <div style="display: flex; justify-content: space-between; margin-bottom: 12px;">
-                          <span>已购买类似商品</span>
-                          <div style="display: flex; align-items: center; width: 120px;">
-                            <div style="background-color: var(--primary); height: 8px; width: 32%; border-radius: 4px; margin-right: 8px;"></div>
-                            <span style="font-size: 14px;">16%</span>
-                          </div>
-                        </div>
-                        <div style="display: flex; justify-content: space-between; margin-bottom: 12px;">
-                          <span>品牌偏好不符</span>
-                          <div style="display: flex; align-items: center; width: 120px;">
-                            <div style="background-color: var(--primary); height: 8px; width: 16%; border-radius: 4px; margin-right: 8px;"></div>
-                            <span style="font-size: 14px;">8%</span>
-                          </div>
-                        </div>
-                        <div style="display: flex; justify-content: space-between;">
-                          <span>其他原因</span>
-                          <div style="display: flex; align-items: center; width: 120px;">
-                            <div style="background-color: var(--primary); height: 8px; width: 8%; border-radius: 4px; margin-right: 8px;"></div>
-                            <span style="font-size: 14px;">4%</span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+              
+              <!-- 用户分析标签内容 -->
+              <div class="tab-content" id="users">
+                <div class="card">
+                  <div class="card-body">
+                    <h3 style="margin-top: 0;">用户分析内容</h3>
+                    <p>这里将展示用户分群、行为分析、用户价值和留存等指标。</p>
                   </div>
                 </div>
               </div>
-            </div>
-
-            <!-- A/B测试结果 -->
-            <div style="margin-bottom: 32px;">
-              <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 16px;">
-                A/B测试结果比较
-                <span style="font-size: 14px; font-weight: normal; color: var(--primary); background-color: rgba(79, 70, 229, 0.1); padding: 4px 8px; border-radius: 12px; margin-left: 8px;">进行中</span>
-              </h3>
-              <div class="card">
-                <div class="card-body">
-                  <div class="row">
-                    <div class="col-6">
-                      <div style="border-right: 1px solid var(--gray-200); padding-right: 16px;">
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
-                          <h4 style="font-size: 16px; font-weight: 600; margin: 0;">A组: 当前推荐策略</h4>
-                          <span style="font-size: 14px; color: var(--text-light);">流量占比: 50%</span>
-                        </div>
-                        <div style="margin-bottom: 16px;">
-                          <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-                            <span style="font-size: 14px; color: var(--text-light);">点击率 (CTR)</span>
-                            <span style="font-size: 14px; font-weight: 500;">8.4%</span>
-                          </div>
-                          <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-                            <span style="font-size: 14px; color: var(--text-light);">转化率 (CVR)</span>
-                            <span style="font-size: 14px; font-weight: 500;">3.2%</span>
-                          </div>
-                          <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-                            <span style="font-size: 14px; color: var(--text-light);">客单价</span>
-                            <span style="font-size: 14px; font-weight: 500;">¥128</span>
-                          </div>
-                          <div style="display: flex; justify-content: space-between;">
-                            <span style="font-size: 14px; color: var(--text-light);">每次推荐收益</span>
-                            <span style="font-size: 14px; font-weight: 500;">¥4.10</span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-6">
-                      <div style="padding-left: 16px;">
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
-                          <h4 style="font-size: 16px; font-weight: 600; margin: 0;">B组: 多样性增强策略</h4>
-                          <span style="font-size: 14px; color: var(--text-light);">流量占比: 50%</span>
-                        </div>
-                        <div style="margin-bottom: 16px;">
-                          <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-                            <span style="font-size: 14px; color: var(--text-light);">点击率 (CTR)</span>
-                            <span style="font-size: 14px; font-weight: 500;">
-                              9.1% 
-                              <span style="color: var(--success); font-size: 12px;">(+0.7%)</span>
-                            </span>
-                          </div>
-                          <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-                            <span style="font-size: 14px; color: var(--text-light);">转化率 (CVR)</span>
-                            <span style="font-size: 14px; font-weight: 500;">
-                              3.3% 
-                              <span style="color: var(--success); font-size: 12px;">(+0.1%)</span>
-                            </span>
-                          </div>
-                          <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-                            <span style="font-size: 14px; color: var(--text-light);">客单价</span>
-                            <span style="font-size: 14px; font-weight: 500;">
-                              ¥132 
-                              <span style="color: var(--success); font-size: 12px;">(+¥4)</span>
-                            </span>
-                          </div>
-                          <div style="display: flex; justify-content: space-between;">
-                            <span style="font-size: 14px; color: var(--text-light);">每次推荐收益</span>
-                            <span style="font-size: 14px; font-weight: 500;">
-                              ¥4.36 
-                              <span style="color: var(--success); font-size: 12px;">(+¥0.26)</span>
-                            </span>
-                          </div>
-                        </div>
-                        <div style="background-color: rgba(16, 185, 129, 0.05); border-radius: var(--border-radius); padding: 8px 12px;">
-                          <div style="display: flex; align-items: center; margin-bottom: 4px;">
-                            <i data-feather="bar-chart-2" style="width: 16px; height: 16px; color: var(--success); margin-right: 8px;"></i>
-                            <span style="font-weight: 500; color: var(--success);">显著性分析</span>
-                          </div>
-                          <p style="font-size: 13px; margin: 0; padding-left: 24px; color: var(--text);">
-                            B组在CTR指标上的提升已达到统计显著性 (p-value < 0.05)，建议考虑采用多样性增强策略。
-                          </p>
-                        </div>
-                      </div>
-                    </div>
+              
+              <!-- 物品分析标签内容 -->
+              <div class="tab-content" id="items">
+                <div class="card">
+                  <div class="card-body">
+                    <h3 style="margin-top: 0;">物品分析内容</h3>
+                    <p>这里将展示物品曝光、点击、转化率分析，热门物品和长尾分析等。</p>
                   </div>
                 </div>
               </div>
-            </div>
-
-            <!-- 底部按钮 -->
-            <div style="display: flex; justify-content: space-between; margin-top: 40px;">
-              <button class="btn btn-outline" onclick="window.location.href='data-processing.html'">上一步</button>
-              <button class="btn btn-primary" onclick="window.location.href='dashboard.html'">完成并前往控制台</button>
+              
+              <!-- 模型分析标签内容 -->
+              <div class="tab-content" id="models">
+                <div class="card">
+                  <div class="card-body">
+                    <h3 style="margin-top: 0;">模型分析内容</h3>
+                    <p>这里将展示模型性能指标、特征重要性、模型效果对比等分析。</p>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- 智能洞察标签内容 -->
+              <div class="tab-content" id="insights">
+                <div class="card">
+                  <div class="card-body">
+                    <h3 style="margin-top: 0;">智能洞察内容</h3>
+                    <p>这里将展示更多AI生成的洞察、改进建议和异常检测结果。</p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -317,157 +1218,328 @@
     </div>
   </div>
 
-  <!-- 助手按钮 -->
-  <button class="assistant-button">
-    <i data-feather="message-circle"></i>
+  <!-- AI助手按钮 -->
+  <button class="ai-assistant-btn">
+    <i data-feather="help-circle" style="width: 24px; height: 24px;"></i>
   </button>
 
   <script>
-    // 初始化Feather图标
+    // 初始化图标
     feather.replace();
     
-    // 初始化图表
+    // 侧边栏切换
+    function toggleSidebar() {
+      const sidebar = document.getElementById('sidebar');
+      sidebar.classList.toggle('active');
+    }
+    
+    // 切换标签
+    function switchTab(tabId) {
+      // 处理标签按钮
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('active');
+      });
+      document.querySelector(`.tab-btn[onclick="switchTab('${tabId}')"]`).classList.add('active');
+      
+      // 处理标签内容
+      document.querySelectorAll('.tab-content').forEach(content => {
+        content.classList.remove('active');
+      });
+      document.getElementById(tabId).classList.add('active');
+    }
+    
+    // 切换下拉菜单
+    function toggleDropdown(dropdownId) {
+      const dropdown = document.getElementById(dropdownId);
+      dropdown.classList.toggle('show');
+      
+      // 点击其他地方关闭下拉菜单
+      document.addEventListener('click', function(event) {
+        if (!event.target.closest('.dropdown')) {
+          dropdown.classList.remove('show');
+        }
+      }, { once: true });
+    }
+    
+    // 日期范围选择器
     document.addEventListener('DOMContentLoaded', function() {
-      // 趋势图表
-      const trendCtx = document.getElementById('trendChart').getContext('2d');
-      const trendChart = new Chart(trendCtx, {
-        type: 'line',
-        data: {
-          labels: ['6/1', '6/2', '6/3', '6/4', '6/5', '6/6', '6/7', '6/8', '6/9', '6/10', '6/11', '6/12', '6/13', '6/14'],
-          datasets: [{
-            label: '点击率 (CTR)',
-            data: [7.1, 7.2, 7.4, 7.6, 7.5, 7.8, 7.9, 8.0, 8.1, 8.0, 8.2, 8.3, 8.4, 8.4],
-            borderColor: '#4F46E5',
-            backgroundColor: 'rgba(79, 70, 229, 0.1)',
-            tension: 0.4,
-            fill: true
-          }, {
-            label: '转化率 (CVR)',
-            data: [2.5, 2.5, 2.6, 2.7, 2.6, 2.8, 2.8, 2.9, 3.0, 3.0, 3.1, 3.1, 3.2, 3.2],
-            borderColor: '#10B981',
-            backgroundColor: 'rgba(16, 185, 129, 0.1)',
-            tension: 0.4,
-            fill: true
-          }]
+      $('#dateRangeSelector').daterangepicker({
+        opens: 'left',
+        ranges: {
+          '今天': [moment(), moment()],
+          '昨天': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+          '最近7天': [moment().subtract(6, 'days'), moment()],
+          '最近14天': [moment().subtract(13, 'days'), moment()],
+          '最近30天': [moment().subtract(29, 'days'), moment()],
+          '本月': [moment().startOf('month'), moment().endOf('month')],
+          '上月': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
         },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          interaction: {
-            intersect: false,
-            mode: 'index'
-          },
-          plugins: {
-            tooltip: {
-              callbacks: {
-                label: function(context) {
-                  return context.dataset.label + ': ' + context.raw + '%';
-                }
-              }
-            },
-            legend: {
-              position: 'top',
-              labels: {
-                usePointStyle: true,
-                boxWidth: 6
-              }
-            }
-          },
-          scales: {
-            y: {
-              beginAtZero: false,
-              ticks: {
-                callback: function(value) {
-                  return value + '%';
-                }
-              }
-            }
-          }
+        locale: {
+          format: 'YYYY/MM/DD',
+          applyLabel: '确定',
+          cancelLabel: '取消',
+          customRangeLabel: '自定义范围'
         }
       });
+    });
+    
+    // 趋势图表
+    document.addEventListener('DOMContentLoaded', function() {
+      const trendChart = echarts.init(document.getElementById('trendChart'));
       
-      // 特征重要性图表
-      const featureCtx = document.getElementById('featureChart').getContext('2d');
-      const featureChart = new Chart(featureCtx, {
-        type: 'bar',
-        data: {
-          labels: ['商品浏览历史', '购买历史', '用户人口统计', '地理位置', '时间特征', '价格敏感度'],
-          datasets: [{
-            label: '特征重要性',
-            data: [0.32, 0.28, 0.15, 0.12, 0.08, 0.05],
-            backgroundColor: [
-              'rgba(79, 70, 229, 0.8)',
-              'rgba(79, 70, 229, 0.7)',
-              'rgba(79, 70, 229, 0.6)',
-              'rgba(79, 70, 229, 0.5)',
-              'rgba(79, 70, 229, 0.4)',
-              'rgba(79, 70, 229, 0.3)'
-            ],
-            borderWidth: 0
-          }]
+      const option = {
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: {
+            type: 'shadow'
+          }
         },
-        options: {
-          indexAxis: 'y',
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: {
-            legend: {
-              display: false
+        grid: {
+          left: '3%',
+          right: '4%',
+          bottom: '3%',
+          containLabel: true
+        },
+        xAxis: [
+          {
+            type: 'category',
+            data: ['10-08', '10-09', '10-10', '10-11', '10-12', '10-13', '10-14', 
+                  '10-15', '10-16', '10-17', '10-18', '10-19', '10-20', '10-21'],
+            axisTick: {
+              alignWithLabel: true
+            }
+          }
+        ],
+        yAxis: [
+          {
+            type: 'value',
+            axisLabel: {
+              formatter: '{value}%'
+            }
+          }
+        ],
+        series: [
+          {
+            name: '点击率',
+            type: 'line',
+            smooth: true,
+            lineStyle: {
+              width: 3,
+              color: '#6366f1'
+            },
+            areaStyle: {
+              color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                { offset: 0, color: 'rgba(99, 102, 241, 0.3)' },
+                { offset: 1, color: 'rgba(99, 102, 241, 0.1)' }
+              ])
+            },
+            data: [7.85, 7.92, 8.05, 8.12, 8.18, 8.22, 8.27, 8.32, 8.38, 8.45, 8.50, 8.56, 8.61, 8.64]
+          }
+        ]
+      };
+      
+      trendChart.setOption(option);
+      
+      // 响应窗口大小变化
+      window.addEventListener('resize', function() {
+        trendChart.resize();
+      });
+    });
+    
+    // 更新趋势图指标
+    function updateTrendMetric(metric) {
+      const trendChart = echarts.getInstanceByDom(document.getElementById('trendChart'));
+      
+      let data, name, color;
+      
+      switch(metric) {
+        case 'ctr':
+          data = [7.85, 7.92, 8.05, 8.12, 8.18, 8.22, 8.27, 8.32, 8.38, 8.45, 8.50, 8.56, 8.61, 8.64];
+          name = '点击率';
+          color = '#6366f1';
+          break;
+        case 'cvr':
+          data = [3.12, 3.15, 3.18, 3.22, 3.24, 3.26, 3.28, 3.30, 3.32, 3.34, 3.36, 3.38, 3.40, 3.42];
+          name = '转化率';
+          color = '#4caf50';
+          break;
+        case 'dwell':
+          data = [4.8, 4.9, 5.0, 5.1, 5.2, 5.2, 5.3, 5.3, 5.4, 5.4, 5.5, 5.5, 5.6, 5.6];
+          name = '浏览时长(分钟)';
+          color = '#ff9800';
+          break;
+        case 'revenue':
+          data = [4.82, 4.95, 5.08, 5.15, 5.22, 5.30, 5.35, 5.40, 5.46, 5.52, 5.60, 5.68, 5.76, 5.84];
+          name = '推荐收益(¥)';
+          color = '#0ea5e9';
+          break;
+      }
+      
+      const option = {
+        series: [
+          {
+            name: name,
+            data: data,
+            lineStyle: {
+              color: color
+            },
+            areaStyle: {
+              color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                { offset: 0, color: `${color}4D` }, // 30% 透明度
+                { offset: 1, color: `${color}1A` }  // 10% 透明度
+              ])
+            }
+          }
+        ]
+      };
+      
+      trendChart.setOption(option);
+    }
+    
+    // 场景对比图表
+    document.addEventListener('DOMContentLoaded', function() {
+      const sceneCompareChart = echarts.init(document.getElementById('sceneCompareChart'));
+      
+      const option = {
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: {
+            type: 'shadow'
+          }
+        },
+        legend: {
+          data: ['点击率', '转化率'],
+          top: 0
+        },
+        grid: {
+          left: '3%',
+          right: '4%',
+          bottom: '3%',
+          containLabel: true
+        },
+        xAxis: [
+          {
+            type: 'category',
+            data: ['首页推荐', '商品详情页', '搜索结果页', '个人中心', '购物车页']
+          }
+        ],
+        yAxis: [
+          {
+            type: 'value',
+            name: '点击率',
+            position: 'left',
+            axisLabel: {
+              formatter: '{value}%'
             }
           },
-          scales: {
-            x: {
-              beginAtZero: true,
-              max: 0.4,
-              ticks: {
-                callback: function(value) {
-                  return (value * 100).toFixed(0) + '%';
-                }
-              }
+          {
+            type: 'value',
+            name: '转化率',
+            position: 'right',
+            axisLabel: {
+              formatter: '{value}%'
             }
           }
-        }
-      });
+        ],
+        series: [
+          {
+            name: '点击率',
+            type: 'bar',
+            data: [8.64, 12.53, 9.87, 5.42, 7.28],
+            itemStyle: {
+              color: '#6366f1'
+            }
+          },
+          {
+            name: '转化率',
+            type: 'bar',
+            yAxisIndex: 1,
+            data: [3.42, 5.67, 4.23, 2.18, 8.95],
+            itemStyle: {
+              color: '#4caf50'
+            }
+          }
+        ]
+      };
       
-      // 推荐接受度图表
-      const acceptanceCtx = document.getElementById('acceptanceChart').getContext('2d');
-      const acceptanceChart = new Chart(acceptanceCtx, {
-        type: 'doughnut',
-        data: {
-          labels: ['点击', '加入购物车', '购买', '收藏', '未交互'],
-          datasets: [{
-            data: [25, 8, 5, 4, 58],
-            backgroundColor: [
-              '#4F46E5',
-              '#10B981',
-              '#F59E0B',
-              '#0EA5E9',
-              '#E5E7EB'
-            ],
-            borderWidth: 0
-          }]
+      sceneCompareChart.setOption(option);
+      
+      // 响应窗口大小变化
+      window.addEventListener('resize', function() {
+        sceneCompareChart.resize();
+      });
+    });
+    
+    // 漏斗图
+    document.addEventListener('DOMContentLoaded', function() {
+      const conversionFunnelChart = echarts.init(document.getElementById('conversionFunnelChart'));
+      
+      const option = {
+        tooltip: {
+          trigger: 'item',
+          formatter: '{a} <br/>{b} : {c}%'
         },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          cutout: '60%',
-          plugins: {
-            legend: {
-              position: 'right',
-              labels: {
-                usePointStyle: true,
-                boxWidth: 6
+        toolbox: {
+          feature: {
+            dataView: { readOnly: false },
+            restore: {},
+            saveAsImage: {}
+          }
+        },
+        legend: {
+          data: ['展示', '点击', '加购', '收藏', '购买'],
+          top: 0
+        },
+        series: [
+          {
+            name: '转化漏斗',
+            type: 'funnel',
+            left: '10%',
+            top: 60,
+            bottom: 60,
+            width: '80%',
+            min: 0,
+            max: 100,
+            minSize: '0%',
+            maxSize: '100%',
+            sort: 'descending',
+            gap: 2,
+            label: {
+              show: true,
+              position: 'inside'
+            },
+            labelLine: {
+              length: 10,
+              lineStyle: {
+                width: 1,
+                type: 'solid'
               }
             },
-            tooltip: {
-              callbacks: {
-                label: function(context) {
-                  return context.label + ': ' + context.raw + '%';
-                }
+            itemStyle: {
+              borderColor: '#fff',
+              borderWidth: 1
+            },
+            emphasis: {
+              label: {
+                fontSize: 20
               }
-            }
+            },
+            data: [
+              { value: 100, name: '展示', itemStyle: { color: '#6366f1' } },
+              { value: 8.64, name: '点击', itemStyle: { color: '#4caf50' } },
+              { value: 5.21, name: '加购', itemStyle: { color: '#ff9800' } },
+              { value: 4.38, name: '收藏', itemStyle: { color: '#f44336' } },
+              { value: 3.42, name: '购买', itemStyle: { color: '#0ea5e9' } }
+            ]
           }
-        }
+        ]
+      };
+      
+      conversionFunnelChart.setOption(option);
+      
+      // 响应窗口大小变化
+      window.addEventListener('resize', function() {
+        conversionFunnelChart.resize();
       });
     });
   </script>
